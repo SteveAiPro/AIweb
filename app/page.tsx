@@ -1,65 +1,65 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import { CategoryDirectorySection } from "@/components/category-directory-section";
+import { DirectoryShell } from "@/components/directory-shell";
+import { HeroSection } from "@/components/hero-section";
+import { SearchDirectory } from "@/components/search-directory";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { ToolSection } from "@/components/tool-section";
+import { categories } from "@/data/categories";
+import { featuredTools, newTools, popularTools, tools } from "@/data/tools";
+import { getToolsByCategory } from "@/lib/site-data";
+
+export const metadata: Metadata = {
+  title: "AI Navigator | 原创 AI 工具导航",
+  description:
+    "一个原创的 AI 工具目录站，帮助你按分类、标签和场景快速发现值得尝试的 AI 产品。",
+};
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+    <div className="min-h-screen bg-slate-50 text-slate-950">
+      <SiteHeader />
+      <main>
+        <HeroSection totalTools={tools.length} totalCategories={categories.length} />
+
+        <DirectoryShell categories={categories}>
+          <ToolSection
+            id="featured"
+            eyebrow="Editor picks"
+            title="精选推荐"
+            description="优先展示更容易上手、适合团队落地的工具，帮助你从海量选择里更快建立第一批候选名单。"
+            tools={featuredTools}
+          />
+
+          <SearchDirectory tools={tools} categories={categories} />
+
+          <ToolSection
+            id="popular"
+            eyebrow="Popular now"
+            title="热门工具"
+            description="更偏向高频使用场景，包括代码协作、图像设计、短视频和语音工作流。"
+            tools={popularTools}
+          />
+
+          {categories.map((category) => (
+            <CategoryDirectorySection
+              key={category.slug}
+              category={category}
+              tools={getToolsByCategory(category.slug)}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+          ))}
+
+          <ToolSection
+            id="new"
+            eyebrow="New arrivals"
+            title="最新上架"
+            description="适合喜欢尝鲜的团队快速关注新产品方向，观察哪些能力正在变得更实用。"
+            tools={newTools}
+          />
+        </DirectoryShell>
       </main>
+      <SiteFooter />
     </div>
   );
 }

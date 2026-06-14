@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(env)",
+      "Bash(ls -R /Users/crazy/.colima | head -n 200)",
+      "Read(//Users/crazy/.colima/**)",
+      "Bash(colima restart *)",
+      "Bash(docker pull *)",
+      "Read(//Users/crazy/GEOFlow/**)"
+    ],
+    "additionalDirectories": [
+      "/Users/crazy/.colima/default"
+    ]
+  }
+}
