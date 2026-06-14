@@ -2,37 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://localhost:3000/</loc>
+    <loc>https://gaoqian2580.com/</loc>
     <lastmod>2026-06-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:3000/category/chatbots</loc>
+    <loc>https://gaoqian2580.com/category/chatbots</loc>
     <lastmod>2026-06-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:3000/category/image</loc>
+    <loc>https://gaoqian2580.com/category/image</loc>
     <lastmod>2026-06-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:3000/category/video</loc>
+    <loc>https://gaoqian2580.com/category/video</loc>
     <lastmod>2026-06-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:3000/tools/nova-chat</loc>
+    <loc>https://gaoqian2580.com/tools/nova-chat</loc>
     <lastmod>2026-06-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://localhost:3000/tools/red-generator</loc>
+    <loc>https://gaoqian2580.com/tools/red-generator</loc>
     <lastmod>2026-06-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>

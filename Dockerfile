@@ -1,33 +1,31 @@
-# syntax=docker/dockerfile:1
+# 使用 Node.js 20 作为基础镜像
+FROM node:20-alpine AS base
 
-FROM node:20-alpine AS deps
+# 1. 安装依赖阶段
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
+COPY package.json ./
+RUN npm install
 
-FROM node:20-alpine AS builder
+# 2. 构建阶段
+FROM base AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+COPY --from(deps) /app/node_modules ./node_modules
 COPY . .
+# 注意：prebuild 脚本会自动运行生成 sitemap
 RUN npm run build
 
-FROM node:20-alpine AS runner
+# 3. 运行阶段
+FROM base AS runner
 WORKDIR /app
-ENV NODE_ENV=production
-ENV PORT=3000
-ENV HOSTNAME=0.0.0.0
-COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/app ./app
-COPY --from=builder /app/components ./components
-COPY --from=builder /app/data ./data
-COPY --from=builder /app/lib ./lib
-COPY --from=builder /app/next.config.ts ./next.config.ts
-COPY --from=builder /app/tsconfig.json ./tsconfig.json
-COPY --from=builder /app/next-env.d.ts ./next-env.d.ts
-COPY --from=builder /app/postcss.config.mjs ./postcss.config.mjs
-COPY --from=builder /app/eslint.config.mjs ./eslint.config.mjs
+
+ENV NODE_ENV production
+
+COPY --from(builder) /app/public ./public
+COPY --from(builder) /app/.next ./.next
+COPY --from(builder) /app/node_modules ./node_modules
+COPY --from(builder) /app/package.json ./package.json
+
 EXPOSE 3000
-CMD ["npm", "run", "start", "--", "--hostname", "0.0.0.0", "--port", "3000"]
+CMD ["npm", "start"]
