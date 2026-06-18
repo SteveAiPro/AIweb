@@ -2,13 +2,24 @@ import Link from "next/link";
 import { Category } from "@/data/categories";
 import { Tool } from "@/data/tools";
 import { ToolCard } from "@/components/tool-card";
+import { Locale, localePath } from "@/lib/i18n/config";
+import { Dictionary } from "@/lib/i18n/dictionaries";
 
 type CategoryDirectorySectionProps = {
   category: Category;
   tools: Tool[];
+  lang: Locale;
+  dict: Dictionary;
 };
 
-export function CategoryDirectorySection({ category, tools }: CategoryDirectorySectionProps) {
+export function CategoryDirectorySection({
+  category,
+  tools,
+  lang,
+  dict,
+}: CategoryDirectorySectionProps) {
+  const t = dict.categoryShelf;
+
   return (
     <section
       id={`section-${category.slug}`}
@@ -23,11 +34,13 @@ export function CategoryDirectorySection({ category, tools }: CategoryDirectoryS
           </div>
           <div className="space-y-2">
             <p className="text-sm font-semibold tracking-[0.18em] text-cyan-700 uppercase">
-              Category shelf
+              {t.eyebrow}
             </p>
-            <h2 className="text-2xl font-semibold tracking-tight text-slate-950">{category.name}</h2>
+            <h2 className="text-2xl font-semibold tracking-tight text-slate-950">
+              {category.name[lang]}
+            </h2>
             <p className="max-w-2xl text-sm leading-7 text-slate-600 sm:text-base">
-              {category.description}
+              {category.description[lang]}
             </p>
           </div>
         </div>
@@ -35,20 +48,20 @@ export function CategoryDirectorySection({ category, tools }: CategoryDirectoryS
         <div className="flex items-center gap-4">
           <div className="rounded-2xl bg-slate-50 px-4 py-3 text-center">
             <p className="text-2xl font-semibold text-slate-950">{tools.length}</p>
-            <p className="text-xs text-slate-500">收录工具</p>
+            <p className="text-xs text-slate-500">{t.toolsCount}</p>
           </div>
           <Link
-            href={`/category/${category.slug}`}
+            href={localePath(lang, `/category/${category.slug}`)}
             className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
           >
-            查看全部
+            {t.viewAll}
           </Link>
         </div>
       </div>
 
       <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         {tools.slice(0, 6).map((tool) => (
-          <ToolCard key={tool.slug} tool={tool} />
+          <ToolCard key={tool.slug} tool={tool} lang={lang} dict={dict} />
         ))}
       </div>
     </section>

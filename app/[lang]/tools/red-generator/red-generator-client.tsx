@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { Dictionary } from "@/lib/i18n/dictionaries";
 
-export function RedGeneratorClient() {
+export function RedGeneratorClient({ t }: { t: Dictionary["redGenerator"] }) {
   const [topic, setTopic] = useState("");
   const [userInfo, setUserInfo] = useState("");
   const [result, setResult] = useState("");
@@ -19,7 +20,7 @@ export function RedGeneratorClient() {
 
   const handleGenerate = async () => {
     if (!topic.trim()) {
-      setError("请输入主题或产品");
+      setError(t.errorEmpty);
       return;
     }
     setError("");
@@ -35,7 +36,7 @@ export function RedGeneratorClient() {
 
       if (!response.ok) {
         const data = await response.json();
-        setError(data.error || "生成失败，请稍后重试");
+        setError(data.error || t.errorFailed);
         setLoading(false);
         return;
       }
@@ -52,7 +53,7 @@ export function RedGeneratorClient() {
         setResult(text);
       }
     } catch {
-      setError("网络请求失败，请检查网络连接");
+      setError(t.errorNetwork);
     } finally {
       setLoading(false);
     }
@@ -72,11 +73,9 @@ export function RedGeneratorClient() {
         <div className="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-2xl">📕</span>
-            <h1 className="text-lg font-bold text-[#ff2442]">
-              小红书爆款生成器
-            </h1>
+            <h1 className="text-lg font-bold text-[#ff2442]">{t.brandTitle}</h1>
           </div>
-          <span className="text-xs text-gray-400">AI · 种草美学大师</span>
+          <span className="text-xs text-gray-400">{t.brandTag}</span>
         </div>
       </header>
 
@@ -86,15 +85,13 @@ export function RedGeneratorClient() {
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
           <div className="flex items-center gap-2 mb-6">
             <span className="text-xl">✨</span>
-            <h2 className="text-base font-semibold text-gray-800">
-              输入你的创作需求
-            </h2>
+            <h2 className="text-base font-semibold text-gray-800">{t.inputTitle}</h2>
           </div>
 
           {/* 主题输入 */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              主题 / 产品 <span className="text-[#ff2442]">*</span>
+              {t.topicLabel} <span className="text-[#ff2442]">{t.topicRequired}</span>
             </label>
             <input
               type="text"
@@ -103,7 +100,7 @@ export function RedGeneratorClient() {
                 setTopic(e.target.value);
                 if (error) setError("");
               }}
-              placeholder="例如：早C晚A护肤流程、租房改造好物、初学者健身计划..."
+              placeholder={t.topicPlaceholder}
               className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#ff2442] focus:ring-2 focus:ring-red-100 outline-none transition-all text-sm"
               disabled={loading}
               onKeyDown={(e) => {
@@ -118,15 +115,13 @@ export function RedGeneratorClient() {
           {/* 用户信息（可选） */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              补充信息{" "}
-              <span className="text-gray-400 text-xs font-normal">
-                （可选，让文案更精准）
-              </span>
+              {t.extraLabel}{" "}
+              <span className="text-gray-400 text-xs font-normal">{t.extraOptional}</span>
             </label>
             <textarea
               value={userInfo}
               onChange={(e) => setUserInfo(e.target.value)}
-              placeholder="例如：我是美妆博主，主打平价护肤品，粉丝以大学生为主..."
+              placeholder={t.extraPlaceholder}
               rows={3}
               className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#ff2442] focus:ring-2 focus:ring-red-100 outline-none transition-all text-sm resize-none"
               disabled={loading}
@@ -163,11 +158,11 @@ export function RedGeneratorClient() {
                       style={{ animationDelay: "300ms" }}
                     />
                   </span>
-                  正在生成中...
+                  {t.generating}
                 </>
               ) : (
                 <>
-                  <span>🚀</span> 生成爆款文案
+                  <span>🚀</span> {t.generate}
                 </>
               )}
             </button>
@@ -176,7 +171,7 @@ export function RedGeneratorClient() {
               disabled={loading}
               className="px-5 h-11 border border-gray-200 hover:bg-gray-50 disabled:opacity-50 text-gray-600 rounded-xl transition-colors text-sm"
             >
-              清空
+              {t.clear}
             </button>
           </div>
         </div>
@@ -189,13 +184,9 @@ export function RedGeneratorClient() {
           >
             <div className="flex items-center gap-2 mb-6 pb-4 border-b border-gray-100">
               <span className="text-xl">📝</span>
-              <h2 className="text-base font-semibold text-gray-800">
-                生成结果
-              </h2>
+              <h2 className="text-base font-semibold text-gray-800">{t.resultTitle}</h2>
               {loading && (
-                <span className="text-xs text-[#ff2442] typing-cursor">
-                  生成中
-                </span>
+                <span className="text-xs text-[#ff2442] typing-cursor">{t.generatingTag}</span>
               )}
               {!loading && result && (
                 <button
@@ -204,7 +195,7 @@ export function RedGeneratorClient() {
                   }}
                   className="ml-auto text-xs text-gray-400 hover:text-[#ff2442] transition-colors flex items-center gap-1"
                 >
-                  <span>📋</span> 复制全文
+                  <span>📋</span> {t.copyAll}
                 </button>
               )}
             </div>
@@ -232,17 +223,9 @@ export function RedGeneratorClient() {
         {!result && !loading && (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">💡</div>
-            <p className="text-gray-400 text-sm">
-              输入主题或产品，一键生成小红书爆款图文方案
-            </p>
+            <p className="text-gray-400 text-sm">{t.emptyHint}</p>
             <div className="mt-6 flex flex-wrap justify-center gap-2">
-              {[
-                "早C晚A护肤",
-                "租房改造",
-                "减脂餐食谱",
-                "通勤穿搭",
-                "自学编程",
-              ].map((hint) => (
+              {t.hints.map((hint) => (
                 <button
                   key={hint}
                   onClick={() => setTopic(hint)}
@@ -258,9 +241,7 @@ export function RedGeneratorClient() {
 
       {/* Footer */}
       <footer className="border-t border-gray-100 py-6 text-center">
-        <p className="text-xs text-gray-400">
-          📕 小红书爆款图文专家 · 种草美学大师 · AI 驱动
-        </p>
+        <p className="text-xs text-gray-400">{t.footer}</p>
       </footer>
     </div>
   );

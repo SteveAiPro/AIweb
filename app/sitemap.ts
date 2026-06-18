@@ -1,32 +1,51 @@
 import type { MetadataRoute } from "next";
 import { categories } from "@/data/categories";
 import { tools } from "@/data/tools";
-import { absoluteUrl } from "@/lib/site-config";
+import { SITE_URL } from "@/lib/site-config";
+import { localePath } from "@/lib/i18n/config";
 
-// 基于真实渲染数据（data/tools.ts + data/categories.ts）生成全量 sitemap，
-// 取代旧的 scripts/generate-sitemap.js（它读取的是已废弃的 data/**/*.json）。
+type Entry = {
+  path: string;
+  priority: number;
+  changeFrequency: "daily" | "weekly" | "monthly" | "yearly";
+};
+
+// 基于真实数据生成全量、多语言（en 无前缀 + zh /zh）sitemap，并标注 hreflang。
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
-  const staticPages: MetadataRoute.Sitemap = [
-    { url: absoluteUrl("/"), lastModified: now, changeFrequency: "daily", priority: 1 },
-    { url: absoluteUrl("/about"), lastModified: now, changeFrequency: "monthly", priority: 0.3 },
-    { url: absoluteUrl("/privacy"), lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+  const entries: Entry[] = [
+    { path: "/", priority: 1, changeFrequency: "daily" },
+    { path: "/about", priority: 0.3, changeFrequency: "monthly" },
+    { path: "/privacy", priority: 0.3, changeFrequency: "yearly" },
+    ...categories.map(
+      (category): Entry => ({
+        path: `/category/${category.slug}`,
+        priority: 0.8,
+        changeFrequency: "weekly",
+      }),
+    ),
+    ...tools.map(
+      (tool): Entry => ({
+        path: `/tools/${tool.slug}`,
+        priority: 0.7,
+        changeFrequency: "weekly",
+      }),
+    ),
   ];
 
-  const categoryPages: MetadataRoute.Sitemap = categories.map((category) => ({
-    url: absoluteUrl(`/category/${category.slug}`),
-    lastModified: now,
-    changeFrequency: "weekly",
-    priority: 0.8,
-  }));
-
-  const toolPages: MetadataRoute.Sitemap = tools.map((tool) => ({
-    url: absoluteUrl(`/tools/${tool.slug}`),
-    lastModified: now,
-    changeFrequency: "weekly",
-    priority: 0.7,
-  }));
-
-  return [...staticPages, ...categoryPages, ...toolPages];
+  return entries.flatMap(({ path, priority, changeFrequency }) =>
+    (["en", "zh"] as const).map((lang) => ({
+      url: `${SITE_URL}${localePath(lang, path)}`,
+      lastModified: now,
+      changeFrequency,
+      priority,
+      alternates: {
+        languages: {
+          en: `${SITE_URL}${localePath("en", path)}`,
+          "zh-CN": `${SITE_URL}${localePath("zh", path)}`,
+        },
+      },
+    })),
+  );
 }

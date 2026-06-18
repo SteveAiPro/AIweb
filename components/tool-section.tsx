@@ -1,5 +1,7 @@
 import { Tool } from "@/data/tools";
 import { ToolCard } from "@/components/tool-card";
+import { Locale } from "@/lib/i18n/config";
+import { Dictionary } from "@/lib/i18n/dictionaries";
 
 type ToolSectionProps = {
   id?: string;
@@ -7,9 +9,19 @@ type ToolSectionProps = {
   title: string;
   description: string;
   tools: Tool[];
+  lang: Locale;
+  dict: Dictionary;
 };
 
-export function ToolSection({ id, eyebrow, title, description, tools }: ToolSectionProps) {
+export function ToolSection({
+  id,
+  eyebrow,
+  title,
+  description,
+  tools,
+  lang,
+  dict,
+}: ToolSectionProps) {
   return (
     <section id={id} className="w-full">
       <div className="mb-8 flex flex-col gap-3">
@@ -20,7 +32,7 @@ export function ToolSection({ id, eyebrow, title, description, tools }: ToolSect
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         {tools.map((tool) => (
-          <ToolCard key={tool.slug} tool={tool} />
+          <ToolCard key={tool.slug} tool={tool} lang={lang} dict={dict} />
         ))}
       </div>
     </section>

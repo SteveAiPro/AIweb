@@ -6,7 +6,8 @@
       "Read(//Users/crazy/.colima/**)",
       "Bash(colima restart *)",
       "Bash(docker pull *)",
-      "Read(//Users/crazy/GEOFlow/**)"
+      "Read(//Users/crazy/GEOFlow/**)",
+      "Bash(git commit -m '国际化：英文为默认界面、中文 /zh、支持语言切换' -m '- app/[lang] 路由 + proxy.ts\\(Next 16\\) 实现英文无前缀、中文 /zh、/en/* 308 规范化 *)"
     ],
     "additionalDirectories": [
       "/Users/crazy/.colima/default"

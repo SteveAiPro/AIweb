@@ -5,65 +5,72 @@ import { SiteHeader } from "@/components/site-header";
 import { ToolCard } from "@/components/tool-card";
 import { categories } from "@/data/categories";
 import { getCategoryBySlug, getToolsByCategory } from "@/lib/site-data";
-import { SITE_NAME } from "@/lib/site-config";
-import {
-  JsonLd,
-  breadcrumbJsonLd,
-  collectionPageJsonLd,
-} from "@/lib/structured-data";
+import { OG_IMAGE, SITE_NAME } from "@/lib/site-config";
+import { JsonLd, breadcrumbJsonLd, collectionPageJsonLd } from "@/lib/structured-data";
+import { alternateLanguages, hasLocale, localePath, locales } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 
 type CategoryPageProps = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ lang: string; slug: string }>;
 };
 
-export async function generateStaticParams() {
-  return categories.map((category) => ({ slug: category.slug }));
+export function generateStaticParams() {
+  return locales.flatMap((lang) =>
+    categories.map((category) => ({ lang, slug: category.slug })),
+  );
 }
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { lang, slug } = await params;
+  if (!hasLocale(lang)) return {};
+  const dict = getDictionary(lang);
   const category = getCategoryBySlug(slug);
 
   if (!category) {
-    return {
-      title: "分类不存在",
-    };
+    return { title: dict.notFound.title };
   }
 
   return {
-    title: category.name,
-    description: category.description,
-    alternates: { canonical: `/category/${category.slug}` },
+    title: category.name[lang],
+    description: category.description[lang],
+    alternates: {
+      canonical: localePath(lang, `/category/${category.slug}`),
+      languages: alternateLanguages(`/category/${category.slug}`),
+    },
     openGraph: {
-      title: `${category.name} | ${SITE_NAME}`,
-      description: category.description,
-      url: `/category/${category.slug}`,
+      title: `${category.name[lang]} | ${SITE_NAME}`,
+      description: category.description[lang],
+      url: localePath(lang, `/category/${category.slug}`),
+      images: OG_IMAGE,
     },
   };
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
-  const { slug } = await params;
+  const { lang, slug } = await params;
+  if (!hasLocale(lang)) notFound();
   const category = getCategoryBySlug(slug);
+  if (!category) notFound();
 
-  if (!category) {
-    notFound();
-  }
-
+  const dict = getDictionary(lang);
+  const t = dict.categoryView;
   const categoryTools = getToolsByCategory(slug);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950">
       <JsonLd
         data={[
-          collectionPageJsonLd(category, categoryTools),
-          breadcrumbJsonLd([
-            { name: "首页", path: "/" },
-            { name: category.name, path: `/category/${category.slug}` },
-          ]),
+          collectionPageJsonLd(category, categoryTools, lang),
+          breadcrumbJsonLd(
+            [
+              { name: dict.nav.home, path: "/" },
+              { name: category.name[lang], path: `/category/${category.slug}` },
+            ],
+            lang,
+          ),
         ]}
       />
-      <SiteHeader />
+      <SiteHeader lang={lang} dict={dict} />
       <main className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-slate-900 text-white shadow-2xl shadow-slate-900/10">
           <div className={`bg-linear-to-r ${category.accent} p-[1px]`}>
@@ -75,15 +82,19 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                   </div>
                   <div>
                     <p className="text-sm font-semibold tracking-[0.2em] text-cyan-200 uppercase">
-                      Category view
+                      {t.eyebrow}
                     </p>
-                    <h1 className="mt-3 text-4xl font-semibold tracking-tight">{category.name}</h1>
+                    <h1 className="mt-3 text-4xl font-semibold tracking-tight">
+                      {category.name[lang]}
+                    </h1>
                   </div>
-                  <p className="max-w-2xl text-base leading-8 text-slate-300">{category.description}</p>
+                  <p className="max-w-2xl text-base leading-8 text-slate-300">
+                    {category.description[lang]}
+                  </p>
                 </div>
                 <div className="rounded-3xl border border-white/10 bg-white/5 px-6 py-5 text-sm text-slate-300 backdrop-blur">
                   <p className="text-3xl font-semibold text-white">{categoryTools.length}</p>
-                  <p className="mt-2">当前分类收录工具</p>
+                  <p className="mt-2">{t.toolsCountLabel}</p>
                 </div>
               </div>
             </div>
@@ -92,11 +103,11 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
         <section className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {categoryTools.map((tool) => (
-            <ToolCard key={tool.slug} tool={tool} />
+            <ToolCard key={tool.slug} tool={tool} lang={lang} dict={dict} />
           ))}
         </section>
       </main>
-      <SiteFooter />
+      <SiteFooter lang={lang} dict={dict} />
     </div>
   );
 }

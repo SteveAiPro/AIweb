@@ -1,24 +1,18 @@
-// 站点级常量：统一管理域名、名称、描述等，避免散落在多处的硬编码。
-// SITE_URL 默认线上域名，可在构建/运行时用 SITE_URL 环境变量覆盖。
+// 站点级常量：统一管理域名、名称等。SITE_URL 默认线上域名，可用 SITE_URL 环境变量覆盖。
 const rawSiteUrl = process.env.SITE_URL?.trim() || "https://gaoqian2580.com";
 
 export const SITE_URL = rawSiteUrl.replace(/\/+$/, "");
 export const SITE_NAME = "AI Navigator";
-export const SITE_TITLE = "AI Navigator | 原创 AI 工具导航";
-export const SITE_DESCRIPTION =
-  "一个原创的 AI 工具目录站，帮助你按分类、标签和场景快速发现值得尝试的 AI 产品。";
-export const SITE_LOCALE = "zh-CN";
 export const CONTACT_EMAIL = "hello@gaoqian2580.com";
 
 export const SITE_KEYWORDS = [
+  "AI tools",
+  "AI directory",
+  "AI navigator",
   "AI 工具",
   "AI 导航",
   "AI 工具导航",
-  "AI 工具目录",
-  "AI 产品",
-  "AI 聊天",
-  "AI 绘画",
-  "AI 视频",
+  "Xiaohongshu generator",
   "小红书爆款生成器",
 ];
 
@@ -26,3 +20,7 @@ export const SITE_KEYWORDS = [
 export function absoluteUrl(path = "/") {
   return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 }
+
+// 社交分享图（绝对 URL）。每个页面的 openGraph 都需显式带上——
+// 因为子页 openGraph 会整体覆盖 layout 的 openGraph（含 images）。
+export const OG_IMAGE = [{ url: `${SITE_URL}/og`, width: 1200, height: 630, alt: SITE_NAME }];

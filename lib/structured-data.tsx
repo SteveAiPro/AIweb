@@ -1,12 +1,7 @@
-import { Category, categoryMap } from "@/data/categories";
+import { Category } from "@/data/categories";
 import { Tool } from "@/data/tools";
-import {
-  SITE_DESCRIPTION,
-  SITE_LOCALE,
-  SITE_NAME,
-  SITE_URL,
-  absoluteUrl,
-} from "./site-config";
+import { SITE_NAME, SITE_URL, absoluteUrl } from "./site-config";
+import { Locale, htmlLang, localePath } from "./i18n/config";
 
 // 在 Server Component 中直接渲染结构化数据脚本（Next 官方推荐方式）。
 export function JsonLd({ data }: { data: object | object[] }) {
@@ -19,14 +14,14 @@ export function JsonLd({ data }: { data: object | object[] }) {
   );
 }
 
-export function websiteJsonLd() {
+export function websiteJsonLd(lang: Locale, description: string) {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: SITE_NAME,
-    url: SITE_URL,
-    description: SITE_DESCRIPTION,
-    inLanguage: SITE_LOCALE,
+    url: absoluteUrl(localePath(lang, "/")),
+    description,
+    inLanguage: htmlLang[lang],
     publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
   };
 }
@@ -41,48 +36,51 @@ export function organizationJsonLd() {
   };
 }
 
-export function softwareApplicationJsonLd(tool: Tool) {
+export function softwareApplicationJsonLd(tool: Tool, lang: Locale) {
   const data: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: tool.name,
-    description: tool.summary,
+    description: tool.summary[lang],
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
-    url: absoluteUrl(`/tools/${tool.slug}`),
-    keywords: tool.tags.join(", "),
+    url: absoluteUrl(localePath(lang, `/tools/${tool.slug}`)),
+    keywords: tool.tags[lang].join(", "),
   };
 
   // 仅对真正免费的工具声明价格，避免编造定价/评分数据。
-  if (tool.pricing === "免费") {
+  if (tool.pricing === "free") {
     data.offers = { "@type": "Offer", price: "0", priceCurrency: "CNY" };
   }
 
   return data;
 }
 
-export function collectionPageJsonLd(category: Category, tools: Tool[]) {
+export function collectionPageJsonLd(category: Category, tools: Tool[], lang: Locale) {
   return {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: `${category.name} - ${SITE_NAME}`,
-    description: category.description,
-    url: absoluteUrl(`/category/${category.slug}`),
-    inLanguage: SITE_LOCALE,
+    name: `${category.name[lang]} - ${SITE_NAME}`,
+    description: category.description[lang],
+    url: absoluteUrl(localePath(lang, `/category/${category.slug}`)),
+    inLanguage: htmlLang[lang],
     isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
     mainEntity: {
       "@type": "ItemList",
       itemListElement: tools.map((tool, index) => ({
         "@type": "ListItem",
         position: index + 1,
-        url: absoluteUrl(`/tools/${tool.slug}`),
+        url: absoluteUrl(localePath(lang, `/tools/${tool.slug}`)),
         name: tool.name,
       })),
     },
   };
 }
 
-export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
+export function breadcrumbJsonLd(
+  items: { name: string; path: string }[],
+  lang: Locale,
+) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -90,12 +88,7 @@ export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      item: absoluteUrl(item.path),
+      item: absoluteUrl(localePath(lang, item.path)),
     })),
   };
-}
-
-// 提供一个统一的分类名查询，供面包屑等复用。
-export function categoryName(slug: string) {
-  return categoryMap.get(slug)?.name ?? slug;
 }
