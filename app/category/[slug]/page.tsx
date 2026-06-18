@@ -5,6 +5,12 @@ import { SiteHeader } from "@/components/site-header";
 import { ToolCard } from "@/components/tool-card";
 import { categories } from "@/data/categories";
 import { getCategoryBySlug, getToolsByCategory } from "@/lib/site-data";
+import { SITE_NAME } from "@/lib/site-config";
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  collectionPageJsonLd,
+} from "@/lib/structured-data";
 
 type CategoryPageProps = {
   params: Promise<{ slug: string }>;
@@ -20,13 +26,19 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 
   if (!category) {
     return {
-      title: "分类不存在 | AI Navigator",
+      title: "分类不存在",
     };
   }
 
   return {
-    title: `${category.name} | AI Navigator`,
+    title: category.name,
     description: category.description,
+    alternates: { canonical: `/category/${category.slug}` },
+    openGraph: {
+      title: `${category.name} | ${SITE_NAME}`,
+      description: category.description,
+      url: `/category/${category.slug}`,
+    },
   };
 }
 
@@ -42,6 +54,15 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950">
+      <JsonLd
+        data={[
+          collectionPageJsonLd(category, categoryTools),
+          breadcrumbJsonLd([
+            { name: "首页", path: "/" },
+            { name: category.name, path: `/category/${category.slug}` },
+          ]),
+        ]}
+      />
       <SiteHeader />
       <main className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-slate-900 text-white shadow-2xl shadow-slate-900/10">

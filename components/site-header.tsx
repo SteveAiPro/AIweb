@@ -2,10 +2,11 @@ import Link from "next/link";
 
 const navItems = [
   { label: "首页", href: "/" },
-  { label: "热门分类", href: "#categories" },
-  { label: "精选工具", href: "#featured" },
-  { label: "最新上架", href: "#new" },
+  { label: "热门分类", href: "/#directory" },
+  { label: "精选工具", href: "/#featured" },
+  { label: "最新上架", href: "/#new" },
   { label: "小红书生成器", href: "/tools/red-generator" },
+  { label: "关于", href: "/about" },
 ];
 
 export function SiteHeader() {
@@ -26,22 +27,22 @@ export function SiteHeader() {
 
         <nav className="hidden items-center gap-7 md:flex">
           {navItems.map((item) => (
-            <a
+            <Link
               key={item.label}
               href={item.href}
               className="text-sm font-medium text-slate-300 transition hover:text-white"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
-        <a
-          href="#directory"
+        <Link
+          href="/#directory"
           className="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-200 transition hover:border-cyan-300 hover:bg-cyan-400/20"
         >
           立即探索
-        </a>
+        </Link>
       </div>
     </header>
   );

@@ -7,13 +7,22 @@ import { ToolCard } from "@/components/tool-card";
 import { categoryMap } from "@/data/categories";
 import { tools } from "@/data/tools";
 import { getToolBySlug, getToolsByCategory } from "@/lib/site-data";
+import { SITE_NAME } from "@/lib/site-config";
+import {
+  JsonLd,
+  breadcrumbJsonLd,
+  softwareApplicationJsonLd,
+} from "@/lib/structured-data";
 
 type ToolDetailPageProps = {
   params: Promise<{ slug: string }>;
 };
 
 export async function generateStaticParams() {
-  return tools.map((tool) => ({ slug: tool.slug }));
+  // red-generator 有独立的静态页（app/tools/red-generator），此处排除以免重复预渲染。
+  return tools
+    .filter((tool) => tool.slug !== "red-generator")
+    .map((tool) => ({ slug: tool.slug }));
 }
 
 export async function generateMetadata({ params }: ToolDetailPageProps): Promise<Metadata> {
@@ -22,13 +31,19 @@ export async function generateMetadata({ params }: ToolDetailPageProps): Promise
 
   if (!tool) {
     return {
-      title: "工具不存在 | AI Navigator",
+      title: "工具不存在",
     };
   }
 
   return {
-    title: `${tool.name} | AI Navigator`,
+    title: tool.name,
     description: tool.summary,
+    alternates: { canonical: `/tools/${tool.slug}` },
+    openGraph: {
+      title: `${tool.name} | ${SITE_NAME}`,
+      description: tool.summary,
+      url: `/tools/${tool.slug}`,
+    },
   };
 }
 
@@ -47,6 +62,18 @@ export default async function ToolDetailPage({ params }: ToolDetailPageProps) {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950">
+      <JsonLd
+        data={[
+          softwareApplicationJsonLd(tool),
+          breadcrumbJsonLd([
+            { name: "首页", path: "/" },
+            ...(category
+              ? [{ name: category.name, path: `/category/${category.slug}` }]
+              : []),
+            { name: tool.name, path: `/tools/${tool.slug}` },
+          ]),
+        ]}
+      />
       <SiteHeader />
       <main className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_360px]">

@@ -9,11 +9,17 @@ import { ToolSection } from "@/components/tool-section";
 import { categories } from "@/data/categories";
 import { featuredTools, newTools, popularTools, tools } from "@/data/tools";
 import { getToolsByCategory } from "@/lib/site-data";
+import { SITE_DESCRIPTION, SITE_TITLE } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: "AI Navigator | 原创 AI 工具导航",
-  description:
-    "一个原创的 AI 工具目录站，帮助你按分类、标签和场景快速发现值得尝试的 AI 产品。",
+  title: { absolute: SITE_TITLE },
+  description: SITE_DESCRIPTION,
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: "/",
+  },
 };
 
 export default function Home() {

@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://gaoqian2580.com/sitemap.xml

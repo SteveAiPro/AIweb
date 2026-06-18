@@ -7,7 +7,7 @@ type DirectoryShellProps = {
 
 export function DirectoryShell({ categories, children }: DirectoryShellProps) {
   return (
-    <section className="mx-auto flex w-full max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:px-8">
+    <section id="directory" className="mx-auto flex w-full max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:px-8">
       <aside className="hidden w-72 shrink-0 xl:block">
         <div className="sticky top-24 space-y-6">
           <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-sm">
