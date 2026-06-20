@@ -14,6 +14,9 @@ export const en = {
     redGeneratorTitle: "Xiaohongshu Post Generator",
     redGeneratorDescription:
       "Enter a topic to generate a complete Xiaohongshu post plan — cover design, headlines, KOC-style body copy, and topic tags. Built for creators and operations teams.",
+    videoDownloaderTitle: "Douyin Video Downloader — No Watermark",
+    videoDownloaderDescription:
+      "Free online Douyin downloader. Save HD videos and MP3 audio without watermark, no app needed.",
   },
   nav: {
     brand: "AI Navigator",
@@ -24,6 +27,7 @@ export const en = {
     latest: "New",
     redGenerator: "Xiaohongshu Generator",
     about: "About",
+    videoDownloader: "Video Downloader",
     explore: "Explore now",
   },
   hero: {
@@ -111,6 +115,7 @@ export const en = {
     categories: "Categories",
     latest: "New",
     redGenerator: "Xiaohongshu Generator",
+    videoDownloader: "Video Downloader",
     about: "About",
     privacy: "Privacy Policy",
     sitemap: "Sitemap",
@@ -200,5 +205,53 @@ export const en = {
     emptyHint: "Enter a topic or product to generate a Xiaohongshu post plan in one click",
     hints: ["Skincare routine", "Rental makeover", "Fat-loss meals", "Commute outfits", "Learn coding"],
     footer: "Xiaohongshu post expert · Aesthetic curation master · AI-powered",
+  },
+  videoDownloader: {
+    heroEyebrow: "Douyin downloader",
+    heroTitle: "Download Douyin videos without watermark",
+    heroSubtitle:
+      "Paste a video link to save HD videos and MP3 audio without the watermark — free, fast, no app required.",
+    supported: "Supports Douyin (抖音) links",
+    inputPlaceholder: "Paste a Douyin video link here",
+    parseButton: "Download",
+    parsing: "Parsing...",
+    errorEmpty: "Please paste a video link",
+    errorInvalid: "That doesn't look like a valid Douyin link",
+    errorFailed:
+      "Failed to parse this link. It may be private, deleted, or rate-limited — please try again later.",
+    errorNetwork: "Network error, please check your connection and retry",
+    resultBy: "by",
+    durationLabel: "Duration",
+    downloadVideo: "Download video (no watermark)",
+    downloadHd: "Download HD",
+    downloadMusic: "Download MP3 audio",
+    preparing: "Preparing...",
+    newDownload: "Download another",
+    tutorialTitle: "How to download in 3 steps",
+    steps: [
+      { title: "Copy the link", desc: "In the Douyin app, tap Share and copy the video link." },
+      { title: "Paste it here", desc: "Paste the link into the box above and click Download." },
+      { title: "Save the file", desc: "Preview the result and download the no-watermark video or MP3." },
+    ],
+    advantagesTitle: "Why use this downloader",
+    advantages: [
+      { title: "No watermark", desc: "Get the clean original video without the platform watermark." },
+      { title: "HD quality", desc: "Download the highest quality the source provides." },
+      { title: "Free & no app", desc: "100% free in your browser — nothing to install." },
+      { title: "Video & audio", desc: "Save the full video or just the background music as MP3." },
+    ],
+    faqTitle: "FAQ",
+    faqs: [
+      { q: "Is it free?", a: "Yes, this tool is completely free to use." },
+      { q: "Do I need to install anything?", a: "No. It works entirely in your browser on desktop and mobile." },
+      { q: "Which platforms are supported?", a: "Currently Douyin (抖音). More platforms may be added later." },
+      {
+        q: "Why does a link sometimes fail?",
+        a: "Private, region-locked, or deleted videos can't be parsed, and the free service may occasionally rate-limit requests. Please try again later.",
+      },
+      { q: "Can I download the audio only?", a: "Yes, you can download the background music as an MP3 file." },
+    ],
+    disclaimer:
+      "This tool is for personal backup and offline viewing only. Respect creators' rights and comply with each platform's terms of service. Do not use downloaded content for infringing purposes.",
   },
 };

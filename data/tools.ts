@@ -42,6 +42,28 @@ export const tools: Tool[] = [
     score: "9.4",
   },
   {
+    slug: "video-downloader",
+    name: "Video Downloader",
+    summary: {
+      zh: "无水印下载抖音视频，支持高清视频与 MP3 音频。",
+      en: "Download Douyin videos without watermark, in HD video or MP3 audio.",
+    },
+    description: {
+      zh: "在线抖音去水印视频下载工具。粘贴视频链接即可解析并下载无水印高清视频或背景音乐，免费、无需安装 App，适合内容备份与二次创作素材收集。",
+      en: "An online Douyin no-watermark video downloader. Paste a link to parse and download the clean HD video or background music — free, no app required, great for backups and creative sourcing.",
+    },
+    website: "/tools/video-downloader",
+    category: "video",
+    tags: {
+      zh: ["视频下载", "去水印", "抖音"],
+      en: ["Video download", "No watermark", "Douyin"],
+    },
+    pricing: "free",
+    featured: true,
+    isNew: true,
+    score: "9.3",
+  },
+  {
     slug: "nova-chat",
     name: "Nova Chat",
     summary: {

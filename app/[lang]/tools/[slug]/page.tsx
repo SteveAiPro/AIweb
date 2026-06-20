@@ -21,10 +21,10 @@ type ToolDetailPageProps = {
 };
 
 export function generateStaticParams() {
-  // red-generator 有独立的静态页（app/[lang]/tools/red-generator），此处排除以免重复预渲染。
+  // red-generator 与 video-downloader 有各自独立的静态页，此处排除以免重复预渲染。
   return locales.flatMap((lang) =>
     tools
-      .filter((tool) => tool.slug !== "red-generator")
+      .filter((tool) => tool.slug !== "red-generator" && tool.slug !== "video-downloader")
       .map((tool) => ({ lang, slug: tool.slug })),
   );
 }

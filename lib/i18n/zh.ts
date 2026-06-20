@@ -15,6 +15,9 @@ export const zh = {
     redGeneratorTitle: "小红书爆款生成器",
     redGeneratorDescription:
       "输入主题即可生成小红书爆款图文方案，包含封面设计、爆款标题、KOC 风格正文和话题标签，适合内容创作者和运营团队快速产出种草文案。",
+    videoDownloaderTitle: "抖音视频下载器 — 无水印",
+    videoDownloaderDescription:
+      "免费在线抖音视频下载器，无水印保存高清视频和 MP3 音频，无需安装 App。",
   },
   nav: {
     brand: "AI Navigator",
@@ -25,6 +28,7 @@ export const zh = {
     latest: "最新上架",
     redGenerator: "小红书生成器",
     about: "关于",
+    videoDownloader: "视频下载",
     explore: "立即探索",
   },
   hero: {
@@ -105,6 +109,7 @@ export const zh = {
     categories: "分类目录",
     latest: "最新上架",
     redGenerator: "小红书生成器",
+    videoDownloader: "视频下载",
     about: "关于本站",
     privacy: "隐私政策",
     sitemap: "网站地图",
@@ -191,5 +196,52 @@ export const zh = {
     emptyHint: "输入主题或产品，一键生成小红书爆款图文方案",
     hints: ["早C晚A护肤", "租房改造", "减脂餐食谱", "通勤穿搭", "自学编程"],
     footer: "📕 小红书爆款图文专家 · 种草美学大师 · AI 驱动",
+  },
+  videoDownloader: {
+    heroEyebrow: "抖音下载器",
+    heroTitle: "无水印下载抖音视频",
+    heroSubtitle:
+      "粘贴视频链接，免费快速保存无水印高清视频和 MP3 音频，无需安装任何 App。",
+    supported: "支持抖音链接",
+    inputPlaceholder: "在此粘贴抖音视频链接",
+    parseButton: "下载",
+    parsing: "解析中...",
+    errorEmpty: "请粘贴视频链接",
+    errorInvalid: "这看起来不是有效的抖音链接",
+    errorFailed: "解析失败，该视频可能是私密、已删除或触发了限流，请稍后再试。",
+    errorNetwork: "网络错误，请检查网络后重试",
+    resultBy: "作者",
+    durationLabel: "时长",
+    downloadVideo: "下载视频（无水印）",
+    downloadHd: "下载高清",
+    downloadMusic: "下载 MP3 音频",
+    preparing: "准备中...",
+    newDownload: "再下载一个",
+    tutorialTitle: "三步完成下载",
+    steps: [
+      { title: "复制链接", desc: "在抖音 App 中点击分享，复制视频链接。" },
+      { title: "粘贴到这里", desc: "把链接粘贴到上方输入框，点击「下载」。" },
+      { title: "保存文件", desc: "预览结果，下载无水印视频或 MP3 音频。" },
+    ],
+    advantagesTitle: "为什么用它",
+    advantages: [
+      { title: "无水印", desc: "获取干净的原始视频，不带平台水印。" },
+      { title: "高清画质", desc: "下载源提供的最高画质。" },
+      { title: "免费免安装", desc: "浏览器内 100% 免费使用，无需安装。" },
+      { title: "视频与音频", desc: "可保存完整视频，或只下载背景音乐为 MP3。" },
+    ],
+    faqTitle: "常见问题",
+    faqs: [
+      { q: "免费吗？", a: "是的，本工具完全免费。" },
+      { q: "需要安装东西吗？", a: "不需要。在电脑和手机浏览器中即可直接使用。" },
+      { q: "支持哪些平台？", a: "目前支持抖音，后续可能增加更多平台。" },
+      {
+        q: "为什么有时链接会失败？",
+        a: "私密、地区限制或已删除的视频无法解析，免费服务偶尔也会限流，请稍后再试。",
+      },
+      { q: "可以只下载音频吗？", a: "可以，你能把背景音乐下载为 MP3 文件。" },
+    ],
+    disclaimer:
+      "本工具仅供个人备份与离线观看使用。请尊重创作者权益并遵守各平台服务条款，请勿将下载内容用于侵权用途。",
   },
 } satisfies typeof en;

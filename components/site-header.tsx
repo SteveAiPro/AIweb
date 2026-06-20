@@ -12,6 +12,7 @@ export function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionary }) {
     { label: t.featured, href: `${home}#featured` },
     { label: t.latest, href: `${home}#new` },
     { label: t.redGenerator, href: localePath(lang, "/tools/red-generator") },
+    { label: t.videoDownloader, href: localePath(lang, "/tools/video-downloader") },
     { label: t.about, href: localePath(lang, "/about") },
   ];
 
