@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import { OG_IMAGE, SITE_KEYWORDS, SITE_NAME, SITE_URL } from "@/lib/site-config";
@@ -75,6 +76,16 @@ export default async function RootLayout({
 
   return (
     <html lang={htmlLang[lang]} className="h-full antialiased">
+      <head>
+        <meta name="google-adsense-account" content="ca-pub-4117981861526348" />
+        <Script
+          id="adsbygoogle-init"
+          async
+          strategy="afterInteractive"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4117981861526348"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className="min-h-full bg-slate-50 font-sans text-slate-950">
         {children}
         <JsonLd data={[websiteJsonLd(lang, dict.meta.siteDescription), organizationJsonLd()]} />
