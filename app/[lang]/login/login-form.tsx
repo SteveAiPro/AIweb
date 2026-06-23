@@ -32,8 +32,9 @@ export function LoginForm({
     setLoading(true);
     try {
       const supabase = createClient();
+      const accountPath = localePath(lang, "/account");
       const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(
-        nextPath,
+        accountPath,
       )}`;
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
