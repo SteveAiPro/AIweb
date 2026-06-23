@@ -1,31 +1,54 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { createServerClient } from "@supabase/ssr";
 
-// Next 16 的中间件（原 middleware）：实现「英文默认无前缀、中文 /zh」的路由。
-export function proxy(request: NextRequest) {
+// Next 16 的中间件（原 middleware）：
+// 1) 处理 i18n 路由（英文默认无前缀，中文 /zh）
+// 2) 在路由解析前刷新 Supabase 会话 cookie
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // /en 或 /en/* 被直接访问 → 去掉前缀重定向，保证英文规范 URL 唯一且无前缀
+  // ---------- i18n 重写/重定向 ----------
+  let response: NextResponse;
+
   if (pathname === "/en" || pathname.startsWith("/en/")) {
     const url = request.nextUrl.clone();
     url.pathname = pathname.replace(/^\/en/, "") || "/";
-    return NextResponse.redirect(url, 308);
+    response = NextResponse.redirect(url, 308);
+  } else if (pathname === "/zh" || pathname.startsWith("/zh/")) {
+    response = NextResponse.next();
+  } else {
+    const url = request.nextUrl.clone();
+    url.pathname = `/en${pathname === "/" ? "" : pathname}`;
+    response = NextResponse.rewrite(url);
   }
 
-  // /zh 或 /zh/* → 放行，由 app/[lang] 以 lang=zh 渲染
-  if (pathname === "/zh" || pathname.startsWith("/zh/")) {
-    return NextResponse.next();
+  // ---------- Supabase 会话续期 ----------
+  // 仅当配置了 Supabase 环境变量时才挂载，避免本地未配置时报错
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (supabaseUrl && supabaseKey) {
+    const supabase = createServerClient(supabaseUrl, supabaseKey, {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options),
+          );
+        },
+      },
+    });
+    await supabase.auth.getUser();
   }
 
-  // 其余无前缀路径 → 内部 rewrite 到 /en（地址栏不变，lang=en）
-  const url = request.nextUrl.clone();
-  url.pathname = `/en${pathname === "/" ? "" : pathname}`;
-  return NextResponse.rewrite(url);
+  return response;
 }
 
 export const config = {
-  // 排除内部路径、API、根级特殊文件（图标/OG/站点地图/robots）与含扩展名的静态资源
+  // 排除内部路径、API、auth 回调、根级特殊文件（图标/OG/站点地图/robots）与含扩展名的静态资源
   matcher: [
-    "/((?!_next|api|icon|og|sitemap.xml|robots.txt|favicon.ico|.*\\..*).*)",
+    "/((?!_next|api|auth|icon|og|sitemap.xml|robots.txt|favicon.ico|.*\\..*).*)",
   ],
 };

@@ -10,6 +10,25 @@
 npm install
 ```
 
+配置 Supabase 邮箱登录：
+
+```bash
+cp .env.local.example .env.local
+```
+
+然后在 Supabase 控制台复制项目配置：
+
+- `Project Settings` -> `API` -> 填入 `NEXT_PUBLIC_SUPABASE_URL`
+- `Project Settings` -> `API` -> 填入 `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `Authentication` -> `URL Configuration` -> `Site URL` 填 `http://localhost:3000`
+- `Authentication` -> `URL Configuration` -> `Redirect URLs` 加入 `http://localhost:3000/auth/callback`
+
+部署到线上后，还需要把生产域名的回调地址加入 Supabase，例如：
+
+```text
+https://your-domain.com/auth/callback
+```
+
 启动开发服务器：
 
 ```bash
