@@ -57,6 +57,10 @@ export default async function AccountPage({
     redirect(loginPath);
   }
 
+  // 用户显示名：优先 Google OAuth 返回的 full_name
+  const displayName =
+    (user.user_metadata?.full_name as string) || user.email || t.unknown;
+
   // 格式化时间
   const lastSignIn = user.last_sign_in_at
     ? new Date(user.last_sign_in_at).toLocaleString(lang === "zh" ? "zh-CN" : "en-US", {
@@ -91,6 +95,10 @@ export default async function AccountPage({
           <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
             <h2 className="text-sm font-semibold text-slate-900">{t.basicInfo}</h2>
             <div className="mt-4 space-y-4">
+              <div className="flex flex-col gap-1 border-b border-slate-100 pb-3 sm:flex-row sm:items-center sm:justify-between">
+                <span className="text-sm text-slate-600">{t.nameLabel}</span>
+                <span className="break-all text-sm font-medium text-slate-900">{displayName}</span>
+              </div>
               <div className="flex flex-col gap-1 border-b border-slate-100 pb-3 sm:flex-row sm:items-center sm:justify-between">
                 <span className="text-sm text-slate-600">{t.emailLabel}</span>
                 <span className="break-all text-sm font-medium text-slate-900">{user.email}</span>

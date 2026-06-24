@@ -246,6 +246,7 @@ export const en = {
     accountHeading: "Your Account",
     accountSubheading: "View your account details and manage your sign-in settings.",
     basicInfo: "Basic information",
+    nameLabel: "Display name",
     emailLabel: "Email address",
     accountStatus: "Status",
     statusActive: "Active",

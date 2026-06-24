@@ -20,14 +20,18 @@ export async function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionar
   ];
 
   // Supabase 未配置时安全降级：不显示登录入口
-  let userEmail: string | null = null;
+  let userName: string | null = null;
   if (hasSupabaseConfig()) {
     try {
       const supabase = await createClient();
       const { data } = await supabase.auth.getUser();
-      userEmail = data.user?.email ?? null;
+      // 优先显示 Google OAuth 返回的全名，其次用邮箱
+      userName =
+        (data.user?.user_metadata?.full_name as string) ??
+        data.user?.email ??
+        null;
     } catch {
-      userEmail = null;
+      userName = null;
     }
   }
 
@@ -60,14 +64,14 @@ export async function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionar
 
         <div className="flex items-center gap-3">
           <LanguageSwitcher />
-          {userEmail ? (
+          {userName ? (
             <div className="hidden items-center gap-3 sm:flex">
               <Link
                 href={localePath(lang, "/account")}
                 className="max-w-[10rem] truncate text-sm text-slate-300 transition hover:text-white"
-                title={userEmail}
+                title={userName}
               >
-                {userEmail}
+                {userName}
               </Link>
               <form action="/auth/signout" method="post">
                 <input type="hidden" name="next" value={home} />

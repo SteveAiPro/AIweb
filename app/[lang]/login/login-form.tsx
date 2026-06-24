@@ -36,14 +36,17 @@ export function LoginForm({
       const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(
         accountPath,
       )}`;
+      console.log("Starting Google OAuth with redirectTo:", redirectTo);
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: { redirectTo },
       });
+      console.log("OAuth error:", error);
       if (error) {
         setError(t.errorFailed);
       }
-    } catch {
+    } catch (err) {
+      console.error("OAuth exception:", err);
       setError(t.errorNetwork);
     } finally {
       setLoading(false);

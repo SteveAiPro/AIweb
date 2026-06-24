@@ -235,6 +235,7 @@ export const zh = {
     accountHeading: "你的账户",
     accountSubheading: "查看账户详情并管理登录设置。",
     basicInfo: "基本信息",
+    nameLabel: "显示名称",
     emailLabel: "邮箱地址",
     accountStatus: "账户状态",
     statusActive: "正常",
