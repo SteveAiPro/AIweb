@@ -27,20 +27,25 @@ export async function proxy(request: NextRequest) {
   // 仅当配置了 Supabase 环境变量时才挂载，避免本地未配置时报错
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  console.log("[proxy]", request.method, pathname, { hasUrl: !!supabaseUrl, hasKey: !!supabaseKey, cookieCount: request.cookies.getAll().length });
   if (supabaseUrl && supabaseKey) {
     const supabase = createServerClient(supabaseUrl, supabaseKey, {
       cookies: {
         getAll() {
-          return request.cookies.getAll();
+          const all = request.cookies.getAll();
+          console.log("[proxy] getAll cookies:", all.map(c => c.name));
+          return all;
         },
         setAll(cookiesToSet) {
+          console.log("[proxy] setAll cookies:", cookiesToSet.map(c => c.name));
           cookiesToSet.forEach(({ name, value, options }) =>
             response.cookies.set(name, value, options),
           );
         },
       },
     });
-    await supabase.auth.getUser();
+    const { data, error } = await supabase.auth.getUser();
+    console.log("[proxy] getUser:", { hasUser: !!data.user, error: error?.message });
   }
 
   return response;

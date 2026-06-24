@@ -26,6 +26,7 @@ export async function GET(request: NextRequest) {
             return request.cookies.getAll();
           },
           setAll(cookiesToSet) {
+            console.log("[callback] setAll cookies:", cookiesToSet.map(c => c.name));
             cookiesToSet.forEach(({ name, value, options }) =>
               response.cookies.set(name, value, options),
             );
@@ -34,10 +35,12 @@ export async function GET(request: NextRequest) {
       },
     );
 
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+    console.log("[callback] exchangeCodeForSession:", { hasUser: !!data.user, error: error?.message });
     if (!error) {
       return response;
     }
+    console.error("[callback] exchangeCodeForSession failed:", error);
   }
 
   return NextResponse.redirect(`${origin}${loginPath}?error=auth-callback&next=${encodeURIComponent(next)}`);

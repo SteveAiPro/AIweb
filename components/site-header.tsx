@@ -24,15 +24,24 @@ export async function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionar
   if (hasSupabaseConfig()) {
     try {
       const supabase = await createClient();
-      const { data } = await supabase.auth.getUser();
+      const { data, error } = await supabase.auth.getUser();
+      console.log("[SiteHeader] getUser result:", {
+        hasUser: !!data.user,
+        email: data.user?.email,
+        fullName: data.user?.user_metadata?.full_name,
+        error: error?.message,
+      });
       // 优先显示 Google OAuth 返回的全名，其次用邮箱
       userName =
         (data.user?.user_metadata?.full_name as string) ??
         data.user?.email ??
         null;
-    } catch {
+    } catch (err) {
+      console.error("[SiteHeader] getUser threw:", err);
       userName = null;
     }
+  } else {
+    console.log("[SiteHeader] hasSupabaseConfig returned false");
   }
 
   return (
