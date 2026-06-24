@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { createServerClient } from "@supabase/ssr";
 import { getSafeAuthNext, hasSupabaseConfig } from "@/lib/auth-redirect";
-import { createClient } from "@/lib/supabase/server";
 
 export async function POST(request: NextRequest) {
   let next = "/";
@@ -11,10 +11,27 @@ export async function POST(request: NextRequest) {
     next = "/";
   }
 
+  const response = NextResponse.redirect(new URL(next, request.url), { status: 303 });
+
   if (hasSupabaseConfig()) {
-    const supabase = await createClient();
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll();
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              response.cookies.set(name, value, options),
+            );
+          },
+        },
+      },
+    );
     await supabase.auth.signOut();
   }
 
-  return NextResponse.redirect(new URL(next, request.url), { status: 303 });
+  return response;
 }

@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { createServerClient } from "@supabase/ssr";
 import { getLoginPathForNext, getSafeAuthNext, hasSupabaseConfig } from "@/lib/auth-redirect";
 
 export async function GET(request: NextRequest) {
@@ -13,10 +13,29 @@ export async function GET(request: NextRequest) {
   }
 
   if (code) {
-    const supabase = await createClient();
+    // 在 Response 对象上直接设置 cookie，而非通过 cookies() API，
+    // 确保 session cookie 正确地附着在重定向响应上
+    const response = NextResponse.redirect(`${origin}${next}`);
+
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll();
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              response.cookies.set(name, value, options),
+            );
+          },
+        },
+      },
+    );
+
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      const response = NextResponse.redirect(`${origin}${next}`);
       return response;
     }
   }
