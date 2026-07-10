@@ -34,18 +34,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ),
   ];
 
-  return entries.flatMap(({ path, priority, changeFrequency }) =>
-    (["en", "zh"] as const).map((lang) => ({
-      url: `${SITE_URL}${localePath(lang, path)}`,
+  return entries.flatMap(({ path, priority, changeFrequency }) => {
+    const enUrl = `${SITE_URL}${localePath("en", path)}`;
+    const zhUrl = `${SITE_URL}${localePath("zh", path)}`;
+
+    return (["en", "zh"] as const).map((lang) => ({
+      url: lang === "en" ? enUrl : zhUrl,
       lastModified: now,
       changeFrequency,
       priority,
       alternates: {
         languages: {
-          en: `${SITE_URL}${localePath("en", path)}`,
-          "zh-CN": `${SITE_URL}${localePath("zh", path)}`,
+          en: enUrl,
+          "zh-CN": zhUrl,
+          "x-default": enUrl,
         },
       },
-    })),
-  );
+    }));
+  });
 }

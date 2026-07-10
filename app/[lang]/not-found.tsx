@@ -8,6 +8,8 @@ export default function NotFound() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-950 px-4 text-white">
+      {/* 软 404 也声明 noindex，避免无效 URL 进索引 */}
+      <meta name="robots" content="noindex, nofollow" />
       <div className="max-w-xl rounded-[2rem] border border-white/10 bg-white/5 p-10 text-center backdrop-blur">
         <p className="text-sm font-semibold tracking-[0.2em] text-cyan-300 uppercase">{t.code}</p>
         <h1 className="mt-4 text-4xl font-semibold tracking-tight">{t.title}</h1>

@@ -1,9 +1,14 @@
 // 站点级常量：统一管理域名、名称等。SITE_URL 默认线上域名，可用 SITE_URL 环境变量覆盖。
-const rawSiteUrl = process.env.SITE_URL?.trim() || "https://gaoqian2580.com";
+// 生产环境主机为 www（裸域 gaoqian2580.com 会 308 到 www）。canonical / sitemap / robots
+// 必须与最终落地主机一致，否则 GSC 会出现「自动重定向」「备用网页（规范标记）」问题。
+const rawSiteUrl = process.env.SITE_URL?.trim() || "https://www.gaoqian2580.com";
 
 export const SITE_URL = rawSiteUrl.replace(/\/+$/, "");
 export const SITE_NAME = "AI Navigator";
 export const CONTACT_EMAIL = "hello@gaoqian2580.com";
+
+/** 生产规范主机名（不含协议）。用于 Host 归一与 robots。 */
+export const SITE_HOST = SITE_URL.replace(/^https?:\/\//, "").split("/")[0] || "www.gaoqian2580.com";
 
 export const SITE_KEYWORDS = [
   "AI tools",
