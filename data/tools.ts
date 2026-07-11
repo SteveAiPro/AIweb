@@ -96,7 +96,7 @@ export const tools: Tool[] = [
       zh: "Pixel Bloom 内置风格预设、品牌色板和文案排版建议，可快速生成海报、社媒封面和活动 KV 草案。",
       en: "Pixel Bloom ships with style presets, brand palettes, and layout suggestions to quickly produce posters, social covers, and campaign key-visual drafts.",
     },
-    website: "https://example.com/pixel-bloom",
+    website: "/tools/pixel-bloom",
     category: "image",
     tags: {
       zh: ["海报", "品牌设计", "社媒"],
@@ -222,7 +222,7 @@ export const tools: Tool[] = [
       zh: "Vision Seed 强调灵感探索与参考图混合，适合插画师、创意策划和品牌视觉团队建立 moodboard。",
       en: "Vision Seed emphasizes inspiration exploration and reference-image blending, ideal for illustrators, creatives, and brand teams building moodboards.",
     },
-    website: "https://example.com/vision-seed",
+    website: "/tools/vision-seed",
     category: "image",
     tags: {
       zh: ["插画", "灵感板", "参考图"],

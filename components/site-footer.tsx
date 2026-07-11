@@ -37,6 +37,9 @@ export function SiteFooter({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             <Link href={localePath(lang, "/tools/video-downloader")} className="transition hover:text-white">
               {t.videoDownloader}
             </Link>
+            <Link href={localePath(lang, "/tools/pixel-bloom")} className="transition hover:text-white">
+              {t.pixelBloom}
+            </Link>
           </div>
           <div className="grid content-start gap-2">
             <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
