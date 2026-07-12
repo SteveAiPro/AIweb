@@ -148,6 +148,65 @@ export default async function ToolDetailPage({ params }: ToolDetailPageProps) {
                 <p className="mt-4 text-base leading-8 text-slate-600">{tool.description[lang]}</p>
               </div>
 
+              {tool.longDescription && (
+                <div>
+                  <h2 className="text-xl font-semibold text-slate-950">{t.longIntro}</h2>
+                  <p className="mt-4 text-base leading-8 text-slate-600">{tool.longDescription[lang]}</p>
+                </div>
+              )}
+
+              {tool.features && tool.features[lang].length > 0 && (
+                <div>
+                  <h2 className="text-xl font-semibold text-slate-950">{t.features}</h2>
+                  <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                    {tool.features[lang].map((f) => (
+                      <li
+                        key={f}
+                        className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50/60 p-4 text-sm leading-7 text-slate-700"
+                      >
+                        <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-cyan-100 text-xs font-bold text-cyan-700">
+                          ✓
+                        </span>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {tool.steps && tool.steps.length > 0 && (
+                <div>
+                  <h2 className="text-xl font-semibold text-slate-950">{t.howToUse}</h2>
+                  <ol className="mt-4 space-y-4">
+                    {tool.steps.map((step, i) => (
+                      <li key={i} className="flex items-start gap-4">
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-950 text-sm font-semibold text-white">
+                          {i + 1}
+                        </span>
+                        <div>
+                          <p className="font-medium text-slate-950">{step.title[lang]}</p>
+                          <p className="mt-1 text-sm leading-7 text-slate-600">{step.desc[lang]}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+
+              {tool.faqs && tool.faqs.length > 0 && (
+                <div>
+                  <h2 className="text-xl font-semibold text-slate-950">{t.faq}</h2>
+                  <dl className="mt-4 divide-y divide-slate-100 rounded-2xl border border-slate-100">
+                    {tool.faqs.map((item, i) => (
+                      <div key={i} className="p-5">
+                        <dt className="font-medium text-slate-950">{item.q[lang]}</dt>
+                        <dd className="mt-2 text-sm leading-7 text-slate-600">{item.a[lang]}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              )}
+
               <div>
                 <h2 className="text-xl font-semibold text-slate-950">{t.useCases}</h2>
                 <div className="mt-4 flex flex-wrap gap-3">

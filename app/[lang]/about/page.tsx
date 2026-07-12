@@ -80,6 +80,16 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
         </section>
 
         <section className="mt-10 space-y-3">
+          <h2 className="text-xl font-semibold text-slate-950">{t.teamTitle}</h2>
+          <p className="text-base leading-8 text-slate-600">{t.teamBody}</p>
+        </section>
+
+        <section className="mt-10 space-y-3">
+          <h2 className="text-xl font-semibold text-slate-950">{t.editorialTitle}</h2>
+          <p className="text-base leading-8 text-slate-600">{t.editorialBody}</p>
+        </section>
+
+        <section className="mt-10 space-y-3">
           <h2 className="text-xl font-semibold text-slate-950">{t.contactTitle}</h2>
           <p className="text-base leading-8 text-slate-600">
             {t.contactPrefix}

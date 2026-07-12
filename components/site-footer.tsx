@@ -40,6 +40,9 @@ export function SiteFooter({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             <Link href={localePath(lang, "/tools/pixel-bloom")} className="transition hover:text-white">
               {t.pixelBloom}
             </Link>
+            <Link href={localePath(lang, "/blog")} className="transition hover:text-white">
+              {t.blog}
+            </Link>
           </div>
           <div className="grid content-start gap-2">
             <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">

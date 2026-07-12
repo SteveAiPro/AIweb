@@ -63,7 +63,7 @@ const EXAMPLE_PROMPTS = [
   "A magical library at night, shelves of glowing books, fantasy concept art",
 ];
 
-/* ----------------------------- 配色：模型决定背景，分类决定色块 ----------------------------- */
+/* ----------------------------- 程序化生成（首屏示例画廊用；后端也会用同源逻辑） ----------------------------- */
 
 type Palette = { bg: [string, string]; colors: string[] };
 
@@ -82,8 +82,6 @@ const CATEGORY_PALETTES: Record<string, Palette> = {
   "product-brand": { bg: ["#ecfdf5", "#e0f2fe"], colors: ["#10b981", "#06b6d4", "#3b82f6", "#6366f1", "#f59e0b"] },
   "ui-graphic": { bg: ["#f1f5f9", "#ede9fe"], colors: ["#6366f1", "#8b5cf6", "#ec4899", "#0ea5e9", "#14b8a6"] },
 };
-
-/* ----------------------------- 程序化生成（开箱即用，预留真实模型接口） ----------------------------- */
 
 function hashString(str: string): number {
   let h = 2166136261;
@@ -119,9 +117,7 @@ function generateSvg(opts: {
   const size = ASPECT_SIZE[opts.aspect] ?? ASPECT_SIZE["1:1"];
   const bgPal = MODEL_PALETTES[opts.model] ?? MODEL_PALETTES.all;
   const fgPal = CATEGORY_PALETTES[opts.category] ?? CATEGORY_PALETTES.all;
-  const rng = mulberry32(
-    hashString([opts.prompt, opts.model, opts.category, opts.aspect, opts.seed, opts.index].join("|")),
-  );
+  const rng = mulberry32(hashString([opts.prompt, opts.model, opts.category, opts.aspect, opts.seed, opts.index].join("|")));
   const { w: W, h: H } = size;
   const blobCount = 6 + Math.floor(rng() * 6);
   let shapes = "";
@@ -201,7 +197,9 @@ function Dropdown({
   );
 }
 
-/* ----------------------------- 主组件（1:1 复刻 mkimage.ai） ----------------------------- */
+/* ----------------------------- 主组件（1:1 复刻 mkimage.ai，已接后端） ----------------------------- */
+
+type Me = { authenticated: boolean; email?: string; displayName?: string; credits?: number };
 
 export function VisionSeedClient() {
   const [prompt, setPrompt] = useState("");
@@ -211,12 +209,23 @@ export function VisionSeedClient() {
   const [sort, setSort] = useState("newest");
   const [images, setImages] = useState<Generated[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [me, setMe] = useState<Me | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const topRef = useRef<HTMLDivElement>(null);
 
   const activeFilters = (model !== "all" ? 1 : 0) + (category !== "all" ? 1 : 0);
 
+  // 拉取登录态与积分
+  useEffect(() => {
+    fetch("/api/vision-seed/me")
+      .then((r) => r.json())
+      .then((d: Me) => setMe(d))
+      .catch(() => {});
+  }, []);
+
+  // 首屏示例画廊（程序化）
   const runGenerate = (
     override: Partial<{ prompt: string; model: string; category: string; aspect: string }> = {},
     withLoading = false,
@@ -227,20 +236,12 @@ export function VisionSeedClient() {
     const aspectV = override.aspect ?? aspect;
     const seed = Math.floor(Math.random() * 1e9);
     const n = 12;
-    // 每张卡片的提示词：有用户输入则统一用该提示词，否则用示例提示词数组（更像 mkimage 的真实画廊）
     const captions = promptV ? Array.from({ length: n }, () => promptV) : EXAMPLE_PROMPTS;
     const generated: Generated[] = Array.from({ length: n }, (_, i) => ({
       id: i,
       prompt: captions[i],
       src: `data:image/svg+xml,${encodeURIComponent(
-        generateSvg({
-          prompt: captions[i],
-          model: modelV,
-          category: categoryV,
-          aspect: aspectV,
-          seed,
-          index: i,
-        }),
+        generateSvg({ prompt: captions[i], model: modelV, category: categoryV, aspect: aspectV, seed, index: i }),
       )}`,
       score: hashString(`${seed}-${i}`) % 100,
     }));
@@ -256,7 +257,6 @@ export function VisionSeedClient() {
     }
   };
 
-  // 首屏即展示一整屏画廊（与 mkimage.ai 首页一致）
   useEffect(() => {
     runGenerate({}, false);
     return () => {
@@ -265,9 +265,44 @@ export function VisionSeedClient() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleGenerate = () => {
-    runGenerate({ prompt }, true);
-    topRef.current?.scrollIntoView({ behavior: "smooth" });
+  // 真正生成：调用后端（落库 + 扣积分）
+  const handleGenerate = async () => {
+    setError("");
+    setLoading(true);
+    try {
+      const res = await fetch("/api/vision-seed/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: prompt.trim(), model, category, aspect }),
+      });
+      if (res.status === 402) {
+        setError("Insufficient credits. Sign in and top up to keep generating.");
+        setLoading(false);
+        return;
+      }
+      if (!res.ok) {
+        setError("Generation failed, please try again later.");
+        setLoading(false);
+        return;
+      }
+      const data = (await res.json()) as { images: string[]; credits?: number };
+      const srcs = data.images ?? [];
+      setImages(
+        srcs.map((src, i) => ({
+          id: Date.now() + i,
+          prompt: prompt.trim() || "AI art",
+          src,
+          score: i,
+        })),
+      );
+      if (typeof data.credits === "number") {
+        setMe((m) => (m ? { ...m, credits: data.credits } : m));
+      }
+    } catch {
+      setError("Network error, please check your connection.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const sorted = useMemo(() => {
@@ -286,9 +321,14 @@ export function VisionSeedClient() {
     a.remove();
   };
 
+  const goLogin = () => {
+    const lang = typeof window !== "undefined" && window.location.pathname.startsWith("/zh") ? "zh" : "en";
+    window.location.href = lang === "zh" ? "/zh/login" : "/login";
+  };
+
   return (
     <div className="flex min-h-screen flex-col bg-white text-slate-900">
-      {/* 顶栏（复刻 mkimage.ai 自带导航） */}
+      {/* 顶栏（复刻 mkimage.ai 自带导航，已接真实登录态） */}
       <header className="sticky top-0 z-40 border-b border-slate-200 bg-white">
         <div className="mx-auto flex h-14 w-full max-w-7xl items-center gap-3 px-4">
           <div className="flex items-center gap-2">
@@ -315,19 +355,45 @@ export function VisionSeedClient() {
           </div>
 
           <div className="ml-auto flex items-center gap-3">
-            <div className="hidden text-right sm:block">
-              <p className="text-xs font-semibold text-slate-700">10 free welcome credits</p>
-              <button className="text-xs text-violet-600 hover:text-violet-700">Sign in to claim credits</button>
-            </div>
-            <button className="rounded-full bg-slate-900 px-4 py-1.5 text-sm font-semibold text-white hover:bg-slate-700">
-              Get started
-            </button>
-            <div className="flex items-center gap-1.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 text-xs font-semibold text-slate-600">
-                G
-              </div>
-              <span className="hidden text-xs text-slate-500 sm:inline">Guest</span>
-            </div>
+            {me?.authenticated ? (
+              <>
+                <span className="hidden text-xs font-semibold text-slate-700 sm:inline">
+                  {me.credits} credits
+                </span>
+                <div className="flex items-center gap-1.5">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 text-xs font-semibold text-slate-600">
+                    {(me.displayName?.[0] ?? "U").toUpperCase()}
+                  </div>
+                  <span className="hidden text-xs text-slate-500 sm:inline">{me.displayName}</span>
+                </div>
+                <form action="/auth/signout" method="post">
+                  <button className="rounded-full border border-slate-200 px-3 py-1.5 text-xs text-slate-600 hover:bg-slate-100">
+                    Sign out
+                  </button>
+                </form>
+              </>
+            ) : (
+              <>
+                <div className="hidden text-right sm:block">
+                  <p className="text-xs font-semibold text-slate-700">10 free welcome credits</p>
+                  <button onClick={goLogin} className="text-xs text-violet-600 hover:text-violet-700">
+                    Sign in to claim credits
+                  </button>
+                </div>
+                <button
+                  onClick={goLogin}
+                  className="rounded-full bg-slate-900 px-4 py-1.5 text-sm font-semibold text-white hover:bg-slate-700"
+                >
+                  Get started
+                </button>
+                <div className="flex items-center gap-1.5">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 text-xs font-semibold text-slate-600">
+                    G
+                  </div>
+                  <span className="hidden text-xs text-slate-500 sm:inline">Guest</span>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -382,6 +448,7 @@ export function VisionSeedClient() {
               </button>
             </div>
           </div>
+          {error && <p className="mt-2 text-center text-sm text-red-500">{error}</p>}
         </div>
       </section>
 

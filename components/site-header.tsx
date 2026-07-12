@@ -17,6 +17,7 @@ export async function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionar
     { label: t.redGenerator, href: localePath(lang, "/tools/red-generator") },
     { label: t.videoDownloader, href: localePath(lang, "/tools/video-downloader") },
     { label: t.pixelBloom, href: localePath(lang, "/tools/pixel-bloom") },
+    { label: t.blog, href: localePath(lang, "/blog") },
     { label: t.about, href: localePath(lang, "/about") },
   ];
 

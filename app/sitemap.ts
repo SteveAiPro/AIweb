@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { categories } from "@/data/categories";
 import { tools } from "@/data/tools";
+import { posts } from "@/data/blog";
 import { SITE_URL } from "@/lib/site-config";
 import { localePath } from "@/lib/i18n/config";
 
@@ -18,6 +19,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/", priority: 1, changeFrequency: "daily" },
     { path: "/about", priority: 0.3, changeFrequency: "monthly" },
     { path: "/privacy", priority: 0.3, changeFrequency: "yearly" },
+    { path: "/blog", priority: 0.6, changeFrequency: "weekly" },
+    ...posts.map(
+      (post): Entry => ({
+        path: `/blog/${post.slug}`,
+        priority: 0.6,
+        changeFrequency: "monthly",
+      }),
+    ),
     ...categories.map(
       (category): Entry => ({
         path: `/category/${category.slug}`,
