@@ -4,8 +4,10 @@ import { notFound } from "next/navigation";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { ToolCard } from "@/components/tool-card";
+import { SlangSearch } from "@/components/slang-search";
 import { categoryMap } from "@/data/categories";
 import { tools } from "@/data/tools";
+import { xianyuSlang } from "@/data/xianyu-slang";
 import { getToolBySlug, getToolsByCategory } from "@/lib/site-data";
 import { OG_IMAGE, SITE_NAME } from "@/lib/site-config";
 import {
@@ -207,6 +209,24 @@ export default async function ToolDetailPage({ params }: ToolDetailPageProps) {
                 </div>
               )}
 
+              {tool.slug === "xianyu-slang" && (
+                <div>
+                  <h2 className="text-xl font-semibold text-slate-950">{t.slangTitle}</h2>
+                  <p className="mt-2 text-sm leading-7 text-slate-500">{t.slangHint}</p>
+                  <div className="mt-4">
+                    <SlangSearch
+                      entries={xianyuSlang}
+                      labels={{
+                        placeholder: t.slangSearchPlaceholder,
+                        count: t.slangCount,
+                        countUnit: t.slangCountUnit,
+                        noResult: t.slangNoResult,
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+
               <div>
                 <h2 className="text-xl font-semibold text-slate-950">{t.useCases}</h2>
                 <div className="mt-4 flex flex-wrap gap-3">
@@ -224,30 +244,6 @@ export default async function ToolDetailPage({ params }: ToolDetailPageProps) {
           </section>
 
           <aside className="space-y-6">
-            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
-              <p className="text-sm font-semibold tracking-[0.2em] text-cyan-700 uppercase">
-                {t.quickActions}
-              </p>
-              <div className="mt-5 space-y-3">
-                <a
-                  href={tool.website}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center justify-center rounded-2xl bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-                >
-                  {t.visitSite}
-                </a>
-                {category ? (
-                  <Link
-                    href={localePath(lang, `/category/${category.slug}`)}
-                    className="flex items-center justify-center rounded-2xl border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
-                  >
-                    {t.sameCategory}
-                  </Link>
-                ) : null}
-              </div>
-            </div>
-
             <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
               <p className="text-sm font-semibold tracking-[0.2em] text-cyan-700 uppercase">
                 {t.related}

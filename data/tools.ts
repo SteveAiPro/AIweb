@@ -24,6 +24,8 @@ export type Tool = {
   features?: LocalizedTags;
   steps?: ToolStep[];
   faqs?: ToolFaq[];
+  // 黑话 / 叫法示例（仅 闲鱼黑话 等词典类工具使用）
+  slangExamples?: { name: string; aliases: string[] }[];
 };
 
 export const tools: Tool[] = [
@@ -183,6 +185,77 @@ export const tools: Tool[] = [
       { q: { zh: "免费积分有多少？", en: "How many free credits?" }, a: { zh: "新用户注册即送 10 积分，每生成一次消耗 1 积分。", en: "New users get 10 free credits; each generation costs 1." } },
       { q: { zh: "需要登录吗？", en: "Do I need to sign in?" }, a: { zh: "浏览画廊无需登录；生成与收藏需要登录。", en: "Browsing the gallery is open; generating and saving require sign-in." } },
       { q: { zh: "图片是真实生成的吗？", en: "Are images really generated?" }, a: { zh: "演示为程序化草图，接入图像模型后输出真实图片。", en: "Demo uses procedural sketches; real images after an image model is connected." } },
+    ],
+  },
+  {
+    slug: "xianyu-slang",
+    name: "闲鱼黑话",
+    summary: {
+      zh: "收录闲鱼等平台的叫法、别名与黑话，用替代词更快找到想要的商品。",
+      en: "A crowdsourced dictionary of Xianyu slang, aliases, and code names to find items faster.",
+    },
+    description: {
+      zh: "闲鱼黑话是一个社区共建的「叫法 / 别名」词典。很多商品在闲鱼、小红书等平台会因关键词被屏蔽而搜不到，用户便给它们起了各种替代叫法。这里把散落各处的黑话汇总起来，输入商品名即可看到大家常用的搜索词与别名，省去自己试错的时间。",
+      en: "Xianyu Slang is a community-built dictionary of aliases and code names. Many products get hidden when keywords are blocked on Xianyu or Xiaohongshu, so users invent alternative names. It gathers those terms so you can type a product and see the search words the community uses.",
+    },
+    longDescription: {
+      zh: "在二手交易平台，同一个东西往往有十几个叫法：有人用型号缩写，有人用谐音，有人用暗号。搜索这类「被屏蔽的商品」（比如某些会员类服务）时，直接搜原名常常空手而归，换个民间叫法反而一搜就有。闲鱼黑话把这些散落在评论区、私聊里的叫法集中收录，并支持登录用户补充新的叫法或别名，经过审核后公开。它本质上是一张「活着的术语表」，而不是静态百科——对买家能更快定位商品，对卖家也能更顺地描述自己的闲置。",
+      en: "On second-hand platforms, one item can carry a dozen names — model abbreviations, homophones, or code words. When searching for 'blocked' items (such as certain membership services), the original name often returns nothing, while a folk name works. Xianyu Slang gathers those names scattered across comments and DMs, and lets logged-in users add new ones (moderated before going public). It's a living glossary, not a static encyclopedia: buyers locate items faster and sellers describe listings more smoothly.",
+    },
+    website: "https://search-sharp.com",
+    category: "productivity",
+    tags: {
+      zh: ["闲鱼", "黑话", "二手交易", "叫法"],
+      en: ["Xianyu", "Slang", "Second-hand", "Alias"],
+    },
+    pricing: "free",
+    isNew: true,
+    score: "9.0",
+    features: {
+      zh: ["社区共建的叫法 / 别名词典", "输入商品名查常见搜索词", "登录后可补充新黑话（需审核）", "覆盖闲鱼、小红书等平台"],
+      en: ["Community-built alias dictionary", "Look up common search terms by product", "Add new slang after login (moderated)", "Covers Xianyu, Xiaohongshu and more"],
+    },
+    steps: [
+      { title: { zh: "搜索商品", en: "Search the product" }, desc: { zh: "输入你想找的商品名，例如「GPT 会员」。", en: "Type the product you want, e.g. 'GPT membership'." } },
+      { title: { zh: "查看叫法", en: "View the names" }, desc: { zh: "页面会列出社区贡献的替代叫法与别名。", en: "The page lists community-contributed aliases and code names." } },
+      { title: { zh: "复制去搜", en: "Copy and search" }, desc: { zh: "挑一个叫法，到闲鱼 / 小红书的搜索框里粘贴即可。", en: "Pick a name and paste it into the Xianyu / Xiaohongshu search box." } },
+    ],
+    faqs: [
+      { q: { zh: "这些黑话是谁写的？", en: "Who writes these slang terms?" }, a: { zh: "由社区用户贡献，提交后需审核通过才会展示。", en: "Contributed by community users and shown only after moderation." } },
+      { q: { zh: "免费吗？", en: "Is it free?" }, a: { zh: "浏览完全免费；补充内容需要登录。", en: "Browsing is free; contributing requires sign-in." } },
+      { q: { zh: "为什么同一个东西有这么多叫法？", en: "Why so many names for one item?" }, a: { zh: "平台会屏蔽部分关键词，用户于是用型号、谐音或暗号来指代同一件商品。", en: "Platforms block some keywords, so users refer to the same item by model, homophone, or code word." } },
+    ],
+    slangExamples: [
+      { name: "微信", aliases: ["绿泡泡", "小而美", "VX", "卫星"] },
+      { name: "gemini pro", aliases: ["哈基米", "美国豆包", "哥迷你", "双子座 pro", "杰米奈"] },
+      { name: "Claude", aliases: ["克劳德", "A畜", "a/", "kyc"] },
+      { name: "GTA", aliases: ["给他爱", "三男一狗", "道德与法治", "那个游戏"] },
+      { name: "X（推特）", aliases: ["推特", "蓝鸟", "黑叉"] },
+      { name: "动物之森", aliases: ["猛男捡树枝", "动森", "大头菜投资"] },
+      { name: "giffgaff", aliases: ["黄色信封", "英伦风明信片", "GG"] },
+      { name: "华为汽车", aliases: ["遥遥领先", "妙妙汽车", "平地崴脚王"] },
+      { name: "Netflix", aliases: ["奈飞", "网飞", "奶飞", "NF"] },
+      { name: "telegram", aliases: ["纸飞机", "tg", "电报", "飞机"] },
+      { name: "chatgpt", aliases: ["5.5满血版", "gpt会员", "codex会员"] },
+      { name: "微软", aliases: ["巨硬", "microslop"] },
+      { name: "茅台", aliases: ["酱香科技", "白水"] },
+      { name: "捷安特", aliases: ["giant", "奸特"] },
+      { name: "hhkb", aliases: ["好好看吧"] },
+      { name: "小红书", aliases: ["小黄书", "集美聚集地"] },
+      { name: "580显卡", aliases: ["战术核显卡"] },
+      { name: "尼康Z5", aliases: ["传奇连拍王"] },
+      { name: "游戏机", aliases: ["红白机", "学习机", "思维驰"] },
+      { name: "3060 显卡", aliases: ["大矿卡", "矿卡"] },
+      { name: "比特币", aliases: ["大饼", "BTC", "U"] },
+      { name: "cs2", aliases: ["go", "csgo"] },
+      { name: "苹果", aliases: ["果子", "水果", "Apple"] },
+      { name: "AMD", aliases: ["农企", "按摩店"] },
+      { name: "夸克会员", aliases: ["垃圾盘"] },
+      { name: "shadowrocket", aliases: ["小火箭", "影子火箭"] },
+      { name: "虚拟货币", aliases: ["大饼", "usdt", "U", "二饼"] },
+      { name: "光遇", aliases: ["sky", "死盖"] },
+      { name: "google play", aliases: ["谷歌商店", "咕噜咕噜"] },
+      { name: "电子烟", aliases: ["雾化器", "电烙铁"] },
     ],
   },
 
