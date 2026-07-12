@@ -224,6 +224,7 @@ export default async function ToolDetailPage({ params }: ToolDetailPageProps) {
                       }}
                     />
                   </div>
+                  <p className="mt-3 text-[10px] leading-4 text-slate-300">{t.slangSource}</p>
                 </div>
               )}
 

@@ -112,6 +112,7 @@ export const en = {
     slangCount: "Indexed",
     slangCountUnit: "products",
     slangNoResult: "No matching entries. Try another keyword.",
+    slangSource: "Some entries referenced from search-sharp.com",
     quickActions: "Quick actions",
     visitSite: "Visit website",
     sameCategory: "See similar tools",

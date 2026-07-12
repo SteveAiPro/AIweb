@@ -107,6 +107,7 @@ export const zh = {
     slangCount: "共收录",
     slangCountUnit: "个商品",
     slangNoResult: "没有找到匹配的词条，换个关键词试试。",
+    slangSource: "部分词条参考自 search-sharp.com",
     quickActions: "Quick actions",
     visitSite: "前往官网",
     sameCategory: "查看同类工具",
