@@ -84,8 +84,8 @@ export function ToolCard({
           </Link>
           <a
             href={tool.website}
-            target="_blank"
-            rel="noreferrer"
+            target={tool.website.includes("gaoqian2580.com") ? "_self" : "_blank"}
+            rel={tool.website.includes("gaoqian2580.com") ? undefined : "noreferrer"}
             className="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
           >
             {t.visit}

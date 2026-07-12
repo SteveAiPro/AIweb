@@ -202,7 +202,7 @@ export const tools: Tool[] = [
       zh: "在二手交易平台，同一个东西往往有十几个叫法：有人用型号缩写，有人用谐音，有人用暗号。搜索这类「被屏蔽的商品」（比如某些会员类服务）时，直接搜原名常常空手而归，换个民间叫法反而一搜就有。闲鱼黑话把这些散落在评论区、私聊里的叫法集中收录，并支持登录用户补充新的叫法或别名，经过审核后公开。它本质上是一张「活着的术语表」，而不是静态百科——对买家能更快定位商品，对卖家也能更顺地描述自己的闲置。",
       en: "On second-hand platforms, one item can carry a dozen names — model abbreviations, homophones, or code words. When searching for 'blocked' items (such as certain membership services), the original name often returns nothing, while a folk name works. Xianyu Slang gathers those names scattered across comments and DMs, and lets logged-in users add new ones (moderated before going public). It's a living glossary, not a static encyclopedia: buyers locate items faster and sellers describe listings more smoothly.",
     },
-    website: "https://search-sharp.com",
+    website: "https://www.gaoqian2580.com/zh/tools/xianyu-slang",
     category: "productivity",
     tags: {
       zh: ["闲鱼", "黑话", "二手交易", "叫法"],
