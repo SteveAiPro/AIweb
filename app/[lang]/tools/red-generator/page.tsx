@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getToolBySlug } from "@/lib/site-data";
-import { OG_IMAGE, SITE_NAME } from "@/lib/site-config";
+import { OG_IMAGE, SITE_NAME, canonicalUrl } from "@/lib/site-config";
 import { JsonLd, softwareApplicationJsonLd } from "@/lib/structured-data";
 import { alternateLanguages, hasLocale, localePath, locales } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -24,7 +24,7 @@ export async function generateMetadata({
     title: dict.meta.redGeneratorTitle,
     description: dict.meta.redGeneratorDescription,
     alternates: {
-      canonical: localePath(lang, "/tools/red-generator"),
+      canonical: canonicalUrl(lang, "/tools/red-generator"),
       languages: alternateLanguages("/tools/red-generator"),
     },
     openGraph: {

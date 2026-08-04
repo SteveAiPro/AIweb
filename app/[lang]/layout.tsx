@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { notFound } from "next/navigation";
 import "../globals.css";
-import { OG_IMAGE, SITE_KEYWORDS, SITE_NAME, SITE_URL } from "@/lib/site-config";
+import { OG_IMAGE, SITE_KEYWORDS, SITE_NAME, SITE_URL, canonicalUrl } from "@/lib/site-config";
 import { JsonLd, organizationJsonLd, websiteJsonLd } from "@/lib/structured-data";
 import {
   alternateLanguages,
@@ -33,7 +33,7 @@ export async function generateMetadata({
     description: dict.meta.siteDescription,
     keywords: SITE_KEYWORDS,
     applicationName: SITE_NAME,
-    alternates: { canonical: localePath(lang, "/"), languages: alternateLanguages("/") },
+    alternates: { canonical: canonicalUrl(lang, "/"), languages: alternateLanguages("/") },
     openGraph: {
       type: "website",
       locale: ogLocale[lang],

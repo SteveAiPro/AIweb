@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getToolBySlug } from "@/lib/site-data";
-import { OG_IMAGE, SITE_NAME } from "@/lib/site-config";
+import { OG_IMAGE, SITE_NAME, canonicalUrl } from "@/lib/site-config";
 import { JsonLd, softwareApplicationJsonLd } from "@/lib/structured-data";
 import { alternateLanguages, hasLocale, localePath, locales } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -24,7 +24,7 @@ export async function generateMetadata({
     title: dict.meta.pixelBloomTitle,
     description: dict.meta.pixelBloomDescription,
     alternates: {
-      canonical: localePath(lang, "/tools/pixel-bloom"),
+      canonical: canonicalUrl(lang, "/tools/pixel-bloom"),
       languages: alternateLanguages("/tools/pixel-bloom"),
     },
     openGraph: {

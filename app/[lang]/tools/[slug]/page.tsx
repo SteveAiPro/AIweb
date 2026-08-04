@@ -9,7 +9,7 @@ import { categoryMap } from "@/data/categories";
 import { tools } from "@/data/tools";
 import { xianyuSlang } from "@/data/xianyu-slang";
 import { getToolBySlug, getToolsByCategory } from "@/lib/site-data";
-import { OG_IMAGE, SITE_NAME } from "@/lib/site-config";
+import { OG_IMAGE, SITE_NAME, canonicalUrl } from "@/lib/site-config";
 import {
   JsonLd,
   breadcrumbJsonLd,
@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: ToolDetailPageProps): Promise
     title: tool.name,
     description: tool.summary[lang],
     alternates: {
-      canonical: localePath(lang, `/tools/${tool.slug}`),
+      canonical: canonicalUrl(lang, `/tools/${tool.slug}`),
       languages: alternateLanguages(`/tools/${tool.slug}`),
     },
     openGraph: {

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getToolBySlug } from "@/lib/site-data";
-import { OG_IMAGE, SITE_NAME } from "@/lib/site-config";
+import { OG_IMAGE, SITE_NAME, canonicalUrl } from "@/lib/site-config";
 import { JsonLd, softwareApplicationJsonLd } from "@/lib/structured-data";
 import { alternateLanguages, hasLocale, localePath, locales } from "@/lib/i18n/config";
 import { VisionSeedClient } from "./vision-seed-client";
@@ -23,7 +23,7 @@ export async function generateMetadata({
     title: "MkImage - Make Any Images Possible",
     description: "Make Any Images Possible. Generate AI images from a text prompt and browse the AI image prompt gallery.",
     alternates: {
-      canonical: localePath(lang, path),
+      canonical: canonicalUrl(lang, path),
       languages: alternateLanguages(path),
     },
     openGraph: {

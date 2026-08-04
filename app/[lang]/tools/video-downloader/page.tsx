@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { getToolBySlug } from "@/lib/site-data";
-import { OG_IMAGE, SITE_NAME } from "@/lib/site-config";
+import { OG_IMAGE, SITE_NAME, canonicalUrl } from "@/lib/site-config";
 import { JsonLd, faqPageJsonLd, softwareApplicationJsonLd } from "@/lib/structured-data";
 import { alternateLanguages, hasLocale, localePath, locales } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -26,7 +26,7 @@ export async function generateMetadata({
     title: dict.meta.videoDownloaderTitle,
     description: dict.meta.videoDownloaderDescription,
     alternates: {
-      canonical: localePath(lang, "/tools/video-downloader"),
+      canonical: canonicalUrl(lang, "/tools/video-downloader"),
       languages: alternateLanguages("/tools/video-downloader"),
     },
     openGraph: {

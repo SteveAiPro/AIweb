@@ -3,14 +3,14 @@ export const en = {
     siteName: "AI Navigator",
     siteTitle: "AI Navigator | Original AI Tools Directory",
     siteDescription:
-      "An original AI tools directory that helps you discover AI products worth trying by category, tag, and use case.",
-    homeTitle: "AI Navigator | Discover the AI Tools for Your Workflow",
-    aboutTitle: "About",
+      "Original AI tools directory — discover, compare, and start using the best AI products for chat, design, video, coding, and productivity. Curated by creators who test every tool.",
+    homeTitle: "AI Navigator — Curated AI Tools Directory: Find, Compare & Start Using",
+    aboutTitle: "About AI Navigator — How We Test & Curate AI Tools",
     aboutDescription:
-      "Learn about AI Navigator's mission, how we curate AI tools, and our notes on external links and trademarks.",
-    privacyTitle: "Privacy Policy",
+      "Behind our AI tool directory: hands-on review standards, curation principles, and the team that tests every tool before recommending it. No paid placements.",
+    privacyTitle: "Privacy Policy — How AI Navigator Handles Your Data",
     privacyDescription:
-      "AI Navigator's privacy policy: how we handle access data, cookies, and the third-party AI processing used by the Xiaohongshu generator.",
+      "Plain-English privacy policy: what data we collect (logs, login email), how cookies work, and how third-party AI processes your generator inputs. No hidden tracking.",
     redGeneratorTitle: "Xiaohongshu Post Generator",
     redGeneratorDescription:
       "Enter a topic to generate a complete Xiaohongshu post plan — cover design, headlines, KOC-style body copy, and topic tags. Built for creators and operations teams.",

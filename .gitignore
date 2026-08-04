@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# GSC OAuth token (sensitive, generated locally)
+data/gsc-token.json
+credentials.json

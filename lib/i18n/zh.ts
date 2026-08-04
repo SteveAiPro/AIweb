@@ -5,13 +5,14 @@ export const zh = {
     siteName: "AI Navigator",
     siteTitle: "AI Navigator | 原创 AI 工具导航",
     siteDescription:
-      "一个原创的 AI 工具目录站，帮助你按分类、标签和场景快速发现值得尝试的 AI 产品。",
-    homeTitle: "AI Navigator | 原创 AI 工具导航",
-    aboutTitle: "关于本站",
-    aboutDescription: "了解 AI Navigator 的定位、AI 工具收录原则，以及外链与商标说明。",
-    privacyTitle: "隐私政策",
+      "原创 AI 工具导航目录 — 发现、对比、上手使用最好的 AI 产品，涵盖聊天、设计、视频、编程和效率工具。每个工具都经过实测才推荐。",
+    homeTitle: "AI Navigator — 精选 AI 工具导航 | 发现、对比、上手使用",
+    aboutTitle: "关于 AI Navigator — 我们如何实测和筛选 AI 工具",
+    aboutDescription:
+      "了解我们的 AI 工具收录标准、实测流程和背后的编辑团队。每个工具都经过实际使用才会推荐，不收上首页费用。",
+    privacyTitle: "隐私政策 — AI Navigator 如何处理你的数据",
     privacyDescription:
-      "AI Navigator 的隐私政策：我们如何处理访问数据、Cookie，以及小红书生成器涉及的第三方 AI 数据处理。",
+      "通俗易懂的隐私说明：我们收集哪些数据（访问日志、登录邮箱）、Cookie 怎么用、第三方 AI 如何处理你的生成器输入。没有隐藏追踪。",
     redGeneratorTitle: "小红书爆款生成器",
     redGeneratorDescription:
       "输入主题即可生成小红书爆款图文方案，包含封面设计、爆款标题、KOC 风格正文和话题标签，适合内容创作者和运营团队快速产出种草文案。",

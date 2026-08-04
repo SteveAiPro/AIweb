@@ -5,7 +5,7 @@ import { SiteHeader } from "@/components/site-header";
 import { ToolCard } from "@/components/tool-card";
 import { categories } from "@/data/categories";
 import { getCategoryBySlug, getToolsByCategory } from "@/lib/site-data";
-import { OG_IMAGE, SITE_NAME } from "@/lib/site-config";
+import { OG_IMAGE, SITE_NAME, canonicalUrl } from "@/lib/site-config";
 import { JsonLd, breadcrumbJsonLd, collectionPageJsonLd } from "@/lib/structured-data";
 import { alternateLanguages, hasLocale, localePath, locales } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     title: category.name[lang],
     description: category.description[lang],
     alternates: {
-      canonical: localePath(lang, `/category/${category.slug}`),
+      canonical: canonicalUrl(lang, `/category/${category.slug}`),
       languages: alternateLanguages(`/category/${category.slug}`),
     },
     openGraph: {

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { OG_IMAGE, SITE_NAME } from "@/lib/site-config";
+import { OG_IMAGE, SITE_NAME, canonicalUrl } from "@/lib/site-config";
 import { alternateLanguages, hasLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { createClient } from "@/lib/supabase/server";
@@ -22,7 +22,7 @@ export async function generateMetadata({
   return {
     title: dict.auth.loginTitle,
     description: dict.auth.loginDescription,
-    alternates: { canonical: localePath(lang, "/login"), languages: alternateLanguages("/login") },
+    alternates: { canonical: canonicalUrl(lang, "/login"), languages: alternateLanguages("/login") },
     openGraph: {
       title: `${dict.auth.loginTitle} | ${SITE_NAME}`,
       description: dict.auth.loginDescription,

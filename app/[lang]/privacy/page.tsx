@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { CONTACT_EMAIL, OG_IMAGE, SITE_NAME } from "@/lib/site-config";
+import { CONTACT_EMAIL, OG_IMAGE, SITE_NAME, canonicalUrl } from "@/lib/site-config";
 import { JsonLd, breadcrumbJsonLd } from "@/lib/structured-data";
 import { alternateLanguages, hasLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -20,7 +20,7 @@ export async function generateMetadata({
   return {
     title: dict.meta.privacyTitle,
     description: dict.meta.privacyDescription,
-    alternates: { canonical: localePath(lang, "/privacy"), languages: alternateLanguages("/privacy") },
+    alternates: { canonical: canonicalUrl(lang, "/privacy"), languages: alternateLanguages("/privacy") },
     openGraph: {
       title: `${dict.meta.privacyTitle} | ${SITE_NAME}`,
       description: dict.meta.privacyDescription,

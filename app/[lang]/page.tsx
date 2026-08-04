@@ -10,7 +10,7 @@ import { ToolSection } from "@/components/tool-section";
 import { categories } from "@/data/categories";
 import { featuredTools, newTools, popularTools, tools } from "@/data/tools";
 import { getToolsByCategory } from "@/lib/site-data";
-import { OG_IMAGE } from "@/lib/site-config";
+import { OG_IMAGE, canonicalUrl } from "@/lib/site-config";
 import { alternateLanguages, hasLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
@@ -26,7 +26,7 @@ export async function generateMetadata({
   return {
     title: { absolute: dict.meta.homeTitle },
     description: dict.meta.siteDescription,
-    alternates: { canonical: localePath(lang, "/"), languages: alternateLanguages("/") },
+    alternates: { canonical: canonicalUrl(lang, "/"), languages: alternateLanguages("/") },
     openGraph: {
       title: dict.meta.homeTitle,
       description: dict.meta.siteDescription,

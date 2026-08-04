@@ -13,7 +13,9 @@ type Entry = {
 
 // 基于真实数据生成全量、多语言（en 无前缀 + zh /zh）sitemap，并标注 hreflang。
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+  // 用过去一天的开头作为 lastmod，避免所有 52 个 URL 时间戳完全一致触发 GSC warning。
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
 
   const entries: Entry[] = [
     { path: "/", priority: 1, changeFrequency: "daily" },
@@ -49,7 +51,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     return (["en", "zh"] as const).map((lang) => ({
       url: lang === "en" ? enUrl : zhUrl,
-      lastModified: now,
+      lastModified: today,
       changeFrequency,
       priority,
       alternates: {
