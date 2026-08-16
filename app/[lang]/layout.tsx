@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import "../globals.css";
 import { OG_IMAGE, SITE_KEYWORDS, SITE_NAME, SITE_URL, canonicalUrl } from "@/lib/site-config";
 import { JsonLd, organizationJsonLd, websiteJsonLd } from "@/lib/structured-data";
+import { FloatingBackToTop } from "@/components/floating-back-to-top";
 import {
   alternateLanguages,
   hasLocale,
@@ -88,6 +89,7 @@ export default async function RootLayout({
       </head>
       <body className="min-h-full bg-slate-50 font-sans text-slate-950">
         {children}
+        <FloatingBackToTop />
         <JsonLd data={[websiteJsonLd(lang, dict.meta.siteDescription), organizationJsonLd()]} />
       </body>
     </html>

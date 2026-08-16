@@ -66,7 +66,7 @@ export function SearchDirectory({ tools, categories, lang, dict }: SearchDirecto
             className={cn(
               "rounded-full border px-4 py-2 text-sm font-medium transition",
               activeCategory === "all"
-                ? "border-slate-950 bg-slate-950 text-white"
+                ? "border-cyan-500 bg-cyan-500 text-white"
                 : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50",
             )}
           >

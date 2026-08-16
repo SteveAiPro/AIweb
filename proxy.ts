@@ -7,7 +7,7 @@ const APEX_HOST = "gaoqian2580.com";
 
 // Next 16 的中间件（原 middleware）：
 // 0) 生产环境裸域 → www（与 CDN 规则一致，保证 canonical 主机唯一）
-// 1) 处理 i18n 路由（英文默认无前缀，中文 /zh；/en 永久重定向到无前缀）
+// 1) 处理 i18n 路由（中文默认无前缀，英文 /en；/zh 永久重定向到无前缀）
 // 2) 在路由解析前刷新 Supabase 会话 cookie
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -32,15 +32,18 @@ export async function proxy(request: NextRequest) {
   // ---------- i18n 重写/重定向 ----------
   let response: NextResponse;
 
-  if (pathname === "/en" || pathname.startsWith("/en/")) {
+  if (pathname === "/zh" || pathname.startsWith("/zh/")) {
+    // zh 为默认语言，无前缀；显式 /zh 永久重定向到裸路径，避免重复内容
     const url = request.nextUrl.clone();
-    url.pathname = pathname.replace(/^\/en/, "") || "/";
+    url.pathname = pathname.replace(/^\/zh/, "") || "/";
     response = NextResponse.redirect(url, 308);
-  } else if (pathname === "/zh" || pathname.startsWith("/zh/")) {
+  } else if (pathname === "/en" || pathname.startsWith("/en/")) {
+    // en 为非默认语言，带 /en 前缀，直接放行
     response = NextResponse.next();
   } else {
+    // 裸路径默认按 zh 重写
     const url = request.nextUrl.clone();
-    url.pathname = `/en${pathname === "/" ? "" : pathname}`;
+    url.pathname = `/zh${pathname === "/" ? "" : pathname}`;
     response = NextResponse.rewrite(url);
   }
 

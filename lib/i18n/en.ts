@@ -28,11 +28,9 @@ export const en = {
     categories: "Categories",
     featured: "Featured",
     latest: "New",
-    redGenerator: "Xiaohongshu Generator",
     about: "About",
-    videoDownloader: "Video Downloader",
-    pixelBloom: "Pixel Bloom",
     blog: "Blog",
+    whitebg: "WhiteBG",
     explore: "Explore now",
   },
   hero: {
@@ -68,6 +66,7 @@ export const en = {
     resultsSuffix: " results found",
     clearFilters: "Clear filters",
     noResults: "No tools matched. Try a broader keyword or switch categories.",
+    backToTop: "Back to top",
   },
   sections: {
     featured: {
@@ -87,6 +86,11 @@ export const en = {
       title: "Latest",
       description:
         "For teams that like to explore early and watch which capabilities are becoming truly useful.",
+    },
+    categories: {
+      eyebrow: "Browse by category",
+      title: "All categories",
+      description: "AI tools grouped by scenario and use case. Open any category to see every tool listed in that direction.",
     },
   },
   categoryShelf: { eyebrow: "Category shelf", toolsCount: "Tools", viewAll: "View all" },

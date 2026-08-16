@@ -106,7 +106,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
         <div className="mt-12 flex flex-wrap gap-4">
           <Link
             href={localePath(lang, "/")}
-            className="rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+            className="rounded-full bg-cyan-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-cyan-500/25 transition hover:bg-cyan-600"
           >
             {t.backHome}
           </Link>

@@ -14,11 +14,9 @@ export async function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionar
     { label: t.categories, href: `${home}#directory` },
     { label: t.featured, href: `${home}#featured` },
     { label: t.latest, href: `${home}#new` },
-    { label: t.redGenerator, href: localePath(lang, "/tools/red-generator") },
-    { label: t.videoDownloader, href: localePath(lang, "/tools/video-downloader") },
-    { label: t.pixelBloom, href: localePath(lang, "/tools/pixel-bloom") },
     { label: t.blog, href: localePath(lang, "/blog") },
     { label: t.about, href: localePath(lang, "/about") },
+    { label: t.whitebg, href: "https://whitebg.app/", external: true },
   ];
 
   // Supabase 未配置时安全降级：不显示登录入口
@@ -47,30 +45,42 @@ export async function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionar
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/85 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link href={home} className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-linear-to-br from-cyan-400 to-blue-600 text-lg font-bold text-white shadow-lg shadow-cyan-500/20">
             AI
           </div>
           <div>
-            <p className="text-sm font-semibold tracking-[0.28em] text-cyan-300 uppercase">
+            <p className="text-sm font-semibold tracking-[0.28em] text-cyan-700 uppercase">
               {t.brand}
             </p>
-            <p className="text-sm text-slate-300">{t.tagline}</p>
+            <p className="text-sm text-slate-500">{t.tagline}</p>
           </div>
         </Link>
 
         <nav className="hidden items-center gap-7 lg:flex">
-          {navItems.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className="text-sm font-medium text-slate-300 transition hover:text-white"
-            >
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) =>
+            item.external ? (
+              <a
+                key={item.label}
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+                className="text-sm font-medium text-slate-600 transition hover:text-slate-950"
+              >
+                {item.label}
+              </a>
+            ) : (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="text-sm font-medium text-slate-600 transition hover:text-slate-950"
+              >
+                {item.label}
+              </Link>
+            )
+          )}
         </nav>
 
         <div className="flex items-center gap-3">
@@ -79,7 +89,7 @@ export async function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionar
             <div className="hidden items-center gap-3 sm:flex">
               <Link
                 href={localePath(lang, "/account")}
-                className="max-w-[10rem] truncate text-sm text-slate-300 transition hover:text-white"
+                className="max-w-[10rem] truncate text-sm text-slate-600 transition hover:text-slate-950"
                 title={userName}
               >
                 {userName}
@@ -88,7 +98,7 @@ export async function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionar
                 <input type="hidden" name="next" value={home} />
                 <button
                   type="submit"
-                  className="rounded-full border border-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-200 transition hover:border-slate-500 hover:bg-white/5"
+                  className="rounded-full border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:border-slate-400 hover:bg-slate-50"
                 >
                   {a.signOut}
                 </button>
@@ -97,7 +107,7 @@ export async function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionar
           ) : (
             <Link
               href={localePath(lang, "/login")}
-              className="hidden rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-200 transition hover:border-cyan-300 hover:bg-cyan-400/20 sm:inline-flex"
+              className="hidden rounded-full border border-cyan-500 bg-cyan-50 px-4 py-2 text-sm font-semibold text-cyan-700 transition hover:bg-cyan-100 sm:inline-flex"
             >
               {a.signIn}
             </Link>

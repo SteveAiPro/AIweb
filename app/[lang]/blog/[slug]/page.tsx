@@ -93,6 +93,8 @@ export default async function BlogPostPage({
     headline: post.title[lang],
     description: post.excerpt[lang],
     datePublished: post.date,
+    dateModified: post.date,
+    inLanguage: lang,
     author: { "@type": "Organization", name: post.author },
     publisher: { "@type": "Organization", name: SITE_NAME },
     mainEntityOfPage: absoluteUrl(localePath(lang, `/blog/${post.slug}`)),

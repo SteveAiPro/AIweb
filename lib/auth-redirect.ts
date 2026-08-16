@@ -12,11 +12,12 @@ export function getSafeAuthNext(value: string | null | undefined, lang?: Locale)
   if (!next.startsWith("/") || next.startsWith("//")) return fallback;
   if (next.startsWith("/auth/") || next === "/auth") return fallback;
   if (next === "/login" || next.startsWith("/login?")) return fallback;
-  if (next === "/zh/login" || next.startsWith("/zh/login?")) return fallback;
+  if (next === "/en/login" || next.startsWith("/en/login?")) return fallback;
 
   return next;
 }
 
 export function getLoginPathForNext(next: string) {
-  return next === "/zh" || next.startsWith("/zh/") ? "/zh/login" : "/login";
+  const isEn = next === "/en" || next.startsWith("/en/");
+  return isEn ? "/en/login" : "/login";
 }

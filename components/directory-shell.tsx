@@ -1,6 +1,7 @@
 import { Category } from "@/data/categories";
 import { Locale } from "@/lib/i18n/config";
 import { Dictionary } from "@/lib/i18n/dictionaries";
+import { BackToTop } from "@/components/back-to-top";
 
 type DirectoryShellProps = {
   categories: Category[];
@@ -15,7 +16,7 @@ export function DirectoryShell({ categories, lang, dict, children }: DirectorySh
   return (
     <section id="directory" className="mx-auto flex w-full max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:px-8">
       <aside className="hidden w-72 shrink-0 xl:block">
-        <div className="sticky top-24 space-y-6">
+        <div className="sticky top-24 max-h-[calc(100vh-7rem)] space-y-6 overflow-y-auto pb-2">
           <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm font-semibold tracking-[0.18em] text-cyan-700 uppercase">
               {t.quickIndex}
@@ -36,13 +37,15 @@ export function DirectoryShell({ categories, lang, dict, children }: DirectorySh
                 </a>
               ))}
             </div>
+
+            <BackToTop label={t.backToTop} />
           </div>
 
-          <div className="rounded-[1.75rem] border border-slate-200 bg-slate-950 p-5 text-white shadow-lg shadow-slate-900/10">
-            <p className="text-sm font-semibold tracking-[0.18em] text-cyan-300 uppercase">
+          <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-lg shadow-slate-900/5">
+            <p className="text-sm font-semibold tracking-[0.18em] text-cyan-700 uppercase">
               {t.browseTips}
             </p>
-            <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-300">
+            <ul className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
               {t.tips.map((tip) => (
                 <li key={tip}>{tip}</li>
               ))}

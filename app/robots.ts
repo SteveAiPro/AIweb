@@ -10,10 +10,11 @@ export default function robots(): MetadataRoute.Robots {
         "/api/",
         "/auth/",
         // 登录/账户页已 noindex；再 disallow 减少无效抓取
+        // zh 为默认语言（无前缀），en 带 /en 前缀
         "/login",
-        "/zh/login",
+        "/en/login",
         "/account",
-        "/zh/account",
+        "/en/account",
       ],
     },
     sitemap: absoluteUrl("/sitemap.xml"),

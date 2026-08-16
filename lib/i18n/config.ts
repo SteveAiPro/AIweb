@@ -1,6 +1,6 @@
 export const locales = ["en", "zh"] as const;
 export type Locale = (typeof locales)[number];
-export const defaultLocale: Locale = "en";
+export const defaultLocale: Locale = "zh";
 
 // html lang 属性值（注意 zh 用 BCP47 的 zh-CN）
 export const htmlLang: Record<Locale, string> = {
@@ -18,7 +18,7 @@ export function hasLocale(value: string): value is Locale {
   return (locales as readonly string[]).includes(value);
 }
 
-// 默认 locale(en) 无前缀；zh 加 /zh 前缀
+// 默认 locale(zh) 无前缀；en 加 /en 前缀
 export function localePath(lang: Locale, path = "/"): string {
   const clean = path === "/" ? "" : path.startsWith("/") ? path : `/${path}`;
   if (lang === defaultLocale) return clean || "/";
@@ -30,6 +30,6 @@ export function alternateLanguages(path = "/"): Record<string, string> {
   return {
     en: localePath("en", path),
     "zh-CN": localePath("zh", path),
-    "x-default": localePath("en", path),
+    "x-default": localePath("zh", path),
   };
 }

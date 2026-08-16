@@ -11,7 +11,8 @@ type Entry = {
   changeFrequency: "daily" | "weekly" | "monthly" | "yearly";
 };
 
-// 基于真实数据生成全量、多语言（en 无前缀 + zh /zh）sitemap，并标注 hreflang。
+// 基于真实数据生成全量、多语言（zh 默认无前缀 + en /en 前缀）sitemap，并标注 hreflang。
+// x-default 指向默认语言 zh。
 export default function sitemap(): MetadataRoute.Sitemap {
   // 用过去一天的开头作为 lastmod，避免所有 52 个 URL 时间戳完全一致触发 GSC warning。
   const today = new Date();
@@ -58,7 +59,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           en: enUrl,
           "zh-CN": zhUrl,
-          "x-default": enUrl,
+          "x-default": zhUrl,
         },
       },
     }));

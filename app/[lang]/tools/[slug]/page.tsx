@@ -114,7 +114,7 @@ export default async function ToolDetailPage({ params }: ToolDetailPageProps) {
 
             <div className="mt-8 flex flex-col gap-6 border-b border-slate-100 pb-8">
               <div className="flex items-center gap-4">
-                <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-slate-900 text-3xl text-white">
+                <div className={`flex h-16 w-16 items-center justify-center rounded-3xl bg-linear-to-br ${category?.accent ?? "from-slate-400 to-slate-600"} text-3xl text-white`}>
                   {category?.icon ?? "✨"}
                 </div>
                 <div>
@@ -130,7 +130,7 @@ export default async function ToolDetailPage({ params }: ToolDetailPageProps) {
               <p className="max-w-3xl text-base leading-8 text-slate-600">{tool.summary[lang]}</p>
 
               <div className="flex flex-wrap gap-3">
-                <span className="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white">
+                <span className="rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700">
                   {t.score} {tool.score}
                 </span>
                 <span className="rounded-full border border-slate-200 px-4 py-2 text-sm text-slate-700">
@@ -182,7 +182,7 @@ export default async function ToolDetailPage({ params }: ToolDetailPageProps) {
                   <ol className="mt-4 space-y-4">
                     {tool.steps.map((step, i) => (
                       <li key={i} className="flex items-start gap-4">
-                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-950 text-sm font-semibold text-white">
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-100 text-sm font-semibold text-cyan-800">
                           {i + 1}
                         </span>
                         <div>

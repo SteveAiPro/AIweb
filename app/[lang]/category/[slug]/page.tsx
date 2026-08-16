@@ -72,28 +72,28 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       />
       <SiteHeader lang={lang} dict={dict} />
       <main className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-slate-900 text-white shadow-2xl shadow-slate-900/10">
+        <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-xl shadow-slate-900/5">
           <div className={`bg-linear-to-r ${category.accent} p-[1px]`}>
-            <div className="rounded-[calc(2rem-1px)] bg-slate-900/96 px-8 py-10">
+            <div className="rounded-[calc(2rem-1px)] bg-white px-8 py-10">
               <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                 <div className="max-w-3xl space-y-4">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-white/10 text-3xl backdrop-blur">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-slate-100 text-3xl">
                     {category.icon}
                   </div>
                   <div>
-                    <p className="text-sm font-semibold tracking-[0.2em] text-cyan-200 uppercase">
+                    <p className="text-sm font-semibold tracking-[0.2em] text-cyan-700 uppercase">
                       {t.eyebrow}
                     </p>
-                    <h1 className="mt-3 text-4xl font-semibold tracking-tight">
+                    <h1 className="mt-3 text-4xl font-semibold tracking-tight text-slate-950">
                       {category.name[lang]}
                     </h1>
                   </div>
-                  <p className="max-w-2xl text-base leading-8 text-slate-300">
+                  <p className="max-w-2xl text-base leading-8 text-slate-600">
                     {category.description[lang]}
                   </p>
                 </div>
-                <div className="rounded-3xl border border-white/10 bg-white/5 px-6 py-5 text-sm text-slate-300 backdrop-blur">
-                  <p className="text-3xl font-semibold text-white">{categoryTools.length}</p>
+                <div className="rounded-3xl border border-slate-200 bg-slate-50 px-6 py-5 text-sm text-slate-600">
+                  <p className="text-3xl font-semibold text-slate-950">{categoryTools.length}</p>
                   <p className="mt-2">{t.toolsCountLabel}</p>
                 </div>
               </div>

@@ -322,8 +322,9 @@ export function VisionSeedClient() {
   };
 
   const goLogin = () => {
-    const lang = typeof window !== "undefined" && window.location.pathname.startsWith("/zh") ? "zh" : "en";
-    window.location.href = lang === "zh" ? "/zh/login" : "/login";
+    const pathname = typeof window !== "undefined" ? window.location.pathname : "/";
+    const isEn = pathname === "/en" || pathname.startsWith("/en/");
+    window.location.href = isEn ? "/en/login" : "/login";
   };
 
   return (

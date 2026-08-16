@@ -30,11 +30,9 @@ export const zh = {
     categories: "热门分类",
     featured: "精选工具",
     latest: "最新上架",
-    redGenerator: "小红书生成器",
     about: "关于",
-    videoDownloader: "视频下载",
-    pixelBloom: "Pixel Bloom",
     blog: "博客",
+    whitebg: "WhiteBG",
     explore: "立即探索",
   },
   hero: {
@@ -66,6 +64,7 @@ export const zh = {
     resultsSuffix: " 个结果",
     clearFilters: "清空筛选",
     noResults: "没有找到符合条件的工具，试试更宽泛的关键词或切换其他分类。",
+    backToTop: "回到顶部",
   },
   sections: {
     featured: {
@@ -83,6 +82,11 @@ export const zh = {
       eyebrow: "New arrivals",
       title: "最新上架",
       description: "适合喜欢尝鲜的团队快速关注新产品方向，观察哪些能力正在变得更实用。",
+    },
+    categories: {
+      eyebrow: "Browse by category",
+      title: "全部分类",
+      description: "按场景与用途归类的 AI 工具分类，点击任意分类即可查看该方向下的全部收录工具。",
     },
   },
   categoryShelf: { eyebrow: "Category shelf", toolsCount: "收录工具", viewAll: "查看全部" },

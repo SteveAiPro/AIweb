@@ -1,0 +1,50 @@
+# AI Navigator — AI 工具导航站
+
+> AI Navigator 是一个面向中文与海外独立开发者的 AI 工具导航站，按场景分类收录绘画、视频、编程、音频、效率等 200+ 工具，并提供原创评测与教程。所有工具描述均为原创撰写，非逐字搬运。
+
+## 核心入口
+- [首页](https://www.gaoqian2580.com/): 全站入口，含分类速览与精选工具
+- [关于](https://www.gaoqian2580.com/about): 站点理念与评测标准
+- [隐私政策](https://www.gaoqian2580.com/privacy): 数据处理说明
+- [站点地图](https://www.gaoqian2580.com/sitemap.xml): 全量 URL 索引
+
+## 分类导航（部分）
+- [需求挖掘](https://www.gaoqian2580.com/category/demand)
+- [AI 图片生成与编辑](https://www.gaoqian2580.com/category/ai-image)
+- [图片处理](https://www.gaoqian2580.com/category/image-tools)
+- [AI 视频生成与创作](https://www.gaoqian2580.com/category/ai-video)
+- [AI 音乐与音频](https://www.gaoqian2580.com/category/ai-audio)
+- [AI 编程工具](https://www.gaoqian2580.com/category/ai-coding)
+- [浏览器插件](https://www.gaoqian2580.com/category/browser-ext)
+- [提示词专栏](https://www.gaoqian2580.com/category/prompts)
+- [SEO 优化](https://www.gaoqian2580.com/category/seo)
+- [支付接入](https://www.gaoqian2580.com/category/payment)
+- [新手专区](https://www.gaoqian2580.com/category/beginner)
+- [独立开发 / 出海](https://www.gaoqian2580.com/category/beginner)
+
+## 精选工具
+- [ChatGPT](https://www.gaoqian2580.com/tools/chatgpt)
+- [Claude](https://www.gaoqian2580.com/tools/claude)
+- [Midjourney](https://www.gaoqian2580.com/tools/midjourney)
+- [Canva](https://www.gaoqian2580.com/tools/canva)
+- [WhiteBG 白底图工具](https://www.gaoqian2580.com/tools/whitebg)
+
+## 博客（原创教程与评测）
+- [小红书爆款标题的 10 个 AI 生成技巧](https://www.gaoqian2580.com/blog/xiaohongshu-viral-titles)
+- [抖音创作者必备：如何合法下载自己的无水印素材](https://www.gaoqian2580.com/blog/douyin-watermark-download-guide)
+- [AI 图像生成工具横评：像素灵感 vs 主流工具](https://www.gaoqian2580.com/blog/ai-image-tools-compared)
+- [AI 写作工具怎么选：从大纲到成稿的完整流程](https://www.gaoqian2580.com/blog/ai-writing-tools-guide)
+- [ChatGPT vs Claude：2026 年写作与编程实测对比](https://www.gaoqian2580.com/blog/chatgpt-vs-claude-2026)
+- [做短视频必备的 6 个 AI 工具](https://www.gaoqian2580.com/blog/short-video-ai-tools)
+- [独立开发者如何用 AI 工具把点子做成产品](https://www.gaoqian2580.com/blog/indie-dev-ai-toolkit)
+- [AI 抠图与去水印工具横评：白底图、电商上架这样选](https://www.gaoqian2580.com/blog/ai-background-remover-compared)
+- [提示词工程的 8 个实用技巧：让 AI 更听你的话](https://www.gaoqian2580.com/blog/prompt-engineering-tips)
+- [AI 工具出海：独立开发者如何做英文内容与 SEO](https://www.gaoqian2580.com/blog/indie-ai-seo-guide)
+
+## 自研工具
+- [小红书爆款生成器](https://www.gaoqian2580.com/tools/red-generator)
+- [抖音视频下载器](https://www.gaoqian2580.com/tools/video-downloader)
+- [Pixel Bloom AI 灵感图像](https://www.gaoqian2580.com/tools/pixel-bloom)
+- [WhiteBG（独立站点）](https://whitebg.app/)
+
+> 英文版在路径前加 /en 前缀，例如 https://www.gaoqian2580.com/en/ 。本站默认语言为中文，x-default 指向中文页面。

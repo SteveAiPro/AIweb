@@ -6,9 +6,10 @@ import { HeroSection } from "@/components/hero-section";
 import { SearchDirectory } from "@/components/search-directory";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { CategoryGridSection } from "@/components/category-grid-section";
 import { ToolSection } from "@/components/tool-section";
 import { categories } from "@/data/categories";
-import { featuredTools, newTools, popularTools, tools } from "@/data/tools";
+import { tools, featuredTools } from "@/data/tools";
 import { getToolsByCategory } from "@/lib/site-data";
 import { OG_IMAGE, canonicalUrl } from "@/lib/site-config";
 import { alternateLanguages, hasLocale, localePath } from "@/lib/i18n/config";
@@ -41,6 +42,11 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
   if (!hasLocale(lang)) notFound();
   const dict = getDictionary(lang);
 
+  // 仅保留有工具的分类，供首页分类网格展示（避免空货架）
+  const categoriesWithTools = categories
+    .map((category) => ({ category, count: getToolsByCategory(category.slug).length }))
+    .filter((item) => item.count > 0);
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950">
       <SiteHeader lang={lang} dict={dict} />
@@ -52,6 +58,8 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         />
 
         <DirectoryShell categories={categories} lang={lang} dict={dict}>
+          <CategoryGridSection items={categoriesWithTools} lang={lang} dict={dict} />
+
           <ToolSection
             id="featured"
             eyebrow={dict.sections.featured.eyebrow}
@@ -64,16 +72,6 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
 
           <SearchDirectory tools={tools} categories={categories} lang={lang} dict={dict} />
 
-          <ToolSection
-            id="popular"
-            eyebrow={dict.sections.popular.eyebrow}
-            title={dict.sections.popular.title}
-            description={dict.sections.popular.description}
-            tools={popularTools}
-            lang={lang}
-            dict={dict}
-          />
-
           {categories.map((category) => (
             <CategoryDirectorySection
               key={category.slug}
@@ -83,16 +81,6 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
               dict={dict}
             />
           ))}
-
-          <ToolSection
-            id="new"
-            eyebrow={dict.sections.latest.eyebrow}
-            title={dict.sections.latest.title}
-            description={dict.sections.latest.description}
-            tools={newTools}
-            lang={lang}
-            dict={dict}
-          />
         </DirectoryShell>
       </main>
       <SiteFooter lang={lang} dict={dict} />
