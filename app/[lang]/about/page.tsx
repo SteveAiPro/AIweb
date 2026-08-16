@@ -5,7 +5,8 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { CONTACT_EMAIL, OG_IMAGE, SITE_NAME, absoluteUrl, canonicalUrl } from "@/lib/site-config";
 import { JsonLd, breadcrumbJsonLd } from "@/lib/structured-data";
-import { alternateLanguages, hasLocale, localePath } from "@/lib/i18n/config";
+import { HreflangTags } from "@/components/hreflang-tags";
+import { hasLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
 export async function generateMetadata({
@@ -20,7 +21,7 @@ export async function generateMetadata({
   return {
     title: dict.meta.aboutTitle,
     description: dict.meta.aboutDescription,
-    alternates: { canonical: canonicalUrl(lang, "/about"), languages: alternateLanguages("/about") },
+    alternates: { canonical: canonicalUrl(lang, "/about") },
     openGraph: {
       title: `${dict.meta.aboutTitle} | ${SITE_NAME}`,
       description: dict.meta.aboutDescription,
@@ -46,6 +47,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950">
+      <HreflangTags lang={lang} path="/about" />
       <JsonLd
         data={[
           aboutJsonLd,

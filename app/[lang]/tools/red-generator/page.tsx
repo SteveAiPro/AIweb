@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import { getToolBySlug } from "@/lib/site-data";
 import { OG_IMAGE, SITE_NAME, canonicalUrl } from "@/lib/site-config";
 import { JsonLd, softwareApplicationJsonLd } from "@/lib/structured-data";
-import { alternateLanguages, hasLocale, localePath, locales } from "@/lib/i18n/config";
+import { HreflangTags } from "@/components/hreflang-tags";
+import { hasLocale, localePath, locales } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { RedGeneratorClient } from "./red-generator-client";
 
@@ -25,7 +26,6 @@ export async function generateMetadata({
     description: dict.meta.redGeneratorDescription,
     alternates: {
       canonical: canonicalUrl(lang, "/tools/red-generator"),
-      languages: alternateLanguages("/tools/red-generator"),
     },
     openGraph: {
       title: `${dict.meta.redGeneratorTitle} | ${SITE_NAME}`,
@@ -48,6 +48,7 @@ export default async function RedGeneratorPage({
 
   return (
     <>
+      <HreflangTags lang={lang} path="/tools/red-generator" />
       {tool ? <JsonLd data={softwareApplicationJsonLd(tool, lang)} /> : null}
       <RedGeneratorClient t={dict.redGenerator} />
     </>

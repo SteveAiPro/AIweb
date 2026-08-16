@@ -15,7 +15,8 @@ import {
   breadcrumbJsonLd,
   softwareApplicationJsonLd,
 } from "@/lib/structured-data";
-import { alternateLanguages, hasLocale, localePath, locales } from "@/lib/i18n/config";
+import { HreflangTags } from "@/components/hreflang-tags";
+import { hasLocale, localePath, locales } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
 type ToolDetailPageProps = {
@@ -52,7 +53,6 @@ export async function generateMetadata({ params }: ToolDetailPageProps): Promise
     description: tool.summary[lang],
     alternates: {
       canonical: canonicalUrl(lang, `/tools/${tool.slug}`),
-      languages: alternateLanguages(`/tools/${tool.slug}`),
     },
     openGraph: {
       title: `${tool.name} | ${SITE_NAME}`,
@@ -78,6 +78,7 @@ export default async function ToolDetailPage({ params }: ToolDetailPageProps) {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950">
+      <HreflangTags lang={lang} path={`/tools/${tool.slug}`} />
       <JsonLd
         data={[
           softwareApplicationJsonLd(tool, lang),

@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import { getToolBySlug } from "@/lib/site-data";
 import { OG_IMAGE, SITE_NAME, canonicalUrl } from "@/lib/site-config";
 import { JsonLd, softwareApplicationJsonLd } from "@/lib/structured-data";
-import { alternateLanguages, hasLocale, localePath, locales } from "@/lib/i18n/config";
+import { HreflangTags } from "@/components/hreflang-tags";
+import { hasLocale, localePath, locales } from "@/lib/i18n/config";
 import { VisionSeedClient } from "./vision-seed-client";
 
 export function generateStaticParams() {
@@ -24,7 +25,6 @@ export async function generateMetadata({
     description: "Make Any Images Possible. Generate AI images from a text prompt and browse the AI image prompt gallery.",
     alternates: {
       canonical: canonicalUrl(lang, path),
-      languages: alternateLanguages(path),
     },
     openGraph: {
       title: `Vision Seed — AI Image Generator | ${SITE_NAME}`,
@@ -47,6 +47,7 @@ export default async function VisionSeedPage({
 
   return (
     <>
+      <HreflangTags lang={lang} path="/tools/vision-seed" />
       {tool ? <JsonLd data={softwareApplicationJsonLd(tool, lang)} /> : null}
       <VisionSeedClient />
     </>

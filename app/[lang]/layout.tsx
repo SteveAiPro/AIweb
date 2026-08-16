@@ -6,7 +6,6 @@ import { OG_IMAGE, SITE_KEYWORDS, SITE_NAME, SITE_URL, canonicalUrl } from "@/li
 import { JsonLd, organizationJsonLd, websiteJsonLd } from "@/lib/structured-data";
 import { FloatingBackToTop } from "@/components/floating-back-to-top";
 import {
-  alternateLanguages,
   hasLocale,
   htmlLang,
   locales,
@@ -34,7 +33,7 @@ export async function generateMetadata({
     description: dict.meta.siteDescription,
     keywords: SITE_KEYWORDS,
     applicationName: SITE_NAME,
-    alternates: { canonical: canonicalUrl(lang, "/"), languages: alternateLanguages("/") },
+    alternates: { canonical: canonicalUrl(lang, "/") },
     openGraph: {
       type: "website",
       locale: ogLocale[lang],

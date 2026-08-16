@@ -7,7 +7,8 @@ import { categories } from "@/data/categories";
 import { getCategoryBySlug, getToolsByCategory } from "@/lib/site-data";
 import { OG_IMAGE, SITE_NAME, canonicalUrl } from "@/lib/site-config";
 import { JsonLd, breadcrumbJsonLd, collectionPageJsonLd } from "@/lib/structured-data";
-import { alternateLanguages, hasLocale, localePath, locales } from "@/lib/i18n/config";
+import { HreflangTags } from "@/components/hreflang-tags";
+import { hasLocale, localePath, locales } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
 type CategoryPageProps = {
@@ -35,7 +36,6 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     description: category.description[lang],
     alternates: {
       canonical: canonicalUrl(lang, `/category/${category.slug}`),
-      languages: alternateLanguages(`/category/${category.slug}`),
     },
     openGraph: {
       title: `${category.name[lang]} | ${SITE_NAME}`,
@@ -58,6 +58,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950">
+      <HreflangTags lang={lang} path={`/category/${category.slug}`} />
       <JsonLd
         data={[
           collectionPageJsonLd(category, categoryTools, lang),

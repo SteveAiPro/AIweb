@@ -4,7 +4,8 @@ import { notFound, redirect } from "next/navigation";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { OG_IMAGE, SITE_NAME, canonicalUrl } from "@/lib/site-config";
-import { alternateLanguages, hasLocale, localePath } from "@/lib/i18n/config";
+import { HreflangTags } from "@/components/hreflang-tags";
+import { hasLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { createClient } from "@/lib/supabase/server";
 import { hasSupabaseConfig } from "@/lib/auth-redirect";
@@ -21,7 +22,7 @@ export async function generateMetadata({
   return {
     title: dict.account.accountTitle,
     description: dict.account.accountDescription,
-    alternates: { canonical: canonicalUrl(lang, "/account"), languages: alternateLanguages("/account") },
+    alternates: { canonical: canonicalUrl(lang, "/account") },
     openGraph: {
       title: `${dict.account.accountTitle} | ${SITE_NAME}`,
       description: dict.account.accountDescription,
@@ -82,6 +83,7 @@ export default async function AccountPage({
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950">
+      <HreflangTags lang={lang} path="/account" />
       <SiteHeader lang={lang} dict={dict} />
       <main className="mx-auto w-full max-w-2xl px-4 py-16 sm:px-6">
         <p className="text-sm font-semibold tracking-[0.2em] text-cyan-700 uppercase">

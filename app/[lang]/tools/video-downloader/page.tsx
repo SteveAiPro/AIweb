@@ -5,7 +5,8 @@ import { SiteHeader } from "@/components/site-header";
 import { getToolBySlug } from "@/lib/site-data";
 import { OG_IMAGE, SITE_NAME, canonicalUrl } from "@/lib/site-config";
 import { JsonLd, faqPageJsonLd, softwareApplicationJsonLd } from "@/lib/structured-data";
-import { alternateLanguages, hasLocale, localePath, locales } from "@/lib/i18n/config";
+import { HreflangTags } from "@/components/hreflang-tags";
+import { hasLocale, localePath, locales } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { VideoDownloaderClient } from "./video-downloader-client";
 
@@ -27,7 +28,6 @@ export async function generateMetadata({
     description: dict.meta.videoDownloaderDescription,
     alternates: {
       canonical: canonicalUrl(lang, "/tools/video-downloader"),
-      languages: alternateLanguages("/tools/video-downloader"),
     },
     openGraph: {
       title: `${dict.meta.videoDownloaderTitle} | ${SITE_NAME}`,
@@ -50,6 +50,7 @@ export default async function VideoDownloaderPage({
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950">
+      <HreflangTags lang={lang} path="/tools/video-downloader" />
       <JsonLd
         data={[
           ...(tool ? [softwareApplicationJsonLd(tool, lang)] : []),

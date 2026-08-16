@@ -5,7 +5,8 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { OG_IMAGE, SITE_NAME, absoluteUrl, canonicalUrl } from "@/lib/site-config";
 import { JsonLd, breadcrumbJsonLd } from "@/lib/structured-data";
-import { alternateLanguages, hasLocale, localePath } from "@/lib/i18n/config";
+import { HreflangTags } from "@/components/hreflang-tags";
+import { hasLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { posts } from "@/data/blog";
 
@@ -22,7 +23,7 @@ export async function generateMetadata({
   return {
     title: t.title,
     description: t.subtitle,
-    alternates: { canonical: canonicalUrl(lang, "/blog"), languages: alternateLanguages("/blog") },
+    alternates: { canonical: canonicalUrl(lang, "/blog") },
     openGraph: {
       title: `${t.title} | ${SITE_NAME}`,
       description: t.subtitle,
@@ -49,6 +50,7 @@ export default async function BlogPage({ params }: { params: Promise<{ lang: str
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950">
+      <HreflangTags lang={lang} path="/blog" />
       <JsonLd
         data={[
           listJsonLd,

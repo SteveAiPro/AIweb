@@ -12,7 +12,8 @@ import { categories } from "@/data/categories";
 import { tools, featuredTools } from "@/data/tools";
 import { getToolsByCategory } from "@/lib/site-data";
 import { OG_IMAGE, canonicalUrl } from "@/lib/site-config";
-import { alternateLanguages, hasLocale, localePath } from "@/lib/i18n/config";
+import { HreflangTags } from "@/components/hreflang-tags";
+import { hasLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
 export async function generateMetadata({
@@ -27,7 +28,7 @@ export async function generateMetadata({
   return {
     title: { absolute: dict.meta.homeTitle },
     description: dict.meta.siteDescription,
-    alternates: { canonical: canonicalUrl(lang, "/"), languages: alternateLanguages("/") },
+    alternates: { canonical: canonicalUrl(lang, "/") },
     openGraph: {
       title: dict.meta.homeTitle,
       description: dict.meta.siteDescription,
@@ -49,6 +50,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950">
+      <HreflangTags lang={lang} path="/" />
       <SiteHeader lang={lang} dict={dict} />
       <main>
         <HeroSection

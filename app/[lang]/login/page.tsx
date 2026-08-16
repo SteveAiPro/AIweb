@@ -4,7 +4,8 @@ import { notFound, redirect } from "next/navigation";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { OG_IMAGE, SITE_NAME, canonicalUrl } from "@/lib/site-config";
-import { alternateLanguages, hasLocale, localePath } from "@/lib/i18n/config";
+import { HreflangTags } from "@/components/hreflang-tags";
+import { hasLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { createClient } from "@/lib/supabase/server";
 import { getSafeAuthNext, hasSupabaseConfig } from "@/lib/auth-redirect";
@@ -22,7 +23,7 @@ export async function generateMetadata({
   return {
     title: dict.auth.loginTitle,
     description: dict.auth.loginDescription,
-    alternates: { canonical: canonicalUrl(lang, "/login"), languages: alternateLanguages("/login") },
+    alternates: { canonical: canonicalUrl(lang, "/login") },
     openGraph: {
       title: `${dict.auth.loginTitle} | ${SITE_NAME}`,
       description: dict.auth.loginDescription,
@@ -61,6 +62,7 @@ export default async function LoginPage({
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950">
+      <HreflangTags lang={lang} path="/login" />
       <SiteHeader lang={lang} dict={dict} />
       <main className="mx-auto w-full max-w-md px-4 py-16 sm:px-6">
         <p className="text-sm font-semibold tracking-[0.2em] text-cyan-700 uppercase">
