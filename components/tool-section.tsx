@@ -30,7 +30,7 @@ export function ToolSection({
         <p className="max-w-3xl text-sm leading-7 text-slate-600 sm:text-base">{description}</p>
       </div>
 
-      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {tools.map((tool) => (
           <ToolCard key={tool.slug} tool={tool} lang={lang} dict={dict} />
         ))}
