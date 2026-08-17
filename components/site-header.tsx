@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Locale, localePath } from "@/lib/i18n/config";
 import { Dictionary } from "@/lib/i18n/dictionaries";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { MobileNav } from "@/components/mobile-nav";
 import { createClient } from "@/lib/supabase/server";
 import { hasSupabaseConfig } from "@/lib/auth-redirect";
 
@@ -84,9 +85,17 @@ export async function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionar
         </nav>
 
         <div className="flex items-center gap-3">
+          <MobileNav
+            items={navItems}
+            loginHref={localePath(lang, "/login")}
+            accountHref={localePath(lang, "/account")}
+            signInLabel={a.signIn}
+            signOutLabel={a.signOut}
+            userName={userName}
+          />
           <LanguageSwitcher />
           {userName ? (
-            <div className="hidden items-center gap-3 sm:flex">
+            <div className="hidden items-center gap-3 lg:flex">
               <Link
                 href={localePath(lang, "/account")}
                 className="max-w-[10rem] truncate text-sm text-slate-600 transition hover:text-slate-950"
@@ -107,7 +116,7 @@ export async function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionar
           ) : (
             <Link
               href={localePath(lang, "/login")}
-              className="hidden rounded-full border border-cyan-500 bg-cyan-50 px-4 py-2 text-sm font-semibold text-cyan-700 transition hover:bg-cyan-100 sm:inline-flex"
+              className="hidden rounded-full border border-cyan-500 bg-cyan-50 px-4 py-2 text-sm font-semibold text-cyan-700 transition hover:bg-cyan-100 lg:inline-flex"
             >
               {a.signIn}
             </Link>
