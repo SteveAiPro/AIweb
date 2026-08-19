@@ -17,6 +17,7 @@ export async function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionar
     { label: t.latest, href: `${home}#new` },
     { label: t.blog, href: localePath(lang, "/blog") },
     { label: t.about, href: localePath(lang, "/about") },
+    { label: t.contact, href: localePath(lang, "/contact") },
     { label: t.whitebg, href: "https://whitebg.app/", external: true },
   ];
 

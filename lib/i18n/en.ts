@@ -30,6 +30,7 @@ export const en = {
     latest: "New",
     about: "About",
     blog: "Blog",
+    contact: "Contact",
     whitebg: "WhiteBG",
     explore: "Explore now",
   },
@@ -139,6 +140,7 @@ export const en = {
     pixelBloom: "Pixel Bloom",
     blog: "Blog",
     about: "About",
+    contact: "Contact",
     privacy: "Privacy Policy",
     sitemap: "Sitemap",
     rights: "All rights reserved.",
@@ -209,16 +211,37 @@ export const en = {
     s2ToolName: "Xiaohongshu Post Generator,",
     s3Title: "3. Cookies & local storage",
     s3Body:
-      "We use session cookies to keep you signed in. If you choose not to log in, core browsing does not rely on cookies. If third-party analytics or ads are added later, they may also use cookies or similar technologies, which you can clear or disable in your browser settings at any time.",
+      "We use session cookies to keep you signed in. If you choose not to log in, core browsing does not rely on cookies. In addition, this site serves Google AdSense ads, so advertising and measurement use cookies (including DoubleClick cookies) and similar technologies. You can clear or disable cookies anytime in your browser settings. For details and opt-out options about advertising cookies, see the “Advertising & Google AdSense” section below.",
     s4Title: "4. Third-party links",
     s4Body:
       "External links pointing to third-party product sites are governed by those third parties' own content and privacy practices, are outside the scope of this policy, and we bear no responsibility for them.",
     s5Title: "5. Policy updates",
     s5Body:
       "We may update this privacy policy from time to time. Updates will be posted on this page, and significant changes will be reflected in the date at the top.",
-    s6Title: "6. Contact us",
-    s6Prefix: "If you have any questions about this privacy policy, email ",
-    s6Suffix: ".",
+    s6Title: "6. Advertising & Google AdSense",
+    s6Prefix:
+      "This site displays advertising through Google AdSense. Google and its advertising partners use cookies (including DoubleClick cookies) to serve personalized ads based on your interests and to measure ad performance. You can manage your ad preferences in several ways: visit the ",
+    s6AdsLink: "Google Ads Settings",
+    s6AdsHref: "https://www.google.com/settings/ads",
+    s6Mid: " to turn off personalized ads, or use the ",
+    s6AboutAdsLink: "Digital Advertising Alliance opt-out",
+    s6AboutAdsHref: "https://www.aboutads.info/choices",
+    s6Suffix:
+      " to opt out of third-party ad tracking. You can also clear or disable cookies in your browser settings at any time. Core browsing still works if you don't sign in.",
+    s7Title: "7. Contact us",
+    s7Prefix: "If you have any questions about this privacy policy, email ",
+    s7Suffix: ".",
+  },
+  contact: {
+    eyebrow: "Contact",
+    title: "Contact us",
+    intro:
+      "Whether it's a tool submission, a partnership inquiry, or a content correction, we'd love to hear from you. We usually reply within two business days.",
+    emailLabel: "Email",
+    emailHint: "Click to send us an email directly",
+    noteTitle: "Before you write",
+    noteBody:
+      "Please describe your request clearly — for example the tool name and official site you'd like listed, or the exact page that needs a fix — so we can handle it faster.",
   },
   redGenerator: {
     brandTitle: "Xiaohongshu Post Generator",

@@ -105,12 +105,37 @@ export default async function PrivacyPage({ params }: { params: Promise<{ lang: 
           <p className="text-base leading-8 text-slate-600">
             {t.s6Prefix}
             <a
+              href={t.s6AdsHref}
+              target="_blank"
+              rel="noreferrer"
+              className="font-medium text-cyan-700 underline-offset-4 hover:underline"
+            >
+              {t.s6AdsLink}
+            </a>
+            {t.s6Mid}
+            <a
+              href={t.s6AboutAdsHref}
+              target="_blank"
+              rel="noreferrer"
+              className="font-medium text-cyan-700 underline-offset-4 hover:underline"
+            >
+              {t.s6AboutAdsLink}
+            </a>
+            {t.s6Suffix}
+          </p>
+        </section>
+
+        <section className="mt-10 space-y-3">
+          <h2 className="text-xl font-semibold text-slate-950">{t.s7Title}</h2>
+          <p className="text-base leading-8 text-slate-600">
+            {t.s7Prefix}
+            <a
               href={`mailto:${CONTACT_EMAIL}`}
               className="font-medium text-cyan-700 underline-offset-4 hover:underline"
             >
               {CONTACT_EMAIL}
             </a>
-            {t.s6Suffix}
+            {t.s7Suffix}
           </p>
         </section>
       </main>
