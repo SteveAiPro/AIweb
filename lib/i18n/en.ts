@@ -192,7 +192,7 @@ export const en = {
   privacy: {
     eyebrow: "Privacy",
     title: "Privacy Policy",
-    updated: "Last updated: June 2026",
+    updated: "Last updated: August 19, 2026",
     intro:
       "We take your privacy seriously. AI Navigator is an AI tools directory that generally requires no sign-up and does not actively collect personally identifiable information. Please read the notes below before using the site.",
     s1Title: "1. Information we collect",

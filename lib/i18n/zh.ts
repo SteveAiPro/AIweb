@@ -187,7 +187,7 @@ export const zh = {
   privacy: {
     eyebrow: "Privacy",
     title: "隐私政策",
-    updated: "最后更新：2026 年 6 月",
+    updated: "最后更新：2026 年 8 月 19 日",
     intro:
       "我们重视你的隐私。AI Navigator 是一个 AI 工具导航站，整体上无需注册、不主动收集可识别你个人身份的信息。请在使用本站前阅读以下说明。",
     s1Title: "1. 我们收集的信息",
