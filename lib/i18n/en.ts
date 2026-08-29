@@ -3,8 +3,8 @@ export const en = {
     siteName: "AI Navigator",
     siteTitle: "AI Navigator | Original AI Tools Directory",
     siteDescription:
-      "Original AI tools directory — discover, compare, and start using the best AI products for chat, design, video, coding, and productivity. Curated by creators who test every tool.",
-    homeTitle: "AI Navigator — Curated AI Tools Directory: Find, Compare & Start Using",
+      "Original AI tools directory — 200+ hand-tested AI products for chat, design, video, coding, and productivity. Discover, compare, and start using the best AI tools for free. Every tool is tested before we recommend it.",
+    homeTitle: "AI Tools Directory — 200+ Hand-Tested AI Tools | Find, Compare & Start Using",
     aboutTitle: "About AI Navigator — How We Test & Curate AI Tools",
     aboutDescription:
       "Behind our AI tool directory: hands-on review standards, curation principles, and the team that tests every tool before recommending it. No paid placements.",
@@ -14,9 +14,9 @@ export const en = {
     redGeneratorTitle: "Xiaohongshu Post Generator",
     redGeneratorDescription:
       "Enter a topic to generate a complete Xiaohongshu post plan — cover design, headlines, KOC-style body copy, and topic tags. Built for creators and operations teams.",
-    videoDownloaderTitle: "Douyin Video Downloader — No Watermark",
+    videoDownloaderTitle: "Douyin Video Downloader Without Watermark — Free Online HD Save",
     videoDownloaderDescription:
-      "Free online Douyin downloader. Save HD videos and MP3 audio without watermark, no app needed.",
+      "Free online Douyin video downloader. Save HD videos and MP3 audio without watermark, no app needed. Supports Douyin, Kuaishou, Bilibili — one-click download original no-watermark videos.",
     pixelBloomTitle: "Pixel Bloom — AI Inspiration Image Generator",
     pixelBloomDescription:
       "Enter a sentence to generate multi-style concept art. Choose style presets and aspect ratios — built for illustration, social covers, and brand moodboards.",

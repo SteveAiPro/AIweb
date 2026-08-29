@@ -191,12 +191,12 @@ export const tools: Tool[] = [
     slug: "xianyu-slang",
     name: "闲鱼黑话",
     summary: {
-      zh: "收录闲鱼等平台的叫法、别名与黑话，用替代词更快找到想要的商品。",
-      en: "A crowdsourced dictionary of Xianyu slang, aliases, and code names to find items faster.",
+      zh: "闲鱼黑话大全：收录闲鱼、小红书等平台的暗语、别名与叫法，用替代词更快找到被屏蔽的商品。",
+      en: "The complete Xianyu slang dictionary — aliases, code names, and alternative search terms to find blocked items faster.",
     },
     description: {
-      zh: "闲鱼黑话是一个社区共建的「叫法 / 别名」词典。很多商品在闲鱼、小红书等平台会因关键词被屏蔽而搜不到，用户便给它们起了各种替代叫法。这里把散落各处的黑话汇总起来，输入商品名即可看到大家常用的搜索词与别名，省去自己试错的时间。",
-      en: "Xianyu Slang is a community-built dictionary of aliases and code names. Many products get hidden when keywords are blocked on Xianyu or Xiaohongshu, so users invent alternative names. It gathers those terms so you can type a product and see the search words the community uses.",
+      zh: "闲鱼黑话是一个社区共建的「叫法 / 别名」词典，覆盖闲鱼、小红书等平台。很多商品会因关键词被屏蔽而搜不到，用户便给它们起了各种替代叫法。这里把散落各处的黑话、暗语、谐音叫法汇总起来，输入商品名即可看到大家常用的搜索词与别名，省去自己试错的时间。",
+      en: "Xianyu Slang is a community-built dictionary of aliases and code names across Xianyu and Xiaohongshu. Many products get hidden when keywords are blocked, so users invent alternative names. It gathers those slang terms, homophones, and code words so you can type a product and see the search words the community uses.",
     },
     longDescription: {
       zh: "在二手交易平台，同一个东西往往有十几个叫法：有人用型号缩写，有人用谐音，有人用暗号。搜索这类「被屏蔽的商品」（比如某些会员类服务）时，直接搜原名常常空手而归，换个民间叫法反而一搜就有。闲鱼黑话把这些散落在评论区、私聊里的叫法集中收录，并支持登录用户补充新的叫法或别名，经过审核后公开。它本质上是一张「活着的术语表」，而不是静态百科——对买家能更快定位商品，对卖家也能更顺地描述自己的闲置。",
@@ -205,8 +205,8 @@ export const tools: Tool[] = [
     website: "https://www.gaoqian2580.com/zh/tools/xianyu-slang",
     category: "productivity",
     tags: {
-      zh: ["闲鱼", "黑话", "二手交易", "叫法"],
-      en: ["Xianyu", "Slang", "Second-hand", "Alias"],
+      zh: ["闲鱼黑话", "闲鱼暗语", "二手交易", "叫法", "替代词"],
+      en: ["Xianyu slang", "Alias", "Second-hand", "Code name", "Search terms"],
     },
     pricing: "free",
     isNew: true,
@@ -1535,7 +1535,7 @@ export const tools: Tool[] = [
   {
     slug: "help-aio",
     name: "Help AIO",
-    summary: { zh: "一站式 AI 导航，聚合 Claude/Gemini/Codex 中转评测与比价。", en: "All-in-one AI nav, aggregated Claude/Gemini/Codex reviews and pricing." },
+    summary: { zh: "Help AIO：一站式 AI 导航，聚合 Claude/Gemini/Codex 中转评测、比价与实战教程。", en: "Help AIO: all-in-one AI navigation — aggregated Claude/Gemini/Codex reviews, pricing comparison, tutorials and prompt guides." },
     description: { zh: "Help AIO 含实战教程与提示词指南。", en: "Help AIO has hands-on tutorials and prompt guides." },
     website: "https://www.helpaio.com",
     category: "ai-coding",
@@ -2011,7 +2011,7 @@ export const tools: Tool[] = [
   {
     slug: "huntscreens",
     name: "HuntScreens",
-    summary: { zh: "中文 AI 新产品发现站，每日新鲜。", en: "CN AI product discovery, fresh daily." },
+    summary: { zh: "HuntScreens：中文 AI 新产品发现站，每日更新新品、融资与工具情报。", en: "HuntScreens: Chinese AI product discovery, fresh daily — new launches, funding and tool intel." },
     description: { zh: "HuntScreens 适合看中文圈新品。", en: "HuntScreens fits CN new products." },
     website: "https://huntscreens.com/zh",
     category: "ai-directory",
@@ -2432,7 +2432,7 @@ export const tools: Tool[] = [
   {
     slug: "arrfounder",
     name: "arrfounder",
-    summary: { zh: "公开透明的创始人，1000+ 真实 MRR/ARR。", en: "Transparent founders sharing real MRR/ARR, 1000+." },
+    summary: { zh: "arrfounder：公开透明的创始人收入榜，1000+ 真实 MRR/ARR 数据可对标。", en: "arrfounder: transparent founder revenue benchmarks — 1000+ verified MRR/ARR numbers to compare." },
     description: { zh: "arrfounder 适合对标收入。", en: "arrfounder fits revenue benchmarking." },
     website: "https://arrfounder.com",
     category: "demand",

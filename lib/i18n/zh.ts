@@ -5,8 +5,8 @@ export const zh = {
     siteName: "AI Navigator",
     siteTitle: "AI Navigator | 原创 AI 工具导航",
     siteDescription:
-      "原创 AI 工具导航目录 — 发现、对比、上手使用最好的 AI 产品，涵盖聊天、设计、视频、编程和效率工具。每个工具都经过实测才推荐。",
-    homeTitle: "AI Navigator — 精选 AI 工具导航 | 发现、对比、上手使用",
+      "原创 AI 工具导航目录 — 收录 200+ 款经过实测的 AI 产品，覆盖聊天、设计、视频、编程和效率工具。免费发现、对比、上手使用，每个工具都亲测后才推荐。",
+    homeTitle: "AI 工具导航 — 200+ 款实测 AI 工具精选 | 发现、对比、上手使用",
     aboutTitle: "关于 AI Navigator — 我们如何实测和筛选 AI 工具",
     aboutDescription:
       "了解我们的 AI 工具收录标准、实测流程和背后的编辑团队。每个工具都经过实际使用才会推荐，不收上首页费用。",
@@ -16,9 +16,9 @@ export const zh = {
     redGeneratorTitle: "小红书爆款生成器",
     redGeneratorDescription:
       "输入主题即可生成小红书爆款图文方案，包含封面设计、爆款标题、KOC 风格正文和话题标签，适合内容创作者和运营团队快速产出种草文案。",
-    videoDownloaderTitle: "抖音视频下载器 — 无水印",
+    videoDownloaderTitle: "抖音视频下载器无水印 — 免费在线保存高清视频",
     videoDownloaderDescription:
-      "免费在线抖音视频下载器，无水印保存高清视频和 MP3 音频，无需安装 App。",
+      "免费在线抖音视频下载器，无水印保存高清视频和 MP3 音频，无需安装 App。支持抖音、快手、B 站等平台，一键解析下载无水印原视频。",
     pixelBloomTitle: "Pixel Bloom — AI 灵感图像生成器",
     pixelBloomDescription:
       "输入一句话生成多风格灵感图像草图，支持多种风格预设与比例，适合插画、社媒封面与品牌视觉灵感探索。",
