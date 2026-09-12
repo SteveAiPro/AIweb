@@ -51,7 +51,6 @@ export const tools: Tool[] = [
       en: ["Xiaohongshu", "Copywriting", "Content creation"],
     },
     pricing: "free",
-    featured: true,
     isNew: true,
     score: "8.8",
     features: {
@@ -209,6 +208,7 @@ export const tools: Tool[] = [
       en: ["Xianyu slang", "Alias", "Second-hand", "Code name", "Search terms"],
     },
     pricing: "free",
+    featured: true,
     isNew: true,
     score: "8.5",
     features: {
@@ -863,6 +863,7 @@ export const tools: Tool[] = [
     category: "demand",
     tags: { zh: ["增长情报", "竞品分析", "AI工具站"], en: ["Growth intel", "Competitor", "AI sites"] },
     pricing: "free",
+    featured: true,
     score: "8.9",
   },
   {
@@ -880,6 +881,7 @@ export const tools: Tool[] = [
     category: "demand",
     tags: { zh: ["网站情报", "SEO", "AdSense"], en: ["Site intel", "SEO", "AdSense"] },
     pricing: "free",
+    featured: true,
     score: "8.8",
   },
   {
@@ -2928,6 +2930,7 @@ export const tools: Tool[] = [
     category: "image-tools",
     tags: { zh: ["白底", "抠图", "电商"], en: ["White BG", "Cutout", "E-commerce"] },
     pricing: "free",
+    featured: true,
     score: "8.8",
   },
 ];

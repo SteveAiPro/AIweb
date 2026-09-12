@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -100,6 +101,25 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
               </div>
             </div>
           </div>
+        </section>
+
+        <section className="mt-8 flex flex-wrap gap-2">
+          {categories
+            .filter((item) => getToolsByCategory(item.slug).length > 0)
+            .map((item) => (
+              <Link
+                key={item.slug}
+                href={localePath(lang, `/category/${item.slug}`)}
+                className={`inline-flex items-center rounded-full border px-4 py-2 text-sm font-medium transition ${
+                  item.slug === category.slug
+                    ? "border-cyan-500 bg-cyan-500 text-white"
+                    : "border-slate-200 bg-white text-slate-700 hover:border-cyan-400 hover:bg-cyan-50"
+                }`}
+              >
+                <span className="mr-2">{item.icon}</span>
+                {item.name[lang]}
+              </Link>
+            ))}
         </section>
 
         <section className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">

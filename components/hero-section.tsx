@@ -81,6 +81,18 @@ export function HeroSection({ totalTools, totalCategories, dict }: HeroSectionPr
       {/* 柔和青色渐变装饰 */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(34,211,238,0.18),_transparent_35%),radial-gradient(circle_at_bottom_left,_rgba(56,189,248,0.12),_transparent_30%)]" />
       <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -top-24 right-[-6rem] h-72 w-72 rounded-full bg-cyan-300/30 blur-3xl"
+        animate={{ y: [0, 18, 0], x: [0, -12, 0] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute bottom-[-4rem] left-[-4rem] h-64 w-64 rounded-full bg-sky-300/25 blur-3xl"
+        animate={{ y: [0, -14, 0], x: [0, 10, 0] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
         className="relative mx-auto flex w-full max-w-7xl flex-col gap-10 px-4 py-16 sm:px-6 lg:flex-row lg:items-end lg:justify-between lg:px-8 lg:py-24"
         variants={containerVariants}
         initial="hidden"

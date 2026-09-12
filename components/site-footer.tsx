@@ -28,9 +28,6 @@ export function SiteFooter({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             <Link href={`${home}#directory`} className="transition hover:text-cyan-700">
               {t.categories}
             </Link>
-            <Link href={`${home}#new`} className="transition hover:text-cyan-700">
-              {t.latest}
-            </Link>
             <Link href={localePath(lang, "/blog")} className="transition hover:text-cyan-700">
               {t.blog}
             </Link>

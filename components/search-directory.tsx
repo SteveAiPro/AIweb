@@ -1,31 +1,40 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Category } from "@/data/categories";
-import { Tool } from "@/data/tools";
 import { cn } from "@/lib/cn";
 import { ToolCard } from "@/components/tool-card";
 import { Locale } from "@/lib/i18n/config";
 import { Dictionary } from "@/lib/i18n/dictionaries";
+import { CardTool, toCardTool } from "@/lib/card-tool";
 
 type SearchDirectoryProps = {
-  tools: Tool[];
   categories: Category[];
   lang: Locale;
   dict: Dictionary;
 };
 
-export function SearchDirectory({ tools, categories, lang, dict }: SearchDirectoryProps) {
+export function SearchDirectory({ categories, lang, dict }: SearchDirectoryProps) {
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [tools, setTools] = useState<CardTool[]>([]);
   const t = dict.directory;
+
+  useEffect(() => {
+    let alive = true;
+    import("@/data/tools").then((mod) => {
+      if (!alive) return;
+      setTools(mod.tools.map(toCardTool));
+    });
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   const filteredTools = useMemo(() => {
     return tools.filter((tool) => {
       const matchesCategory = activeCategory === "all" || tool.category === activeCategory;
-      const haystack = [tool.name, tool.summary[lang], tool.description[lang], ...tool.tags[lang]]
-        .join(" ")
-        .toLowerCase();
+      const haystack = [tool.name, tool.summary[lang], ...tool.tags[lang]].join(" ").toLowerCase();
       const matchesQuery = !query.trim() || haystack.includes(query.trim().toLowerCase());
       return matchesCategory && matchesQuery;
     });
@@ -93,7 +102,7 @@ export function SearchDirectory({ tools, categories, lang, dict }: SearchDirecto
         <div className="flex items-center justify-between text-sm text-slate-500">
           <p>
             {t.resultsPrefix}
-            {filteredTools.length}
+            {tools.length ? filteredTools.length : "—"}
             {t.resultsSuffix}
           </p>
           {(query || activeCategory !== "all") && (
@@ -110,13 +119,15 @@ export function SearchDirectory({ tools, categories, lang, dict }: SearchDirecto
           )}
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {filteredTools.map((tool) => (
-            <ToolCard key={tool.slug} tool={tool} lang={lang} dict={dict} />
-          ))}
-        </div>
+        {tools.length > 0 && (
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {filteredTools.map((tool) => (
+              <ToolCard key={tool.slug} tool={tool} lang={lang} dict={dict} />
+            ))}
+          </div>
+        )}
 
-        {!filteredTools.length && (
+        {tools.length > 0 && !filteredTools.length && (
           <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50 px-6 py-10 text-center text-sm text-slate-500">
             {t.noResults}
           </div>

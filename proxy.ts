@@ -69,9 +69,32 @@ export async function proxy(request: NextRequest) {
       },
     });
     await supabase.auth.getUser();
+  } else if (!hasAuthCookie && !isPrivatePath(pathname)) {
+    // 让 Cloudflare / 上层 CDN 能缓存匿名公开页（Vercel 默认 max-age=0 时 CF 会标 DYNAMIC）
+    response.headers.set(
+      "Cloudflare-CDN-Cache-Control",
+      "public, max-age=3600, stale-while-revalidate=86400",
+    );
+    response.headers.set(
+      "CDN-Cache-Control",
+      "public, max-age=3600, stale-while-revalidate=86400",
+    );
   }
 
   return response;
+}
+
+function isPrivatePath(pathname: string) {
+  return (
+    pathname === "/login" ||
+    pathname.startsWith("/login/") ||
+    pathname === "/en/login" ||
+    pathname.startsWith("/en/login/") ||
+    pathname === "/account" ||
+    pathname.startsWith("/account/") ||
+    pathname === "/en/account" ||
+    pathname.startsWith("/en/account/")
+  );
 }
 
 export const config = {

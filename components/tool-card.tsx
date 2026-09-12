@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Tool } from "@/data/tools";
+import { CardTool } from "@/lib/card-tool";
 import { categoryMap } from "@/data/categories";
 import { Locale, localePath } from "@/lib/i18n/config";
 import { Dictionary } from "@/lib/i18n/dictionaries";
@@ -17,7 +17,7 @@ export function ToolCard({
   lang,
   dict,
 }: {
-  tool: Tool;
+  tool: CardTool;
   lang: Locale;
   dict: Dictionary;
 }) {

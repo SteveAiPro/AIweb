@@ -5,7 +5,7 @@ const rawSiteUrl = process.env.SITE_URL?.trim() || "https://www.gaoqian2580.com"
 
 export const SITE_URL = rawSiteUrl.replace(/\/+$/, "");
 export const SITE_NAME = "AI Navigator";
-export const CONTACT_EMAIL = "hello@gaoqian2580.com";
+export const CONTACT_EMAIL = "gaoqian2580@gmail.com";
 
 /** 生产规范主机名（不含协议）。用于 Host 归一与 robots。 */
 export const SITE_HOST = SITE_URL.replace(/^https?:\/\//, "").split("/")[0] || "www.gaoqian2580.com";

@@ -12,11 +12,9 @@ export function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionary }) {
     { label: t.home, href: home },
     { label: t.categories, href: `${home}#directory` },
     { label: t.featured, href: `${home}#featured` },
-    { label: t.latest, href: `${home}#new` },
     { label: t.blog, href: localePath(lang, "/blog") },
     { label: t.about, href: localePath(lang, "/about") },
     { label: t.contact, href: localePath(lang, "/contact") },
-    { label: t.whitebg, href: "https://whitebg.app/", external: true },
   ];
 
   return (
@@ -35,27 +33,15 @@ export function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionary }) {
         </Link>
 
         <nav className="hidden items-center gap-7 lg:flex">
-          {navItems.map((item) =>
-            item.external ? (
-              <a
-                key={item.label}
-                href={item.href}
-                target="_blank"
-                rel="noreferrer"
-                className="text-sm font-medium text-slate-600 transition hover:text-slate-950"
-              >
-                {item.label}
-              </a>
-            ) : (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="text-sm font-medium text-slate-600 transition hover:text-slate-950"
-              >
-                {item.label}
-              </Link>
-            ),
-          )}
+          {navItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="text-sm font-medium text-slate-600 transition hover:text-slate-950"
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
         <div className="flex items-center gap-3">
