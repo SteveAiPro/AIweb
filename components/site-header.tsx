@@ -2,11 +2,9 @@ import Link from "next/link";
 import { Locale, localePath } from "@/lib/i18n/config";
 import { Dictionary } from "@/lib/i18n/dictionaries";
 import { LanguageSwitcher } from "@/components/language-switcher";
-import { MobileNav } from "@/components/mobile-nav";
-import { createClient } from "@/lib/supabase/server";
-import { hasSupabaseConfig } from "@/lib/auth-redirect";
+import { HeaderAuth } from "@/components/header-auth";
 
-export async function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionary }) {
+export function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const t = dict.nav;
   const a = dict.auth;
   const home = localePath(lang, "/");
@@ -20,31 +18,6 @@ export async function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionar
     { label: t.contact, href: localePath(lang, "/contact") },
     { label: t.whitebg, href: "https://whitebg.app/", external: true },
   ];
-
-  // Supabase 未配置时安全降级：不显示登录入口
-  let userName: string | null = null;
-  if (hasSupabaseConfig()) {
-    try {
-      const supabase = await createClient();
-      const { data, error } = await supabase.auth.getUser();
-      console.log("[SiteHeader] getUser result:", {
-        hasUser: !!data.user,
-        email: data.user?.email,
-        fullName: data.user?.user_metadata?.full_name,
-        error: error?.message,
-      });
-      // 优先显示 Google OAuth 返回的全名，其次用邮箱
-      userName =
-        (data.user?.user_metadata?.full_name as string) ??
-        data.user?.email ??
-        null;
-    } catch (err) {
-      console.error("[SiteHeader] getUser threw:", err);
-      userName = null;
-    }
-  } else {
-    console.log("[SiteHeader] hasSupabaseConfig returned false");
-  }
 
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/85 backdrop-blur-xl">
@@ -81,47 +54,21 @@ export async function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionar
               >
                 {item.label}
               </Link>
-            )
+            ),
           )}
         </nav>
 
         <div className="flex items-center gap-3">
-          <MobileNav
+          <HeaderAuth
             items={navItems}
             loginHref={localePath(lang, "/login")}
             accountHref={localePath(lang, "/account")}
             signInLabel={a.signIn}
             signOutLabel={a.signOut}
-            userName={userName}
-          />
-          <LanguageSwitcher />
-          {userName ? (
-            <div className="hidden items-center gap-3 lg:flex">
-              <Link
-                href={localePath(lang, "/account")}
-                className="max-w-[10rem] truncate text-sm text-slate-600 transition hover:text-slate-950"
-                title={userName}
-              >
-                {userName}
-              </Link>
-              <form action="/auth/signout" method="post">
-                <input type="hidden" name="next" value={home} />
-                <button
-                  type="submit"
-                  className="rounded-full border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:border-slate-400 hover:bg-slate-50"
-                >
-                  {a.signOut}
-                </button>
-              </form>
-            </div>
-          ) : (
-            <Link
-              href={localePath(lang, "/login")}
-              className="hidden rounded-full border border-cyan-500 bg-cyan-50 px-4 py-2 text-sm font-semibold text-cyan-700 transition hover:bg-cyan-100 lg:inline-flex"
-            >
-              {a.signIn}
-            </Link>
-          )}
+            home={home}
+          >
+            <LanguageSwitcher />
+          </HeaderAuth>
         </div>
       </div>
     </header>

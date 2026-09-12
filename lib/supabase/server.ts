@@ -10,9 +10,7 @@ export async function createClient() {
     {
       cookies: {
         getAll() {
-          const all = cookieStore.getAll();
-          console.log("[serverClient] getAll cookies:", all.map(c => c.name));
-          return all;
+          return cookieStore.getAll();
         },
         setAll(cookiesToSet) {
           try {

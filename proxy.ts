@@ -48,10 +48,14 @@ export async function proxy(request: NextRequest) {
   }
 
   // ---------- Supabase 会话续期 ----------
-  // 仅当配置了 Supabase 环境变量时才挂载，避免本地未配置时报错
+  // 只在已有登录 cookie 时刷新。匿名请求不去碰 Auth，
+  // 否则每次 Set-Cookie 都会让 CDN 无法缓存公开页。
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (supabaseUrl && supabaseKey) {
+  const hasAuthCookie = request.cookies
+    .getAll()
+    .some((cookie) => cookie.name.startsWith("sb-") && cookie.name.includes("auth-token"));
+  if (supabaseUrl && supabaseKey && hasAuthCookie) {
     const supabase = createServerClient(supabaseUrl, supabaseKey, {
       cookies: {
         getAll() {
