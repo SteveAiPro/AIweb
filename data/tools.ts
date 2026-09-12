@@ -90,7 +90,6 @@ export const tools: Tool[] = [
       en: ["Video download", "No watermark", "Douyin"],
     },
     pricing: "free",
-    featured: true,
     isNew: true,
     score: "8.7",
     features: {
@@ -130,7 +129,6 @@ export const tools: Tool[] = [
       en: ["Posters", "Brand design", "Social media"],
     },
     pricing: "freemium",
-    featured: true,
     score: "8.8",
     features: {
       zh: ["多风格预设", "6 种画面比例", "批量生成草图", "一键下载"],
@@ -883,6 +881,44 @@ export const tools: Tool[] = [
     pricing: "free",
     featured: true,
     score: "8.8",
+  },
+  {
+    slug: "seo-web-cafe",
+    name: "哥飞的 SEO 工具箱",
+    summary: {
+      zh: "哥飞做的免费 SEO 工具箱：关键词难度、KGR、外链价值与 SEO 模拟器。",
+      en: "Gefei's free SEO toolbox: keyword difficulty, KGR, backlink value, and SEO simulators.",
+    },
+    description: {
+      zh: "seo.web.cafe 集合网站价值估算、AdSense 预检、需求挖掘、On Page 体检和三个搜索模拟器，适合独立开发者练手出海 SEO。",
+      en: "seo.web.cafe bundles site-value estimates, AdSense prechecks, demand mining, on-page audits, and three search simulators — built for indie builders learning SEO.",
+    },
+    website: "https://seo.web.cafe/",
+    category: "seo",
+    tags: { zh: ["SEO", "关键词", "计算器"], en: ["SEO", "Keywords", "Calculator"] },
+    pricing: "free",
+    featured: true,
+    isNew: true,
+    score: "8.8",
+  },
+  {
+    slug: "build-or-skip",
+    name: "Build or Skip",
+    summary: {
+      zh: "动手前先看已经在赚钱的产品：按月排行估算订单，判断值不值得做。",
+      en: "Find products already making money before you build — monthly order estimates to decide build or skip.",
+    },
+    description: {
+      zh: "Build or Skip 帮独立开发者看清什么在增长、什么能持续，避免一上来就做没需求的产品。",
+      en: "Build or Skip shows what's growing and what lasts, so indie builders skip ideas with no demand.",
+    },
+    website: "https://buildorskip.dev/zh/",
+    category: "demand",
+    tags: { zh: ["需求挖掘", "独立开发", "产品验证"], en: ["Demand", "Indie", "Validation"] },
+    pricing: "free",
+    featured: true,
+    isNew: true,
+    score: "8.7",
   },
   {
     slug: "starter-story",
