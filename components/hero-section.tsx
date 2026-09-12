@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
+import { OrbitGlobe } from "@/components/orbit-globe";
 import { Dictionary } from "@/lib/i18n/dictionaries";
 
 type HeroSectionProps = {
@@ -92,6 +93,9 @@ export function HeroSection({ totalTools, totalCategories, dict }: HeroSectionPr
         animate={{ y: [0, -14, 0], x: [0, 10, 0] }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
       />
+      <div className="pointer-events-none absolute inset-y-0 right-[-12%] hidden w-[min(40rem,55vw)] lg:block">
+        <OrbitGlobe />
+      </div>
       <motion.div
         className="relative mx-auto flex w-full max-w-7xl flex-col gap-10 px-4 py-16 sm:px-6 lg:flex-row lg:items-end lg:justify-between lg:px-8 lg:py-24"
         variants={containerVariants}
@@ -141,7 +145,7 @@ export function HeroSection({ totalTools, totalCategories, dict }: HeroSectionPr
               key={item.label}
               variants={cardVariants}
               whileHover={{ y: -4, transition: { duration: 0.2 } }}
-              className="rounded-3xl border border-slate-200 bg-white p-5 shadow-lg shadow-slate-900/5"
+              className="rounded-3xl border border-slate-200 bg-white/90 p-5 shadow-lg shadow-slate-900/5 backdrop-blur-sm"
             >
               <p className="text-2xl font-semibold text-slate-950 sm:text-3xl">
                 <AnimatedCounter target={item.value} suffix={item.suffix} />

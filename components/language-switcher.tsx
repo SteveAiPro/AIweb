@@ -3,14 +3,22 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// 在 zh（默认，无前缀）与 en（/en 前缀）之间切换，保留当前子路径。
+function stripLangPrefix(path: string) {
+  if (path === "/en" || path.startsWith("/en/")) {
+    return path.replace(/^\/en(?=\/|$)/, "") || "/";
+  }
+  if (path === "/zh" || path.startsWith("/zh/")) {
+    return path.replace(/^\/zh(?=\/|$)/, "") || "/";
+  }
+  return path;
+}
+
 export function LanguageSwitcher() {
   const raw = usePathname() || "/";
   const isEn = raw === "/en" || raw.startsWith("/en/");
-  // 去掉可能的 /en 前缀，得到纯路径
-  const basePath = isEn ? raw.replace(/^\/en(?=\/|$)/, "") || "/" : raw;
+  const basePath = stripLangPrefix(raw);
 
-  const zhHref = basePath; // zh 默认无前缀
+  const zhHref = basePath;
   const enHref = basePath === "/" ? "/en" : `/en${basePath}`;
 
   const active = "rounded-full bg-cyan-100 px-2.5 py-1 font-semibold text-cyan-800";

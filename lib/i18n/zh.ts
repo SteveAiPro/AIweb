@@ -38,7 +38,7 @@ export const zh = {
   },
   hero: {
     eyebrow: "Original AI tools directory",
-    title: "发现真正适合你工作流的 AI 工具",
+    title: "发现真正适合你工作流的 AI出海工具",
     subtitle:
       "用更清晰的分类、更轻量的浏览方式，快速筛选聊天、设计、视频、开发与效率类工具，搭建属于你的 AI 工具箱。",
     browseAll: "浏览全部分类",
