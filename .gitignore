@@ -50,3 +50,5 @@ credentials.json
 # Playwright MCP 的临时产物（快照 yml / console log）与本地截图
 .playwright-mcp/
 gsc-*.png
+gsc-*.json
+adsense-*.png
