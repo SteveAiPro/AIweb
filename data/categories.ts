@@ -251,6 +251,16 @@ export const categories: Category[] = [
     accent: "from-lime-500 to-green-400",
   },
   {
+    slug: "analytics",
+    name: { en: "Analytics", zh: "数据分析" },
+    description: {
+      zh: "网站统计、搜索表现与用户行为分析，看数据决定下一步做什么。",
+      en: "Traffic stats, search performance, and user behavior — decide the next move with data.",
+    },
+    icon: "📊",
+    accent: "from-emerald-500 to-teal-400",
+  },
+  {
     slug: "hosting",
     name: { en: "Hosting", zh: "网站托管" },
     description: {
