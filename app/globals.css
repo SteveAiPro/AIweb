@@ -38,6 +38,22 @@ a {
   background: rgba(34, 211, 238, 0.25);
 }
 
+/* 尊重系统的「减少动效」设置。JS 侧的动画由 framer-motion 的
+   useReducedMotion 处理，这里兜住 CSS 侧的部分。 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* ============================================
    小红书生成器样式 (from web project)
    ============================================ */

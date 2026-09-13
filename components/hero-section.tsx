@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
+import {
+  motion,
+  useInView,
+  useMotionValue,
+  useTransform,
+  animate,
+  useReducedMotion,
+} from "framer-motion";
 import { OrbitGlobe } from "@/components/orbit-globe";
 import { Dictionary } from "@/lib/i18n/dictionaries";
 
@@ -46,6 +53,49 @@ const cardVariants = {
   },
 } as const;
 
+/**
+ * 把标题切成动画单元。
+ *
+ * CJK 逐字（逐字入场最自然），拉丁字母和数字必须整体成组——否则逐字拆成
+ * inline-block 后，"AI" 会被断行拆成 "A" / "I" 两行。空白单独成一个 token，
+ * 直接渲染成空格，避免 inline-block 把词间空格吃掉。
+ */
+function splitTitle(text: string): string[] {
+  return text.match(/[\u3400-\u4dbf\u4e00-\u9fff]|[A-Za-z0-9]+|\s+|[^\s]/g) ?? [text];
+}
+
+function AnimatedTitle({ text, className }: { text: string; className?: string }) {
+  const reduce = useReducedMotion();
+  const tokens = splitTitle(text);
+
+  return (
+    <h1 className={className}>
+      {tokens.map((token, i) =>
+        /^\s+$/.test(token) ? (
+          // 用普通空格 span 保留词间距，不参与动画
+          <span key={`${i}-space`}> </span>
+        ) : (
+          <motion.span
+            key={`${i}-${token}`}
+            className="inline-block"
+            // initial={false} 让「减少动效」用户直接渲染到终态，DOM 结构保持一致，
+            // 不会出现 SSR / 客户端结构不一致。
+            initial={reduce ? false : { opacity: 0, y: 24, filter: "blur(8px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={
+              reduce
+                ? { duration: 0 }
+                : { duration: 0.55, delay: 0.12 + i * 0.04, ease: "easeOut" }
+            }
+          >
+            {token}
+          </motion.span>
+        ),
+      )}
+    </h1>
+  );
+}
+
 function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
@@ -66,6 +116,57 @@ function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: str
       <motion.span>{rounded}</motion.span>
       {suffix}
     </span>
+  );
+}
+
+function StatCard({
+  value,
+  suffix,
+  label,
+  index,
+}: {
+  value: number;
+  suffix: string;
+  label: string;
+  index: number;
+}) {
+  const reduce = useReducedMotion();
+
+  // 三张卡向外侧微旋，中间那张不旋——hover 时形成一个朝中心聚拢的扇形，
+  // 比三张一起同方向转更像「立起来」而不是整体歪掉。
+  const tilt = index === 0 ? 10 : index === 2 ? -10 : 0;
+
+  return (
+    <motion.div
+      variants={cardVariants}
+      style={{ transformPerspective: 900 }}
+      whileHover={
+        reduce
+          ? undefined
+          : {
+              y: -6,
+              rotateX: -8,
+              rotateY: tilt,
+              scale: 1.03,
+              transition: { type: "spring", stiffness: 260, damping: 20 },
+            }
+      }
+      className="rounded-3xl border border-slate-200 bg-white/90 p-5 shadow-lg shadow-slate-900/5 backdrop-blur-sm"
+    >
+      <motion.p
+        className="text-2xl font-semibold text-slate-950 sm:text-3xl"
+        // 绕底边向上翻开，而不是绕中心——绕中心翻会让数字看起来像在原地打转。
+        style={{ transformPerspective: 600, transformOrigin: "50% 100%" }}
+        initial={reduce ? false : { rotateX: -75, opacity: 0 }}
+        animate={{ rotateX: 0, opacity: 1 }}
+        transition={
+          reduce ? { duration: 0 } : { duration: 0.6, delay: 0.5 + index * 0.12, ease: "easeOut" }
+        }
+      >
+        <AnimatedCounter target={value} suffix={suffix} />
+      </motion.p>
+      <p className="mt-2 text-sm text-slate-500">{label}</p>
+    </motion.div>
   );
 }
 
@@ -107,12 +208,20 @@ export function HeroSection({ totalTools, totalCategories, dict }: HeroSectionPr
             {t.eyebrow}
           </motion.span>
 
-          <motion.div variants={itemVariants} className="space-y-5">
-            <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
-              {t.title}
-            </h1>
-            <p className="max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">{t.subtitle}</p>
-          </motion.div>
+          {/* 标题不放进 itemVariants 容器：逐字动画自带 y 位移，再叠一层父级
+              y 位移会让每个字多走一遍位移，看起来发飘。 */}
+          <div className="space-y-5">
+            <AnimatedTitle
+              text={t.title}
+              className="max-w-3xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl lg:text-6xl"
+            />
+            <motion.p
+              variants={itemVariants}
+              className="max-w-2xl text-base leading-8 text-slate-600 sm:text-lg"
+            >
+              {t.subtitle}
+            </motion.p>
+          </div>
 
           <motion.div variants={itemVariants} className="flex flex-wrap gap-4">
             <motion.a
@@ -140,18 +249,14 @@ export function HeroSection({ totalTools, totalCategories, dict }: HeroSectionPr
           initial="hidden"
           animate="show"
         >
-          {stats.map((item) => (
-            <motion.div
+          {stats.map((item, index) => (
+            <StatCard
               key={item.label}
-              variants={cardVariants}
-              whileHover={{ y: -4, transition: { duration: 0.2 } }}
-              className="rounded-3xl border border-slate-200 bg-white/90 p-5 shadow-lg shadow-slate-900/5 backdrop-blur-sm"
-            >
-              <p className="text-2xl font-semibold text-slate-950 sm:text-3xl">
-                <AnimatedCounter target={item.value} suffix={item.suffix} />
-              </p>
-              <p className="mt-2 text-sm text-slate-500">{item.label}</p>
-            </motion.div>
+              value={item.value}
+              suffix={item.suffix}
+              label={item.label}
+              index={index}
+            />
           ))}
         </motion.div>
       </motion.div>

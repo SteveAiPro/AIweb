@@ -75,7 +75,7 @@ export default async function RootLayout({
   const dict = getDictionary(lang);
 
   return (
-    <html lang={htmlLang[lang]} className="h-full antialiased">
+    <html lang={htmlLang[lang]} data-scroll-behavior="smooth" className="h-full antialiased">
       <head>
         <meta name="google-adsense-account" content="ca-pub-4117981861526348" />
         <Script
