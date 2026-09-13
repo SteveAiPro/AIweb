@@ -155,6 +155,7 @@ export const en = {
     by: "By",
     category: "Category",
     relatedTitle: "More guides",
+    relatedToolsTitle: "Related tools",
   },
   notFound: {
     code: "404",

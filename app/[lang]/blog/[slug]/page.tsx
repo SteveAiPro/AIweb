@@ -9,6 +9,10 @@ import { HreflangTags } from "@/components/hreflang-tags";
 import { hasLocale, localePath, locales } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getPostBySlug, posts, type BlogBlock } from "@/data/blog";
+import { tools } from "@/data/tools";
+
+// 工具 slug → 工具对象。文章底部的「相关工具」靠它解析。
+const toolMap = new Map(tools.map((tool) => [tool.slug, tool]));
 
 export function generateStaticParams() {
   return locales.flatMap((lang) => posts.map((post) => ({ lang, slug: post.slug })));
@@ -98,7 +102,19 @@ export default async function BlogPostPage({
     mainEntityOfPage: absoluteUrl(localePath(lang, `/blog/${post.slug}`)),
   };
 
-  const related = posts.filter((p) => p.slug !== post.slug).slice(0, 2);
+  // 相关阅读：优先同分类，其余按日期由新到旧补齐。
+  // 原先只按数组顺序取前两篇，导致全站每篇文章底部都指向同样两篇最老的帖子，与当前内容无关。
+  const byDateDesc = (a: (typeof posts)[number], b: (typeof posts)[number]) =>
+    a.date < b.date ? 1 : a.date > b.date ? -1 : 0;
+  const related = [
+    ...posts.filter((p) => p.slug !== post.slug && p.category === post.category).sort(byDateDesc),
+    ...posts.filter((p) => p.slug !== post.slug && p.category !== post.category).sort(byDateDesc),
+  ].slice(0, 2);
+
+  // 相关工具：把文章权重导向对应的工具详情页（如闲鱼黑话的 6 篇文章都指向 /tools/xianyu-slang）
+  const relatedTools = (post.relatedTools ?? [])
+    .map((slug) => toolMap.get(slug))
+    .filter((tool): tool is (typeof tools)[number] => Boolean(tool));
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950">
@@ -149,6 +165,24 @@ export default async function BlogPostPage({
                 >
                   <p className="text-sm font-medium text-slate-950">{r.title[lang]}</p>
                   <p className="mt-2 text-sm leading-7 text-slate-600">{r.excerpt[lang]}</p>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {relatedTools.length > 0 && (
+          <section className="mt-14 border-t border-slate-200 pt-10">
+            <h2 className="text-lg font-semibold text-slate-950">{t.relatedToolsTitle}</h2>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              {relatedTools.map((tool) => (
+                <Link
+                  key={tool.slug}
+                  href={localePath(lang, `/tools/${tool.slug}`)}
+                  className="rounded-2xl border border-slate-200 bg-white p-5 transition hover:border-cyan-200 hover:shadow-md"
+                >
+                  <p className="text-sm font-medium text-slate-950">{tool.name}</p>
+                  <p className="mt-2 text-sm leading-7 text-slate-600">{tool.summary[lang]}</p>
                 </Link>
               ))}
             </div>

@@ -150,6 +150,7 @@ export const zh = {
     by: "作者",
     category: "分类",
     relatedTitle: "更多指南",
+    relatedToolsTitle: "相关工具",
   },
   notFound: {
     code: "404",

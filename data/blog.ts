@@ -17,6 +17,8 @@ export type Post = {
   readingMinutes: number;
   author: string;
   content: BlogBlock[];
+  // 相关工具（引用 data/tools.ts 的 slug），用于文章底部导流到工具详情页
+  relatedTools?: string[];
 };
 
 export const posts: Post[] = [
@@ -34,6 +36,7 @@ export const posts: Post[] = [
     date: "2026-07-01",
     readingMinutes: 6,
     author: "AI Navigator 编辑部",
+    relatedTools: ["red-generator"],
     content: [
       {
         type: "p",
@@ -109,6 +112,7 @@ export const posts: Post[] = [
     date: "2026-07-05",
     readingMinutes: 5,
     author: "AI Navigator 编辑部",
+    relatedTools: ["video-downloader"],
     content: [
       {
         type: "p",
@@ -174,6 +178,7 @@ export const posts: Post[] = [
     date: "2026-07-09",
     readingMinutes: 7,
     author: "AI Navigator 编辑部",
+    relatedTools: ["pixel-bloom", "vision-seed"],
     content: [
       {
         type: "p",
@@ -237,6 +242,7 @@ export const posts: Post[] = [
     date: "2026-07-15",
     readingMinutes: 6,
     author: "AI Navigator 编辑部",
+    relatedTools: ["chatgpt", "claude"],
     content: [
       {
         type: "p",
@@ -300,6 +306,7 @@ export const posts: Post[] = [
     date: "2026-07-20",
     readingMinutes: 8,
     author: "AI Navigator 编辑部",
+    relatedTools: ["chatgpt", "claude"],
     content: [
       {
         type: "p",
@@ -363,6 +370,7 @@ export const posts: Post[] = [
     date: "2026-07-25",
     readingMinutes: 6,
     author: "AI Navigator 编辑部",
+    relatedTools: ["vmake", "seedance2"],
     content: [
       {
         type: "p",
@@ -428,6 +436,7 @@ export const posts: Post[] = [
     date: "2026-07-30",
     readingMinutes: 7,
     author: "AI Navigator 编辑部",
+    relatedTools: ["mksaas", "github-copilot"],
     content: [
       {
         type: "p",
@@ -491,6 +500,7 @@ export const posts: Post[] = [
     date: "2026-08-02",
     readingMinutes: 6,
     author: "AI Navigator 编辑部",
+    relatedTools: ["whitebg", "cutout-pro"],
     content: [
       {
         type: "p",
@@ -546,6 +556,7 @@ export const posts: Post[] = [
     date: "2026-08-06",
     readingMinutes: 7,
     author: "AI Navigator 编辑部",
+    relatedTools: ["youmind-gpt-image2", "opennana"],
     content: [
       {
         type: "p",
@@ -604,6 +615,7 @@ export const posts: Post[] = [
     date: "2026-08-10",
     readingMinutes: 8,
     author: "AI Navigator 编辑部",
+    relatedTools: ["frogdr", "xml-sitemaps"],
     content: [
       {
         type: "p",
@@ -668,6 +680,7 @@ export const posts: Post[] = [
     date: "2026-07-15",
     readingMinutes: 8,
     author: "AI Navigator 编辑部",
+    relatedTools: ["sitedata", "chrome-stats"],
     content: [
       { type: "p", text: { zh: "每隔几天就有一个「颠覆性 AI 工具」刷屏，但真正能留在我们日常工作流里的，十年来用手指都数得过来。问题不在于工具少，而在于大多数人靠「看起来很酷」做决定，而不是靠「能不能解决我的具体问题」。我们内部用一张 6 维打分表来评估每一款新工具，分数过线才考虑接入。", en: "A 'game-changing AI tool' goes viral every few days, yet only a handful ever stay in our daily workflow. The issue isn't supply — it's that most people decide by 'looks cool' instead of 'solves my problem'. We use a 6-dimension scorecard; only above the line do we consider adopting." } },
       { type: "h2", text: { zh: "维度一：上手成本", en: "Dimension 1: Onboarding cost" } },
@@ -706,6 +719,7 @@ export const posts: Post[] = [
     date: "2026-07-18",
     readingMinutes: 9,
     author: "AI Navigator 编辑部",
+    relatedTools: ["seedance2", "reelmind"],
     content: [
       { type: "p", text: { zh: "很多人做短视频卡在「不知道写什么、写出来又干巴巴」。其实脚本生产完全可以流水线化：把流程拆成五步，每一步交给最合适的 AI，人只做最后的判断和口播。下面是一套我们验证过、单人日更也不累的工作流。", en: "Most creators stall on 'what to write' and 'it reads dry'. Scripting can be pipelined: five steps, each to the right AI, human only judges and speaks. Here's a workflow that sustains solo daily posting." } },
       { type: "h2", text: { zh: "第一步：选题（15 分钟）", en: "Step 1: Topic (15 min)" } },
@@ -739,6 +753,7 @@ export const posts: Post[] = [
     date: "2026-07-22",
     readingMinutes: 8,
     author: "AI Navigator 编辑部",
+    relatedTools: ["lovart", "v0"],
     content: [
       { type: "p", text: { zh: "「我不会设计」是很多人不敢自己做封面、海报、配图的理由。但高级感的本质是「统一」和「克制」，这两件事 AI 最擅长，前提是你先给它规矩。下面是一套零基础也能跑通的设计工作流。", en: "'I can't design' stops many from making covers or posters. But premium feel is really 'consistency' and 'restraint' — exactly what AI is good at, if you set the rules first. Here's a zero-base workflow." } },
       { type: "h2", text: { zh: "先定三件套：字体、配色、间距", en: "Start with three: font, palette, spacing" } },
@@ -770,6 +785,7 @@ export const posts: Post[] = [
     date: "2026-07-25",
     readingMinutes: 9,
     author: "AI Navigator 编辑部",
+    relatedTools: ["notion"],
     content: [
       { type: "p", text: { zh: "浏览器收藏夹、微信收藏、备忘录里躺着的「以后看」，最终大多再也没看过。问题不是你不整理，而是整理成本高于收益。让 AI 接管「读—摘—连」三步，知识库才能真正活起来。", en: "Bookmarks, WeChat favorites, notes full of 'read later' rarely get read. Not because you don't organize, but organizing costs more than it pays. Let AI own read-extract-link, and the KB comes alive." } },
       { type: "h2", text: { zh: "第一步：存的时候就让 AI 读", en: "Step 1: Let AI read on save" } },
@@ -797,6 +813,7 @@ export const posts: Post[] = [
     date: "2026-07-28",
     readingMinutes: 8,
     author: "AI Navigator 编辑部",
+    relatedTools: ["sitedata", "similarweb"],
     content: [
       { type: "p", text: { zh: "独立开发者常以为「用户调研」是有钱公司才做的事。其实在立项前花几天做轻量调研，能避开最致命的「做了一个没人要的东西」。下面 5 个方法，零预算、一个人就能跑。", en: "Indie devs often think user research is for funded companies. A few light days before building avoids the fatal 'made something nobody wants'. Five methods, zero budget, solo." } },
       { type: "h2", text: { zh: "方法一：把应用商店评论当问卷", en: "Method 1: Treat app-store reviews as a survey" } },
@@ -830,6 +847,7 @@ export const posts: Post[] = [
     date: "2026-08-18",
     readingMinutes: 9,
     author: "AI Navigator 编辑部",
+    relatedTools: ["xianyu-slang"],
     content: [
       {
         type: "p",
@@ -950,6 +968,7 @@ export const posts: Post[] = [
     date: "2026-09-13",
     readingMinutes: 7,
     author: "AI Navigator 编辑部",
+    relatedTools: ["xianyu-slang"],
     content: [
       {
         type: "p",
@@ -1032,6 +1051,7 @@ export const posts: Post[] = [
     date: "2026-08-22",
     readingMinutes: 8,
     author: "AI Navigator 编辑部",
+    relatedTools: ["xianyu-slang", "claude"],
     content: [
       {
         type: "p",
@@ -1124,6 +1144,7 @@ export const posts: Post[] = [
     date: "2026-08-26",
     readingMinutes: 6,
     author: "AI Navigator 编辑部",
+    relatedTools: ["xianyu-slang"],
     content: [
       {
         type: "p",
@@ -1212,6 +1233,7 @@ export const posts: Post[] = [
     date: "2026-09-02",
     readingMinutes: 8,
     author: "AI Navigator 编辑部",
+    relatedTools: ["xianyu-slang"],
     content: [
       {
         type: "p",
@@ -1281,6 +1303,7 @@ export const posts: Post[] = [
     date: "2026-09-06",
     readingMinutes: 7,
     author: "AI Navigator 编辑部",
+    relatedTools: ["xianyu-slang"],
     content: [
       {
         type: "p",
@@ -1383,6 +1406,7 @@ export const posts: Post[] = [
     date: "2026-08-20",
     readingMinutes: 8,
     author: "AI Navigator 编辑部",
+    relatedTools: ["video-downloader"],
     content: [
       {
         type: "p",
@@ -1456,6 +1480,7 @@ export const posts: Post[] = [
     date: "2026-08-28",
     readingMinutes: 8,
     author: "AI Navigator 编辑部",
+    relatedTools: ["duckmath", "poki"],
     content: [
       {
         type: "p",
@@ -1547,6 +1572,7 @@ export const posts: Post[] = [
     date: "2026-09-04",
     readingMinutes: 9,
     author: "AI Navigator 编辑部",
+    relatedTools: ["mksaas", "shipany", "nexty-dev"],
     content: [
       {
         type: "p",
@@ -1656,6 +1682,7 @@ export const posts: Post[] = [
     date: "2026-09-10",
     readingMinutes: 7,
     author: "AI Navigator 编辑部",
+    relatedTools: ["instant-domain-search", "virustotal", "namecheap"],
     content: [
       {
         type: "p",
