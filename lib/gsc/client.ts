@@ -16,7 +16,7 @@ function getProxyAgent(): HttpsProxyAgent<string> | undefined {
 
 interface GscResponse {
   status: number;
-  data: any;
+  data: unknown;
   text: string;
 }
 
@@ -48,7 +48,7 @@ function gscRequest(
         res.setEncoding("utf8");
         res.on("data", (chunk) => (raw += chunk));
         res.on("end", () => {
-          let data: any = null;
+          let data: unknown = null;
           try {
             data = JSON.parse(raw);
           } catch {}
@@ -72,7 +72,7 @@ async function authedFetch(
   method: string,
   body?: string,
   host: string = HOST
-): Promise<any> {
+): Promise<unknown> {
   const token = await getValidToken();
   const res = await gscRequest(prefix, path, method, {
     Authorization: `Bearer ${token.access_token}`,
@@ -108,8 +108,10 @@ export interface SearchAnalyticsQuery {
 }
 
 export async function listSites(): Promise<SiteEntry[]> {
-  const data = await authedFetch(WEBMASTERS_PREFIX, "/sites", "GET");
-  return (data.siteEntry ?? []) as SiteEntry[];
+  const data = (await authedFetch(WEBMASTERS_PREFIX, "/sites", "GET")) as {
+    siteEntry?: SiteEntry[];
+  };
+  return data.siteEntry ?? [];
 }
 
 export async function querySearchAnalytics(
@@ -123,13 +125,13 @@ export async function querySearchAnalytics(
     rowLimit: q.rowLimit ?? 1000,
     startRow: q.startRow ?? 0,
   });
-  const data = await authedFetch(
+  const data = (await authedFetch(
     WEBMASTERS_PREFIX,
     `/sites/${encodeURIComponent(q.siteUrl)}/searchAnalytics/query`,
     "POST",
     body
-  );
-  return (data.rows ?? []) as SearchAnalyticsRow[];
+  )) as { rows?: SearchAnalyticsRow[] };
+  return data.rows ?? [];
 }
 
 export interface SitemapEntry {
@@ -143,12 +145,12 @@ export interface SitemapEntry {
 }
 
 export async function listSitemaps(siteUrl: string): Promise<SitemapEntry[]> {
-  const data = await authedFetch(
+  const data = (await authedFetch(
     WEBMASTERS_PREFIX,
     `/sites/${encodeURIComponent(siteUrl)}/sitemaps`,
     "GET"
-  );
-  return (data.sitemap ?? []) as SitemapEntry[];
+  )) as { sitemap?: SitemapEntry[] };
+  return data.sitemap ?? [];
 }
 
 export async function getSitemap(
@@ -188,12 +190,12 @@ export async function inspectUrl(
   inspectionUrl: string
 ): Promise<UrlInspectionResult> {
   const body = JSON.stringify({ siteUrl, inspectionUrl });
-  const data = await authedFetch(
+  const data = (await authedFetch(
     SEARCHCONSOLE_PREFIX,
     "/urlInspection/index:inspect",
     "POST",
     body,
     SEARCHCONSOLE_HOST
-  );
-  return data.inspectionResult as UrlInspectionResult;
+  )) as { inspectionResult: UrlInspectionResult };
+  return data.inspectionResult;
 }

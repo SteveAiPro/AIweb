@@ -23,8 +23,6 @@ export async function generateMetadata({
   if (!hasLocale(lang)) return {};
   const post = getPostBySlug(slug);
   if (!post) return { title: "Not found" };
-  const dict = getDictionary(lang);
-  const t = dict.blog;
 
   return {
     title: post.title[lang],

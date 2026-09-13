@@ -17,6 +17,20 @@ type ParseResult = {
   music: string; // 背景音乐（可能为空）
 };
 
+// douyin.wtf 返回体的最小结构，只声明我们实际读取的字段。
+type DouyinApiResponse = {
+  code?: number;
+  msg?: string;
+  data?: {
+    desc?: string;
+    duration?: number;
+    author?: { nickname?: string; unique_id?: string };
+    video?: { cover?: unknown; origin_cover?: unknown; duration?: number };
+    music?: { play_url?: unknown };
+    video_data?: { nwm_video_url?: string; nwm_video_url_HQ?: string };
+  };
+};
+
 /**
  * douyin.wtf 返回的 JSON 里，desc 等字符串字段可能包含未转义的控制字符
  * （原始换行），会导致 res.json() 抛错。这里只在字符串字面量内部把控制字符
@@ -81,12 +95,12 @@ async function parseDouyin(url: string): Promise<ParseResult | null> {
 
     // 接口偶发返回非法 JSON（控制字符未转义），需先清洗
     const raw = await res.text();
-    let json: any;
+    let json: DouyinApiResponse;
     try {
-      json = JSON.parse(raw);
-    } catch (e) {
+      json = JSON.parse(raw) as DouyinApiResponse;
+    } catch {
       try {
-        json = JSON.parse(sanitizeJsonText(raw));
+        json = JSON.parse(sanitizeJsonText(raw)) as DouyinApiResponse;
       } catch (e2) {
         console.error("[download] JSON parse failed:", (e2 as Error).message, "raw head:", raw.slice(0, 200));
         return null;

@@ -32,16 +32,15 @@ export function LoginForm({
     setLoading(true);
     try {
       const supabase = createClient();
-      const accountPath = localePath(lang, "/account");
+      // 用页面传进来的 nextPath（已经过 getSafeAuthNext 校验），而不是硬编码 /account。
+      // 否则从任意页面被弹到登录后，OAuth 回来一定会落到 /account，丢掉原本要去的地方。
       const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(
-        accountPath,
+        nextPath,
       )}`;
-      console.log("Starting Google OAuth with redirectTo:", redirectTo);
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: { redirectTo },
       });
-      console.log("OAuth error:", error);
       if (error) {
         setError(t.errorFailed);
       }

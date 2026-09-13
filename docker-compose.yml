@@ -1,11 +1,29 @@
+# 本地 Docker 运行方式。
+#
+# 注意：NEXT_PUBLIC_* 是构建期内联的，compose 的变量替换默认只读项目根目录的 `.env`，
+# 而本项目用的是 `.env.local`。所以启动时请显式指定：
+#
+#   docker compose --env-file .env.local up --build
+#
+# 不指定的话 NEXT_PUBLIC_SUPABASE_URL 会是空值，容器里登录会直接不可用。
 services:
   ai-navigator:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+        SITE_URL: ${SITE_URL:-https://www.gaoqian2580.com}
     container_name: ai-navigator-app
     ports:
       - "3000:3000"
     restart: always
+    # 运行时变量（LLM_API_KEY / IMAGE_API_KEY / DOWNLOADER_API_BASE 等）。
+    # env_file 是启动时从宿主机读取，不会被打进镜像。
+    # 提示：.env.local 里的 HTTPS_PROXY=127.0.0.1:xxx 在容器内指向的是容器自己，
+    # 用不到就删掉；GSC 那套脚本也不在容器里跑。
+    env_file:
+      - .env.local
     environment:
       - NODE_ENV=production

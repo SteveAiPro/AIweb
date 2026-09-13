@@ -17,12 +17,19 @@ function getProxyAgent(): HttpsProxyAgent<string> | undefined {
   return new HttpsProxyAgent(proxy);
 }
 
+/** GSC / OAuth 接口的原始响应。JSON 解析成功时 data 为对象，失败时为 null。 */
+export interface GscRawResponse {
+  status: number;
+  data: unknown;
+  text: string;
+}
+
 function gscRequest(
   url: string,
   method: string,
   headers: Record<string, string>,
   body?: string
-): Promise<{ status: number; data: any; text: string }> {
+): Promise<GscRawResponse> {
   return new Promise((resolve, reject) => {
     const u = new URL(url);
     const agent = getProxyAgent();
@@ -41,7 +48,7 @@ function gscRequest(
         res.setEncoding("utf8");
         res.on("data", (chunk) => (raw += chunk));
         res.on("end", () => {
-          let data: any = null;
+          let data: unknown = null;
           try {
             data = JSON.parse(raw);
           } catch {}
@@ -63,20 +70,13 @@ async function gscPost(
   url: string,
   body: string | URLSearchParams,
   extraHeaders?: Record<string, string>
-): Promise<{ status: number; data: any; text: string }> {
+): Promise<GscRawResponse> {
   const headers: Record<string, string> = {
     "Content-Type": "application/x-www-form-urlencoded",
     ...extraHeaders,
   };
   const bodyStr = body instanceof URLSearchParams ? body.toString() : body;
   return gscRequest(url, "POST", headers, bodyStr);
-}
-
-async function gscGet(
-  url: string,
-  extraHeaders?: Record<string, string>
-): Promise<{ status: number; data: any; text: string }> {
-  return gscRequest(url, "GET", extraHeaders ?? {});
 }
 
 export interface Credentials {
