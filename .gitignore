@@ -46,3 +46,7 @@ credentials.json
 
 # 本地会话笔记（含项目内部细节，勿入公开仓库）
 .workbuddy-ai/
+
+# Playwright MCP 的临时产物（快照 yml / console log）与本地截图
+.playwright-mcp/
+gsc-*.png
