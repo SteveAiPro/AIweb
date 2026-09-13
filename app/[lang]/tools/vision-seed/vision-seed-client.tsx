@@ -144,6 +144,46 @@ function generateSvg(opts: {
 
 type Generated = { id: number; prompt: string; src: string; score: number };
 
+// 按给定参数生成一批程序化示例图。抽成模块级函数，首屏画廊就能直接作为
+// useState 的惰性初始值——不必在 useEffect 里 setState，少一次级联渲染。
+function buildGallery(opts: {
+  prompt: string;
+  model: string;
+  category: string;
+  aspect: string;
+  count: number;
+}): Generated[] {
+  const promptV = opts.prompt.trim();
+  const seed = Math.floor(Math.random() * 1e9);
+  const captions = promptV ? Array.from({ length: opts.count }, () => promptV) : EXAMPLE_PROMPTS;
+  return Array.from({ length: opts.count }, (_, i) => ({
+    id: i,
+    prompt: captions[i],
+    src: `data:image/svg+xml,${encodeURIComponent(
+      generateSvg({
+        prompt: captions[i],
+        model: opts.model,
+        category: opts.category,
+        aspect: opts.aspect,
+        seed,
+        index: i,
+      }),
+    )}`,
+    score: hashString(`${seed}-${i}`) % 100,
+  }));
+}
+
+// 模块级函数：只依赖入参，不读组件状态。放在组件外还有个额外好处——
+// Date.now() 这类「不纯」调用不会被 React 的 purity 规则误判成渲染期调用。
+function downloadSvg(src: string, index: number) {
+  const a = document.createElement("a");
+  a.href = src;
+  a.download = `mkimage-${Date.now()}-${index + 1}.svg`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
 /* ----------------------------- 下拉组件 ----------------------------- */
 
 function Dropdown({
@@ -207,7 +247,10 @@ export function VisionSeedClient() {
   const [category, setCategory] = useState("all");
   const [aspect, setAspect] = useState("1:1");
   const [sort, setSort] = useState("newest");
-  const [images, setImages] = useState<Generated[]>([]);
+  // 首屏示例画廊直接作为惰性初始值算出来，不再放到 useEffect 里 setState。
+  const [images, setImages] = useState<Generated[]>(() =>
+    buildGallery({ prompt: "", model: "all", category: "all", aspect: "1:1", count: 12 }),
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [me, setMe] = useState<Me | null>(null);
@@ -230,21 +273,13 @@ export function VisionSeedClient() {
     override: Partial<{ prompt: string; model: string; category: string; aspect: string }> = {},
     withLoading = false,
   ) => {
-    const promptV = (override.prompt ?? prompt).trim();
-    const modelV = override.model ?? model;
-    const categoryV = override.category ?? category;
-    const aspectV = override.aspect ?? aspect;
-    const seed = Math.floor(Math.random() * 1e9);
-    const n = 12;
-    const captions = promptV ? Array.from({ length: n }, () => promptV) : EXAMPLE_PROMPTS;
-    const generated: Generated[] = Array.from({ length: n }, (_, i) => ({
-      id: i,
-      prompt: captions[i],
-      src: `data:image/svg+xml,${encodeURIComponent(
-        generateSvg({ prompt: captions[i], model: modelV, category: categoryV, aspect: aspectV, seed, index: i }),
-      )}`,
-      score: hashString(`${seed}-${i}`) % 100,
-    }));
+    const generated = buildGallery({
+      prompt: override.prompt ?? prompt,
+      model: override.model ?? model,
+      category: override.category ?? category,
+      aspect: override.aspect ?? aspect,
+      count: 12,
+    });
     if (withLoading) {
       setLoading(true);
       if (timer.current) clearTimeout(timer.current);
@@ -257,12 +292,11 @@ export function VisionSeedClient() {
     }
   };
 
+  // 只负责卸载时清掉待执行的定时器，不在这里 setState。
   useEffect(() => {
-    runGenerate({}, false);
     return () => {
       if (timer.current) clearTimeout(timer.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 真正生成：调用后端（落库 + 扣积分）
@@ -275,8 +309,13 @@ export function VisionSeedClient() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: prompt.trim(), model, category, aspect }),
       });
+      if (res.status === 401) {
+        setError("Sign in to generate — new accounts get 10 free credits.");
+        setLoading(false);
+        return;
+      }
       if (res.status === 402) {
-        setError("Insufficient credits. Sign in and top up to keep generating.");
+        setError("Insufficient credits. Top up to keep generating.");
         setLoading(false);
         return;
       }
@@ -305,21 +344,20 @@ export function VisionSeedClient() {
     }
   };
 
+  // 「随机」排序必须对同一批图片保持稳定：直接在 useMemo 里调 Math.random()，
+  // React 一旦丢弃 memo 缓存就会在无关重渲染时重新洗牌，列表会莫名跳动。
+  // 这里用图片集合本身当种子做确定性洗牌，同一批图只洗一次。
   const sorted = useMemo(() => {
     const arr = [...images];
-    if (sort === "popular") arr.sort((a, b) => b.score - a.score);
-    else if (sort === "random") arr.sort(() => Math.random() - 0.5);
+    if (sort === "popular") {
+      arr.sort((a, b) => b.score - a.score);
+    } else if (sort === "random") {
+      const rng = mulberry32(hashString(arr.map((x) => x.src).join("|")));
+      const order = new Map(arr.map((x) => [x.id, rng()]));
+      arr.sort((a, b) => (order.get(a.id) ?? 0) - (order.get(b.id) ?? 0));
+    }
     return arr;
   }, [images, sort]);
-
-  const handleDownload = (src: string, index: number) => {
-    const a = document.createElement("a");
-    a.href = src;
-    a.download = `mkimage-${Date.now()}-${index + 1}.svg`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  };
 
   const goLogin = () => {
     const pathname = typeof window !== "undefined" ? window.location.pathname : "/";
@@ -538,7 +576,7 @@ export function VisionSeedClient() {
                     <img src={img.src} alt={img.prompt} className="h-full w-full object-cover" />
                     <div className="absolute inset-0 flex items-end justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
                       <button
-                        onClick={() => handleDownload(img.src, img.id)}
+                        onClick={() => downloadSvg(img.src, img.id)}
                         className="mb-3 rounded-lg bg-white/90 px-3 py-1.5 text-xs font-medium text-slate-900 hover:bg-white"
                       >
                         Download

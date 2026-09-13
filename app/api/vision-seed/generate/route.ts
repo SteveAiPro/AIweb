@@ -3,6 +3,49 @@ import { createClient } from "@/lib/supabase/server";
 import { generateImages, generateWithProvider } from "@/lib/vision-seed/generator";
 
 const COUNT = 4;
+const COST = 1;
+
+type SupabaseServerClient = Awaited<ReturnType<typeof createClient>>;
+
+/**
+ * 原子扣减积分。
+ *
+ * 不能用「先 select credits 再 update credits-1」——那是读-改-写，两个并发请求
+ * 会读到同一个旧值，各自写回同一个新值，等于白送一次生成。
+ * 这里用 compare-and-swap：UPDATE ... WHERE credits = <刚读到的旧值>，
+ * 单条 UPDATE 在 Postgres 内是原子的；若旧值已被别的请求改掉，影响行数为 0，
+ * 重读后重试。
+ *
+ * 返回值：扣减后的余额 / -1 表示积分不足 / null 表示扣减失败（读不到或持续冲突）。
+ */
+async function deductCredit(
+  supabase: SupabaseServerClient,
+  userId: string,
+): Promise<number | null> {
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const { data: profile, error } = await supabase
+      .from("profiles")
+      .select("credits")
+      .eq("id", userId)
+      .single();
+
+    if (error || !profile) return null;
+    if (profile.credits < COST) return -1;
+
+    const { data: updated, error: updateError } = await supabase
+      .from("profiles")
+      .update({ credits: profile.credits - COST })
+      .eq("id", userId)
+      .eq("credits", profile.credits)
+      .select("credits");
+
+    if (!updateError && updated?.length === 1) {
+      return updated[0].credits as number;
+    }
+    // 版本冲突（并发扣分）或写入异常，重读后重试
+  }
+  return null;
+}
 
 export async function POST(req: NextRequest) {
   let body: { prompt?: string; model?: string; category?: string; aspect?: string };
@@ -26,25 +69,25 @@ export async function POST(req: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // 已登录：校验并扣 1 积分
-  if (user) {
-    const { data: profile, error } = await supabase
-      .from("profiles")
-      .select("credits")
-      .eq("id", user.id)
-      .single();
+  // 未登录一律拒绝。匿名请求没有任何可计量的额度，放行等于把 IMAGE_API_KEY
+  // 变成公开资源——任何人都能无限调用付费生图。
+  if (!user) {
+    return NextResponse.json(
+      { error: "请先登录后再生成。", code: "AUTH_REQUIRED" },
+      { status: 401 },
+    );
+  }
 
-    if (error || !profile || profile.credits <= 0) {
-      return NextResponse.json({ error: "积分不足，请登录或充值后重试。" }, { status: 402 });
-    }
+  const remaining = await deductCredit(supabase, user.id);
 
-    const { error: deductError } = await supabase
-      .from("profiles")
-      .update({ credits: profile.credits - 1 })
-      .eq("id", user.id);
-    if (deductError) {
-      return NextResponse.json({ error: "扣减积分失败" }, { status: 500 });
-    }
+  if (remaining === -1) {
+    return NextResponse.json(
+      { error: "积分不足，请充值后重试。", code: "INSUFFICIENT_CREDITS" },
+      { status: 402 },
+    );
+  }
+  if (remaining === null) {
+    return NextResponse.json({ error: "扣减积分失败，请稍后重试。" }, { status: 500 });
   }
 
   // 优先真实模型，未配置则程序化生成
@@ -52,24 +95,16 @@ export async function POST(req: NextRequest) {
     (await generateWithProvider(prompt, aspect, COUNT)) ??
     generateImages({ prompt, model, category, aspect, count: COUNT });
 
-  // 已登录：落库（画廊 / 历史）
-  if (user) {
-    await supabase.from("generations").insert({
-      user_id: user.id,
-      prompt,
-      model,
-      category,
-      aspect,
-      image_data: JSON.stringify(images),
-    });
-  }
+  // 落库（画廊 / 历史）。失败不回滚积分：图已经产出并返回给用户了，
+  // 回滚会让「生成成功但不扣费」变成可刷的漏洞。
+  await supabase.from("generations").insert({
+    user_id: user.id,
+    prompt,
+    model,
+    category,
+    aspect,
+    image_data: JSON.stringify(images),
+  });
 
-  // 返回最新积分（已登录时）
-  let credits: number | undefined;
-  if (user) {
-    const { data: p } = await supabase.from("profiles").select("credits").eq("id", user.id).single();
-    credits = p?.credits;
-  }
-
-  return NextResponse.json({ images, credits });
+  return NextResponse.json({ images, credits: remaining });
 }

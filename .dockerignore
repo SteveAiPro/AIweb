@@ -11,3 +11,10 @@ coverage
 .vscode
 .DS_Store
 README.md
+
+# 密钥与本地凭据：Dockerfile 构建阶段有 `COPY . .`，
+# 不排除的话这些文件会被写进镜像层，永久留在镜像和 build cache 里。
+.env
+.env.*
+credentials.json
+data/gsc-token.json
