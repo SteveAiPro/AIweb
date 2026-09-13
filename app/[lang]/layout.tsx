@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import { OG_IMAGE, SITE_KEYWORDS, SITE_NAME, SITE_URL, canonicalUrl } from "@/lib/site-config";
@@ -78,10 +77,14 @@ export default async function RootLayout({
     <html lang={htmlLang[lang]} data-scroll-behavior="smooth" className="h-full antialiased">
       <head>
         <meta name="google-adsense-account" content="ca-pub-4117981861526348" />
-        <Script
-          id="adsbygoogle-init"
+        {/*
+          直接用原生 <script>，不用 next/script。
+          原因：next/script 会给标签注入 data-nscript 属性，AdSense 自身脚本会报
+          "AdSense head tag doesn't support data-nscript attribute."
+          这不影响广告加载，但会污染控制台；原生标签与 Google 官方给的代码片段一致。
+        */}
+        <script
           async
-          strategy="afterInteractive"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4117981861526348"
           crossOrigin="anonymous"
         />
