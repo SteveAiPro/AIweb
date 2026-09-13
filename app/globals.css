@@ -55,6 +55,58 @@ a {
 }
 
 /* ============================================
+   Hero 主标题逐字动画
+   ============================================ */
+
+/* 逐字入场：从下方带模糊淡入 */
+@keyframes hero-char-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* 常驻波浪：逐字上下浮动 */
+@keyframes hero-char-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* 两个动画都作用于 transform，靠 animation 列表的顺序决定优先级：
+   后声明的 bob 在 rise 播完后接管（rise 用 both 保持终态，bob 在延迟期内
+   fill-mode 为 none、不产生贡献，所以两者不会打架）。 */
+.hero-title-char {
+  display: inline-block;
+  animation:
+    hero-char-rise 0.55s ease-out both,
+    hero-char-bob 2.2s ease-in-out infinite;
+  /* 入场 40ms/字 依次落下；波浪 90ms/字 错峰形成横波，且等本字入场播完再开始 */
+  animation-delay:
+    calc(var(--i) * 40ms),
+    calc(0.55s + var(--i) * 90ms);
+}
+
+/* 减少动效：整个动画关掉，元素停在自然状态（完全可见、无位移）。
+   比依赖上面的 animation-duration: 0.01ms 更彻底——那样动画仍会按
+   animation-delay 逐字延迟触发，等于还是在动。 */
+@media (prefers-reduced-motion: reduce) {
+  .hero-title-char {
+    animation: none;
+  }
+}
+
+/* ============================================
    小红书生成器样式 (from web project)
    ============================================ */
 

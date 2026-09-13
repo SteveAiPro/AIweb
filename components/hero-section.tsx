@@ -64,8 +64,16 @@ function splitTitle(text: string): string[] {
   return text.match(/[\u3400-\u4dbf\u4e00-\u9fff]|[A-Za-z0-9]+|\s+|[^\s]/g) ?? [text];
 }
 
+/**
+ * 主标题：逐字入场 → 落定后接常驻波浪浮动。
+ *
+ * 动画全部交给 CSS（见 globals.css 的 .hero-title-char）而不是 framer-motion：
+ * 入场和波浪都作用于 transform，两个动画系统同时写 transform 会互相覆盖。
+ * 用 CSS 的 animation 列表反而能干净地串起来——后声明的 bob 在 rise 播完后接管。
+ * 附带好处是 CSS 动画走合成层，不用等 hydration 就能播。
+ * 「减少动效」的降级同样在 CSS 里做（animation: none），DOM 结构保持一致。
+ */
 function AnimatedTitle({ text, className }: { text: string; className?: string }) {
-  const reduce = useReducedMotion();
   const tokens = splitTitle(text);
 
   return (
@@ -75,21 +83,14 @@ function AnimatedTitle({ text, className }: { text: string; className?: string }
           // 用普通空格 span 保留词间距，不参与动画
           <span key={`${i}-space`}> </span>
         ) : (
-          <motion.span
+          <span
             key={`${i}-${token}`}
-            className="inline-block"
-            // initial={false} 让「减少动效」用户直接渲染到终态，DOM 结构保持一致，
-            // 不会出现 SSR / 客户端结构不一致。
-            initial={reduce ? false : { opacity: 0, y: 24, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={
-              reduce
-                ? { duration: 0 }
-                : { duration: 0.55, delay: 0.12 + i * 0.04, ease: "easeOut" }
-            }
+            className="hero-title-char"
+            // --i 同时驱动入场的 40ms/字 与波浪的 90ms/字 错峰（见 CSS）
+            style={{ "--i": i } as React.CSSProperties}
           >
             {token}
-          </motion.span>
+          </span>
         ),
       )}
     </h1>
