@@ -10,6 +10,8 @@ import { tools, featuredTools } from "@/data/tools";
 import { getToolsByCategory } from "@/lib/site-data";
 import { OG_IMAGE, canonicalUrl } from "@/lib/site-config";
 import { HreflangTags } from "@/components/hreflang-tags";
+import { AdsterraBanner } from "@/components/adsterra-banner";
+import { AdsterraNative } from "@/components/adsterra-native";
 import { hasLocale, localePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
@@ -57,6 +59,9 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
 
         <HomeCategoryTags items={categoriesWithTools} lang={lang} dict={dict} />
 
+        {/* Sponsored Adsterra Leaderboard */}
+        <AdsterraBanner />
+
         <div className="mx-auto w-full max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
           <ToolSection
             id="featured"
@@ -68,6 +73,9 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             dict={dict}
           />
         </div>
+
+        {/* Sponsored Adsterra Native Stream */}
+        <AdsterraNative />
       </main>
       <SiteFooter lang={lang} dict={dict} />
     </div>
