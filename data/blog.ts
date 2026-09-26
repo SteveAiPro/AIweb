@@ -1759,6 +1759,87 @@ export const posts: Post[] = [
       },
     ],
   },
+  {
+    slug: "xianyu-banned-words-list-2026",
+    title: {
+      zh: "2026闲鱼最新违禁词避坑大全与降权申诉指南（附敏感词替代暗号）",
+      en: "2026 Xianyu Banned Words & Sensitive Terms Guide: How to Avoid Shadowbans",
+    },
+    excerpt: {
+      zh: "为什么刚发布的闲鱼商品就被秒下架或严重限流？本文深度拆解2026年闲鱼最新违规拦截机制，整理常见高危禁词对照表与合规暗语，助你安全发布不踩雷。",
+      en: "Why do your Xianyu listings get instantly removed or shadowbanned? A comprehensive 2026 breakdown of moderation filters, high-risk banned keywords, and safe alternative terms.",
+    },
+    category: "闲鱼黑话",
+    date: "2026-09-27",
+    readingMinutes: 8,
+    author: "AI Navigator 编辑部",
+    relatedTools: ["xianyu-slang"],
+    content: [
+      {
+        type: "p",
+        text: {
+          zh: "许多闲置卖家在闲鱼发布数码、会员或代充商品时，经常遇到「发布即下架」或「曝光量直接跌零」的情况。这往往不是账号权重不够，而是标题或文案中命中了平台的机器初筛违禁词库。随着 2026 年平台审核算法的进一步收紧，掌握正确的「黑话暗号」与合规叫法成为了二手交易的必备技能。",
+          en: "Many sellers on Xianyu experience instant removal or zero impressions right after posting digital goods, accounts, or memberships. Often this isn't due to poor account standing, but hitting the automated keyword blacklist. With stricter 2026 moderation filters, knowing safe slang terms and compliant code names has become an essential survival skill.",
+        },
+      },
+      { type: "h2", text: { zh: "闲鱼审核拦截的底层机制剖析", en: "How Xianyu Moderation Actually Works" } },
+      {
+        type: "p",
+        text: {
+          zh: "闲鱼的违规检测主要由三重防线组成：第一层是毫秒级文本关键词正则初筛（命中即秒拒）；第二层是 OCR 图片文字识别与图像特征比对；第三层则是私聊风控监测（严查站外导流）。",
+          en: "Xianyu moderation operates in three sequential layers: millisecond-level regex keyword matching on titles and descriptions, OCR-based image text inspection, and real-time DM risk monitoring for external contact info.",
+        },
+      },
+      {
+        type: "ul",
+        items: [
+          { zh: "标题与文案初筛：直接包含品牌官方保护词、敏感交易词（如「原装全新未拆封」、「直冲」、「永久会员」等）会被机器立即拦截。", en: "Title and description filtering: Explicit brand protection terms and sensitive trade words trigger automated rejection." },
+          { zh: "图片 OCR 识别：在商品配图中打水印写微信号、手机号或淘宝店铺名称，系统会自动提取并判定违规站外引流。", en: "Image OCR recognition: Watermarking WeChat IDs, phone numbers, or external shop names on photos gets flagged by OCR models." },
+          { zh: "隐性降权（Shadowban）：如果未直接违规但命中多项疑似标签，商品虽然能搜到但会被降权至几十页之后，失去自然搜索曝光。", en: "Shadowbanning: Suspect listings that escape immediate removal may still be suppressed to deep pages, losing all search impressions." },
+        ],
+      },
+      { type: "h2", text: { zh: "2026 常见高频违禁词分类与安全替代词", en: "High-Risk Keyword Categories & Safe Substitutes" } },
+      {
+        type: "p",
+        text: {
+          zh: "买卖双方为了规避死板的机器初筛，自然演化出了一套庞大的民间暗语词典。以下是各大品类中最容易踩雷的词汇与被验证有效的替代方案：",
+          en: "To bypass automated filters, buyers and sellers developed a living folk lexicon. Below are the most flagged words across major categories and their battle-tested alternatives:",
+        },
+      },
+      {
+        type: "ol",
+        items: [
+          { zh: "站外联系类禁词：禁止出现「微信」、「电话」、「淘宝」、「私聊加我」。安全替代词为：「绿泡泡」、「小而美」、「微x」、「🛰️」、「留爪私」。", en: "External Contact Bans: Terms like WeChat, phone, or direct links are banned. Safe terms: '绿泡泡' (green bubble), '小而美', '🛰️'." },
+          { zh: "AI 与会员类禁词：直接搜索「Claude」、「ChatGPT 会员」容易被屏蔽。安全替代词为：「小克」、「克劳德」、「奥特曼」、「哈基米」、「双子座 pro」。", en: "AI & Membership Bans: 'Claude' or 'ChatGPT Plus' are heavily filtered. Use: '小克', '克劳德', '哈基米', '双子座 pro'." },
+          { zh: "夸大与极限词：禁止出现「绝对正品」、「全网最低」、「假一赔十」、「原封保真」。替代方案为客观描述成色，例如「自用爱惜」、「箱说齐全」、「带发票购证」。", en: "Superlatives & Guarantees: Avoid '100% authentic' or 'lowest price'. Use descriptive terms like 'self-used, well kept' and 'complete packaging with invoice'." },
+          { zh: "特殊版权与游戏类：如「GTA5」等敏感商品。通用暗语包括「三男一狗」、「给他爱」、「道德与法治」、「洛圣都历险记」。", en: "Copyright & Sensitive Games: GTA is referred to as '三男一狗' (Three Men and a Dog) or '给他爱' (Give Him Love)." },
+        ],
+      },
+      { type: "h2", text: { zh: "商品被下架或限流后的 3 步补救法", en: "3 Steps to Recover from Removal or Shadowbans" } },
+      {
+        type: "p",
+        text: {
+          zh: "如果不慎收到违规通知或发现连续几天展现量为 0，建议立即采取以下标准化恢复步骤：",
+          en: "If you receive a violation notice or notice your impressions have dropped to zero, follow these recovery steps:",
+        },
+      },
+      {
+        type: "ol",
+        items: [
+          { zh: "第 1 步：下架删除重发，切勿反复频繁修改。频繁修改同一件被判定可疑的商品会加深系统负面评分，应彻底删除后重新拍摄未被识别过的新实物照片。", en: "Step 1: Delete and repost fresh instead of editing repeatedly. Repeated edits on flagged items compound negative risk scores. Delete completely and retake fresh photos." },
+          { zh: "第 2 步：净化标题与文案。剔除所有促销极限词，使用「闲鱼黑话查询工具」查验替代暗语，确保每一处描述都偏向个人闲置转让风格。", en: "Step 2: Cleanse the wording. Strip promotional buzzwords, check the Xianyu Slang tool for safe community aliases, and ensure tone reflects genuine personal disposal." },
+          { zh: "第 3 步：合规申诉通道。如果确属误判，可在安全中心准备原购买凭证（如官网订单截图、电子发票）发起一次申诉，切勿无证据频繁点申诉。", en: "Step 3: Submit substantiated appeals. For genuine false positives, gather original receipts or order screenshots before filing an appeal." },
+        ],
+      },
+      {
+        type: "quote",
+        text: {
+          zh: "想要快速查找某个商品的社区常用叫法？欢迎直接在站内使用我们的「闲鱼黑话」在线查询工具，输入商品名即可一键获取全网最新避坑别名与暗语。",
+          en: "Looking for community-tested aliases for any item? Use our built-in 'Xianyu Slang' lookup tool to discover live substitutes and code names instantly.",
+        },
+      },
+    ],
+  },
 ];
 
 export function getPostBySlug(slug: string) {

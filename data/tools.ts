@@ -26,6 +26,8 @@ export type Tool = {
   faqs?: ToolFaq[];
   // 黑话 / 叫法示例（仅 闲鱼黑话 等词典类工具使用）
   slangExamples?: { name: string; aliases: string[] }[];
+  metaTitle?: LocalizedText;
+  metaDescription?: LocalizedText;
 };
 
 export const tools: Tool[] = [
@@ -187,6 +189,14 @@ export const tools: Tool[] = [
   {
     slug: "xianyu-slang",
     name: "闲鱼黑话",
+    metaTitle: {
+      zh: "闲鱼黑话暗号查询大全 2026 - 违禁词/敏感词/避坑代称词典",
+      en: "Xianyu Slang & Code Words Dictionary 2026 - Find Blocked Items",
+    },
+    metaDescription: {
+      zh: "2026最新闲鱼黑话与交易暗号在线查询工具！收录闲鱼、小红书、转转数千条避坑别名、敏感替代词与防违规暗语，支持一键实时搜索与复制，助你安全交易不违规。",
+      en: "Search the complete 2026 Xianyu slang & code names dictionary. Instant lookups for second-hand market aliases, forbidden keyword substitutes, and hidden product listings.",
+    },
     summary: {
       zh: "闲鱼黑话大全：收录闲鱼、小红书等平台的暗语、别名与叫法，用替代词更快找到被屏蔽的商品。",
       en: "The complete Xianyu slang dictionary — aliases, code names, and alternative search terms to find blocked items faster.",

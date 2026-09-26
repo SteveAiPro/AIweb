@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "node scripts/auto-submit-sitemap.mjs",
     "start": "next start",
     "lint": "eslint",
     "gsc:auth": "node scripts/gsc-auth.mjs",

@@ -48,15 +48,18 @@ export async function generateMetadata({ params }: ToolDetailPageProps): Promise
     return { title: dict.notFound.title };
   }
 
+  const pageTitle = tool.metaTitle?.[lang as "zh" | "en"] || tool.name;
+  const pageDescription = tool.metaDescription?.[lang as "zh" | "en"] || tool.summary[lang as "zh" | "en"];
+
   return {
-    title: tool.name,
-    description: tool.summary[lang],
+    title: pageTitle,
+    description: pageDescription,
     alternates: {
       canonical: canonicalUrl(lang, `/tools/${tool.slug}`),
     },
     openGraph: {
-      title: `${tool.name} | ${SITE_NAME}`,
-      description: tool.summary[lang],
+      title: `${pageTitle} | ${SITE_NAME}`,
+      description: pageDescription,
       url: localePath(lang, `/tools/${tool.slug}`),
       images: OG_IMAGE,
     },
